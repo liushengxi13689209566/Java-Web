@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- more bean definitions go here -->
+    <!-- 使用 Spring 来创建对象，在Spring中这些都称之为 Bean -->
+    <bean id="hello" class="com.tattoo.pojo.Hello" >
+        <property name="name" value="liushengxi hahaha">
+        </property>
+    </bean>
+
+
+</beans>

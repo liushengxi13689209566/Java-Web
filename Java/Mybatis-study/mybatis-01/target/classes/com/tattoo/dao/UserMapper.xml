@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 绑定一个 mapper 接口-->
+<mapper namespace="com.tattoo.dao.UserMapper">
+    <select id="getUserList" resultType="com.tattoo.pojo.User">
+        select * from mybatis.user;
+    </select>
+
+    <select id="getUserById" resultType="com.tattoo.pojo.User"
+            parameterType="int">
+        select * from mybatis.user where  id =#{id}  ;
+    </select>
+
+</mapper>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="71a535ca-711e-4ece-aa20-5702b116034b" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YfHcJ0oU8MT98a7VURIdxAHhgA" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-01-ioc1/src/main/java/com/tattoo" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.tattoo.dao" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spring-01-ioc1/src/main/java/com/tattoo" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MyTest (1)">
+    <configuration name="MyTest (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <module name="spring-02-hello" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tattoo.service.MyTest" />
+      <module name="spring-01-ioc1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tattoo.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MyTest (1)" />
+        <item itemvalue="Application.MyTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71a535ca-711e-4ece-aa20-5702b116034b" name="Default Changelist" comment="" />
+      <created>1583326806590</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583326806590</updated>
+      <workItem from="1583326807824" duration="1580000" />
+      <workItem from="1583328730505" duration="2580000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="184" y="89" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583330908301">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="184" y="89" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.806@0.23.1440.806" timestamp="1583330908301" />
+    <state x="533" y="142" key="#com.intellij.ide.util.MemberChooser" timestamp="1583330039616">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="533" y="142" key="#com.intellij.ide.util.MemberChooser/0.23.1440.806@0.23.1440.806" timestamp="1583330039616" />
+    <state x="533" y="143" key="#com.intellij.ide.util.MemberChooser/0.23.1440.816@0.23.1440.816" timestamp="1583327458114" />
+    <state width="1398" height="210" key="GridCell.Tab.0.bottom" timestamp="1583385611045">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1398" height="210" key="GridCell.Tab.0.bottom/0.23.1440.806@0.23.1440.806" timestamp="1583385611045" />
+    <state width="1398" height="210" key="GridCell.Tab.0.center" timestamp="1583385611043">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1398" height="210" key="GridCell.Tab.0.center/0.23.1440.806@0.23.1440.806" timestamp="1583385611043" />
+    <state width="1398" height="210" key="GridCell.Tab.0.left" timestamp="1583385611043">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1398" height="210" key="GridCell.Tab.0.left/0.23.1440.806@0.23.1440.806" timestamp="1583385611043" />
+    <state width="1398" height="210" key="GridCell.Tab.0.right" timestamp="1583385611044">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state width="1398" height="210" key="GridCell.Tab.0.right/0.23.1440.806@0.23.1440.806" timestamp="1583385611044" />
+    <state x="258" y="89" key="Maven.ArtifactSearchDialog" timestamp="1583330233150">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="258" y="89" key="Maven.ArtifactSearchDialog/0.23.1440.806@0.23.1440.806" timestamp="1583330233150" />
+    <state x="208" y="23" width="1024" height="816" key="SettingsEditor" timestamp="1583330902800">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="208" y="23" key="SettingsEditor/0.23.1440.806@0.23.1440.806" timestamp="1583330902800" />
+    <state x="208" y="23" width="1024" height="816" key="SettingsEditor/0.23.1440.816@0.23.1440.816" timestamp="1583327769140" />
+    <state x="499" y="162" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1583328248616">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="499" y="162" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.23.1440.806@0.23.1440.806" timestamp="1583328248616" />
+    <state x="114" y="130" key="new project wizard" timestamp="1583328756581">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="114" y="130" key="new project wizard/0.23.1440.806@0.23.1440.806" timestamp="1583328756581" />
+    <state x="114" y="131" key="new project wizard/0.23.1440.816@0.23.1440.816" timestamp="1583326893339" />
+    <state x="394" y="121" key="spring file set editor" timestamp="1583329512876">
+      <screen x="0" y="23" width="1440" height="806" />
+    </state>
+    <state x="394" y="121" key="spring file set editor/0.23.1440.806@0.23.1440.806" timestamp="1583329512876" />
+  </component>
+</project>

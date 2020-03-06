@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eff9c6a0-5a08-4608-b3a9-afddb7debe73" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1XvGiojpyhP1kzWjOqYDSSZREgh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/framework/src/main/java/com/tattoo/zbs" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/framework/src/main/java/com/tattoo/zbs" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="tree" />
+      <command value="java  -jar test/build/libs/test-1.0-SNAPSHOT.jar" />
+      <command value="gradle build" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="mini-spring [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.mini-spring [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eff9c6a0-5a08-4608-b3a9-afddb7debe73" name="Default Changelist" comment="" />
+      <created>1581919284807</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581919284807</updated>
+      <workItem from="1581919287681" duration="13144000" />
+      <workItem from="1583156873943" duration="5000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="117" key="#Project_Structure" timestamp="1582107896379">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="117" key="#Project_Structure/0.0.1440.900@0.0.1440.900" timestamp="1582107896379" />
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1582113264822">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1582113264822" />
+    <state x="338" y="128" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1581919432594">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="338" y="128" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1440.900@0.0.1440.900" timestamp="1581919432594" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1583156868239">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583156868239" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1583156868238">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583156868238" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1583156868237">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583156868237" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1583156868239">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583156868239" />
+    <state x="208" y="33" key="SettingsEditor" timestamp="1582113311192">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="208" y="33" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1582113311192" />
+    <state x="366" y="289" key="com.intellij.ide.util.TipDialog" timestamp="1581919291736">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="366" y="289" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1581919291736" />
+    <state x="114" y="43" key="new project wizard" timestamp="1581920008575">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="114" y="43" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1581920008575" />
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup" timestamp="1581927297779">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup/0.0.1440.900@0.0.1440.900" timestamp="1581927297779" />
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup/0.23.1440.877@0.23.1440.877" timestamp="1581922059125" />
+  </component>
+</project>
