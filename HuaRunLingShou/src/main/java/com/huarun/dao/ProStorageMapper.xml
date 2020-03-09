@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huarun.dao.ProStorageMapper">
+
+    <insert id="addProStorage" parameterType="ProStorage">
+        insert into ssmbuild.pro_storage(stk_id,stk_prod_id,stk_warehouse,stk_ware,stk_count, stk_memo)
+        value (#{stkID},#{stkProdID},#{stkWareHouse},#{stkWare},#{stkCount},#{stkMemo});
+    </insert>
+
+    <delete id="deleteProStorageById" parameterType="int">
+        delete from ssmbuild.pro_storage where stk_id=#{id};
+    </delete>
+
+    <update id="updateProStorage" parameterType="ProStorage">
+        update ssmbuild.pro_storage
+        set stk_id=#{stkID},stk_prod_id=#{stkProdID},stk_warehouse=#{stkWareHouse},
+            stk_ware=#{stkWare},stk_count=#{stkCount},stk_memo=#{stkMemo}
+        where stk_id=#{stkID}
+    </update>
+
+    <select id="queryProStorageById" resultType="ProStorage">
+        select * from ssmbuild.pro_storage where stk_id=#{id};
+    </select>
+
+    <select id="queryAllProStorage" resultType="ProStorage">
+        select * from ssmbuild.pro_storage;
+    </select>
+
+</mapper>

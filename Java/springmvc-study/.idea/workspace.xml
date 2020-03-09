@@ -6,7 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="528bfa41-1e51-43bb-ab1d-c43c9ebf5173" name="Default Changelist" comment="" />
+    <list default="true" id="528bfa41-1e51-43bb-ab1d-c43c9ebf5173" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springmvc-01-servlet/springmvc-01-servlet.iml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +22,9 @@
         <option value="Jsp File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/springmvc-01-servlet/web/WEB-INF/jsp/from.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -38,6 +44,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1YhDVXrlkPgANY4XSOlu2p4zStq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -50,6 +57,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -246,6 +254,8 @@
       <workItem from="1583414662849" duration="3199000" />
       <workItem from="1583418543804" duration="3128000" />
       <workItem from="1583499701080" duration="365000" />
+      <workItem from="1583500635642" duration="25000" />
+      <workItem from="1583500678396" duration="29000" />
     </task>
     <servers />
   </component>
@@ -347,11 +357,11 @@
     <state x="208" y="23" key="SettingsEditor/0.23.1440.806@0.23.1440.806" timestamp="1583413147207" />
     <state x="208" y="23" key="SettingsEditor/0.23.1440.811@0.23.1440.811" timestamp="1583415091738" />
     <state x="208" y="23" width="1024" height="830" key="SettingsEditor/0.23.1440.830@0.23.1440.830" timestamp="1583498574204" />
-    <state x="376" y="269" key="com.intellij.ide.util.TipDialog" timestamp="1583418544926">
+    <state x="376" y="269" key="com.intellij.ide.util.TipDialog" timestamp="1583500636891">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="376" y="263" key="com.intellij.ide.util.TipDialog/0.23.1440.811@0.23.1440.811" timestamp="1583414883409" />
-    <state x="376" y="269" key="com.intellij.ide.util.TipDialog/0.23.1440.830@0.23.1440.830" timestamp="1583418544926" />
+    <state x="376" y="269" key="com.intellij.ide.util.TipDialog/0.23.1440.830@0.23.1440.830" timestamp="1583500636891" />
     <state x="499" y="126" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583415803763">
       <screen x="0" y="23" width="1440" height="811" />
     </state>
