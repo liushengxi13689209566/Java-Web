@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="HuaRunLingShou" />
+        <module name="HuaRunLingShou_03" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
