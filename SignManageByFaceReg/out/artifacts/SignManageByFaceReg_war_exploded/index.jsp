@@ -91,37 +91,30 @@
 
     /*
     *通过 canvas 画笔，将 vedio 截图（画一幅）
-    * canvas.toDataURL() 将数据装换成base64类型数据（我们的面部数据）
+    * canvas.toDataURL() 将数据装换成 base64 类型数据（我们的面部数据）
     * ajax（异步刷新）实现数据以 json 格式传到后台
     */
     function goPath(path) {
         console.log("path==" + path);
-
         pen.drawImage(video, 0, 0, 400, 300);
         var url = canvas.toDataURL();
         var result = url.split(",")[1];
         $.ajax({
             url: '${pageContext.request.contextPath}/' + path,
             data: JSON.stringify({face: result}),
-            contentType: 'application/json',
+            contentType: 'application/json;charset=UTF-8',
             method: 'post',
             dataType: 'json',
             success: function (response) {
-
-                console.log(response.flag);
+                console.log(response);
                 console.log("response.flag == bdfvbkfbvkfb ");
-                console.log("response.flag ==" +response.flag);
 
-                window.location.href = "${pageContext.request.contextPath}/book/allBook";
-
-                // if (response.flag) {
-                //     if ("FaceSignIn" == path) {
-                //
-                //         /*你需要跳转的路径*/
-                //     }
-                // } else {
-                //     alert("请正对摄像头！");
-                // }
+                if (response.status_code != 0) {
+                    alert(response.msg);
+                } else {
+                    alert(response.msg);
+                    window.location.href = "${pageContext.request.contextPath}/book/allBook";
+                }
             },
             fail: function () {
                 alert("请重试！");

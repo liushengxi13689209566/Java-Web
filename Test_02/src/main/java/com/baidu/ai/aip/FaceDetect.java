@@ -23,7 +23,7 @@ public class FaceDetect {
      * 下载
      */
     public static String faceDetect() {
-        String Filepath = "/Users/tattoo/Java-Web/Test_02/src/main/resources/cat.jpg";
+        String Filepath = "/Users/tattoo/Java-Web/Test_02/src/main/resources/test.jpg";
         // 请求url
         String url = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
         try {
