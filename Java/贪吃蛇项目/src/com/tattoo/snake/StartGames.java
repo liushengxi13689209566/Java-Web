@@ -2,6 +2,7 @@ package com.tattoo.snake;
 
 import javax.swing.*;
 
+
 public class StartGames {
     public static  void main(String []args)
     {

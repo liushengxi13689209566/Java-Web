@@ -4,9 +4,11 @@ package com.huarun.service;
 import com.huarun.dao.BookMapper;
 import com.huarun.pojo.Books;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookServiceImpl implements BookService {
     //service调dao层
     @Autowired

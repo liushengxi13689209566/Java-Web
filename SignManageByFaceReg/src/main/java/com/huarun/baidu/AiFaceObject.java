@@ -20,6 +20,5 @@ public class AiFaceObject {
         client.setSocketTimeoutInMillis(60000);
         return client;
     }
-
 }
 

@@ -43,14 +43,18 @@
     <title>人脸识别</title>
 </head>
 <body>
-<div>
+<>
     <div>
         <%--    * 前端页面需要使用到两个标签，一个是<video>一个是<canvas>，--%>
         <%--    * 这两个标签，video是将摄像头获取到的数据呈现成视频，canvas是画布，将视频中的画面换成图片--%>
         <video id="video" width="400" height="300"></video>
         <canvas id="canvas" width="400" height="300" style="display: none"></canvas>
     </div>
-    <button id="SignIn"> 考勤</button>
+    <button id="SignIn"> 考勤 </button>
+    <a href="login.jsp"> 我要登录 </a><br/>
+    <a href="test.jsp"> 测试 </a><br/>
+<a href="${pageContext.request.contextPath}/book/allBook">点击进入列表页</a><br/>
+
 </div>
 </body>
 
@@ -58,6 +62,9 @@
 <script src="//api.html5media.info/1.2.2/html5media.min.js"></script>
 <%--解决 navigator.mediaDevices.getUserMedia 兼容浏览器问题--%>
 <script src="/static/jquery/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css"
+      href="/css/model/login/login.css">
+
 <script type="text/javascript">
     var video = document.getElementById("video");
     var canvas = document.getElementById("canvas");
@@ -96,6 +103,9 @@
     */
     function goPath(path) {
         console.log("path==" + path);
+
+        console.log("${pageContext.request.contextPath} ==" ${pageContext.request.contextPath} );
+
         pen.drawImage(video, 0, 0, 400, 300);
         var url = canvas.toDataURL();
         var result = url.split(",")[1];

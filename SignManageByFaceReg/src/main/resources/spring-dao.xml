@@ -42,7 +42,7 @@ c3p0  自动化操作（自动的加载配置文件 并且设置到对象里面�
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
-    <!-- 4.配置扫描Dao接口包，动态实现Dao接口注入到spring容器中 -->
+    <!-- 4.配置扫描Dao接口包，动态实现 Dao 接口注入到spring容器中 -->
     <!--解释 ： https://www.cnblogs.com/jpfss/p/7799806.html-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
