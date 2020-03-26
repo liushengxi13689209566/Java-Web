@@ -37,11 +37,13 @@
     </bean>
     <!-- Realm 的配置 -->
     <bean id="userAuthorizingRealm" class="com.huarun.shiro.realms.UserAuthorizingRealm">
-        <property name="credentialsMatcher">
-            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                <property name="hashAlgorithmName" value="MD5"></property>
-            </bean>
-        </property>
+
+        <!--        不用shiro的MD5加密来实现，我们自己来实现-->
+        <!--        <property name="credentialsMatcher">-->
+        <!--            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
+        <!--                <property name="hashAlgorithmName" value="MD5"></property>-->
+        <!--            </bean>-->
+        <!--        </property>-->
     </bean>
     <!-- ============================================
                Shiro - Spring 整合 配置

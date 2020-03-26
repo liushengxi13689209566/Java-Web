@@ -29,14 +29,22 @@
             </list>
         </property>
     </bean>
+    <!--    授权-->
     <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
         <property name="authenticationStrategy">
             <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
         </property>
     </bean>
     <!-- Realm 的配置 -->
-    <bean id="userAuthorizingRealm" class="com.huarun.shiro.realms.UserAuthorizingRealm"/>
+    <bean id="userAuthorizingRealm" class="com.huarun.shiro.realms.UserAuthorizingRealm">
 
+        <!--        不用shiro的MD5加密来实现，我们自己来实现-->
+        <!--        <property name="credentialsMatcher">-->
+        <!--            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
+        <!--                <property name="hashAlgorithmName" value="MD5"></property>-->
+        <!--            </bean>-->
+        <!--        </property>-->
+    </bean>
     <!-- ============================================
                Shiro - Spring 整合 配置
         ============================================-->
@@ -57,7 +65,7 @@
         <!--                <entry key="authc" value-ref="extendFormAuthenticationFilter"/>-->
         <!--            </util:map>-->
         <!--        </property>-->
-        <!--        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>-->
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
         <!--        <property name="filterChainDefinitions">-->
         <!--            <value>-->
         <!--                /index.jsp = anon-->
@@ -78,9 +86,9 @@
     <!--    </bean>-->
     <!--    <bean id="anyOfRoles" class="com.huarun.shiro.filter.AnyOfRolesAuthorizationFilter"/>-->
 
-    <!--    &lt;!&ndash; 配置获取 URL 权限信息的 Factory &ndash;&gt;-->
-    <!--    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder"-->
-    <!--          factory-method="builderFilterChainDefinitionMap"/>-->
-    <!--    <bean id="filterChainDefinitionMapBuilder"-->
-    <!--          class="com.huarun.shiro.service.FilterChainDefinitionMapBuilder"/>-->
+    <!-- 配置获取 URL 权限信息的 Factory -->
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder"
+          factory-method="builderFilterChainDefinitionMap"/>
+    <bean id="filterChainDefinitionMapBuilder"
+          class="com.huarun.shiro.factory.FilterChainDefinitionMapBuilder"/>
 </beans>

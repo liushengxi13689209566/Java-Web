@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huarun.dao.ActionRoleFilterMapper">
+
+    <!--    <resultMap id="rolePermission" type="com.ken.wms.domain.RolePermissionDO">-->
+    <!--        <result property="name" column="ACTION_NAME"/>-->
+    <!--        <result property="url" column="ACTION_PARAM"/>-->
+    <!--        <result property="role" column="ROLE_NAME"/>-->
+    <!--    </resultMap>-->
+
+    <select id="selectAll" resultType="ActionRoleFilter">
+        select
+        action_url, action_filter, action_role
+        from
+        SignManage.sm_action_role_filter
+    </select>
+</mapper>

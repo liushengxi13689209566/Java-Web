@@ -1,5 +1,7 @@
 package com.huarun.shiro.factory;
 
+import com.huarun.dao.ActionRoleFilterMapper;
+import com.huarun.pojo.ActionRoleFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedHashMap;
@@ -10,11 +12,9 @@ import java.util.List;
  */
 public class FilterChainDefinitionMapBuilder {
 
-    //    @Autowired
-//    private RolePermissionMapper rolePermissionMapper;
-//    private StringBuilder builder = new StringBuilder();
-//
-
+    @Autowired
+    private ActionRoleFilterMapper actionRoleFilterMapper;
+    private StringBuilder builder = new StringBuilder();
     /**
      * 获取授权信息
      *
@@ -39,51 +39,46 @@ public class FilterChainDefinitionMapBuilder {
             permissionMap.putAll(permissions);
         }
         // 其余权限配置
-        permissionMap.put("/", "authc");
+//        permissionMap.put("/", "authc");
 //        permissionMap.forEach((s, s2) -> {System.out.println(s + ":" + s2);});
         return permissionMap;
     }
-}
 
+    /**
+     * 获取配置在数据库中的 URL 权限信息
+     *
+     * @return 返回所有保存在数据库中的 URL 保存信息
+     */
+    private LinkedHashMap<String, String> getPermissionDataFromDB() {
+        LinkedHashMap<String, String> permissionData = null;
 
-    }
+        List<ActionRoleFilter> ActionRoleFilters = actionRoleFilterMapper.selectAll();
+        if (ActionRoleFilters != null) {
+            permissionData = new LinkedHashMap<>(ActionRoleFilters.size());
+            String url;
+            String role;
+            String permission;
+            for (ActionRoleFilter ActionRoleFilter : ActionRoleFilters) {
+                url = ActionRoleFilter.getAction_url();
+                role = ActionRoleFilter.getAction_role();
 
-/**
- * 获取配置在数据库中的 URL 权限信息
- *
- * @return 返回所有保存在数据库中的 URL 保存信息
- */
-private LinkedHashMap<String, String> getPermissionDataFromDB(){
-        LinkedHashMap<String, String> permissionData=null;
-
-        List<RolePermissionDO> rolePermissionDOS=rolePermissionMapper.selectAll();
-        if(rolePermissionDOS!=null){
-        permissionData=new LinkedHashMap<>(rolePermissionDOS.size());
-        String url;
-        String role;
-        String permission;
-        for(RolePermissionDO rolePermissionDO:rolePermissionDOS){
-        url=rolePermissionDO.getUrl();
-        role=rolePermissionDO.getRole();
-
-        // 判断该 url 是否已经存在
-        if(permissionData.containsKey(url)){
-        builder.delete(0,builder.length());
-        builder.append(permissionData.get(url));
-        builder.insert(builder.length()-1,",");
-        builder.insert(builder.length()-1,role);
-        }else{
-        builder.delete(0,builder.length());
-        builder.append("authc,roles[").append(role).append("]");
-        }
-        permission=builder.toString();
+                // 判断该 url 是否已经存在
+                if (permissionData.containsKey(url)) {
+                    builder.delete(0, builder.length());
+                    builder.append(permissionData.get(url));
+                    builder.insert(builder.length() - 1, ",");
+                    builder.insert(builder.length() - 1, role);
+                } else {
+                    builder.delete(0, builder.length());
+                    builder.append("authc,roles[").append(role).append("]");
+                }
+                permission = builder.toString();
 //                System.out.println(url + ":" + permission);
-        permissionData.put(url,permission);
+                permissionData.put(url, permission);
+            }
         }
-        }
-
         return permissionData;
-        }
+    }
 
 //    /**
 //     * 构造角色权限
@@ -94,4 +89,4 @@ private LinkedHashMap<String, String> getPermissionDataFromDB(){
 //        builder.delete(0, builder.length());
 //        return builder.append("authc,roles[").append(role).append("]").toString();
 //    }
-//}
+}

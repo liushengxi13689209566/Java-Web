@@ -3,7 +3,6 @@ package com.huarun.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.huarun.service.BookService;
 import com.huarun.utils.CheckCodeGenerator;
 import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
@@ -28,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * 用户账户请求 Handler
@@ -38,12 +38,14 @@ public class AccountController {
 
     private static Logger log = Logger.getLogger("application");
 
-    @Autowired
-    private BookService bookService;
-
     private static final String USER_ID = "id";
-    //    private static final String USER_NAME = "userName";
     private static final String USER_PASSWORD = "password";
+    private static final String USER_ROLE = "role";
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
 
     /**
      * 获取图形验证码 将返回一个包含4位字符（字母或数字）的图形验证码，并且将图形验证码的值设置到用户的 session 中
@@ -104,21 +106,23 @@ public class AccountController {
     void login(@RequestBody Map<String, Object> user, HttpServletResponse response) throws Exception {
 
         System.out.println(JSON.toJSONString(user));
+        role = (String) user.get(USER_ROLE);
+        System.out.println("role == " + role);
 
         JSONObject result = new JSONObject();
+        int status_code = 0;
+        String msg = "";
 
         // 获取当前的用户的 Subject，shiro
         Subject currentUser = SecurityUtils.getSubject();
-
+        if (currentUser == null) {
+            System.out.println("NULLLLLLLL");
+        }
         // 判断用户是否已经登陆
         if (currentUser != null && !currentUser.isAuthenticated()) {
             String id = (String) user.get(USER_ID);
             String password = (String) user.get(USER_PASSWORD);
             UsernamePasswordToken token = new UsernamePasswordToken(id, password);
-
-            System.out.println(id);
-            System.out.println(password);
-            System.out.println(token);
 
             // 执行登陆操作
             try {
@@ -129,32 +133,41 @@ public class AccountController {
                 Session session = currentUser.getSession();
                 session.setAttribute("isAuthenticate", "true");
 
-                Integer userID_integer = (Integer) session.getAttribute("userID");
+                String userID = (String) session.getAttribute("userID");
                 String userName = (String) session.getAttribute("userName");
                 String accessIP = session.getHost();
 
-//                System.out.println(userID_integer);
-//                System.out.println(userName);
-//                System.out.println(accessIP);
-                result.put("status_code", StatusCode.SUCCESS);
-                result.put("msg", "登录成功啦！！！");
+                System.out.println("uservjdfbf,,fj,fb" + userID);
+                System.out.println(userName);
+                System.out.println(accessIP);
+
+                System.out.println(id);
+                System.out.println(password);
+                System.out.println(token);
+
+                status_code = StatusCode.SUCCESS;
+                msg = "登录成功啦！！！";
                 //用户名错误
             } catch (UnknownAccountException e) {
-                result.put("status_code", StatusCode.UNKNOWN_ACCOUNT);
-                result.put("msg", "用户名错误");
+                status_code = StatusCode.UNKNOWN_ACCOUNT;
+                msg = "用户名错误";
                 //密码错误
             } catch (IncorrectCredentialsException e) {
-                result.put("status_code", StatusCode.INCORRECT_CREDENTIALS);
-                result.put("msg", "密码或验证码错误");
+                status_code = StatusCode.INCORRECT_CREDENTIALS;
+                msg = "密码或验证码错误";
                 //总的异常
             } catch (AuthenticationException e) {
-                result.put("status_code", StatusCode.AUTHENTICATION_ERROR);
-                result.put("msg", "服务器错误");
+                status_code = StatusCode.AUTHENTICATION_ERROR;
+                msg = "服务器错误";
             }
         } else {
-            result.put("status_code", StatusCode.ALREADY_LOGIN);
-            result.put("msg", "对不起，您已经登录");
+            status_code = StatusCode.ALREADY_LOGIN;
+            msg = "对不起，您已经登录";
         }
+        result.put("status_code", status_code);
+        result.put("msg", msg);
+        System.out.println("result == " + result);
+
         ResponseUtil.write(response, result);
     }
 //

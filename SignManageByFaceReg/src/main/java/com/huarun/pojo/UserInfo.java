@@ -1,11 +1,13 @@
 package com.huarun.pojo;
 
 public class UserInfo {
-    private int id;
+    private int pri_id;
+    private String id;
     private String name;
     private String password;
 
-    public UserInfo(int id, String name, String password) {
+    public UserInfo(int pri_id, String id, String name, String password) {
+        this.pri_id = pri_id;
         this.id = id;
         this.name = name;
         this.password = password;
@@ -14,11 +16,19 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public int getId() {
+    public int getPri_id() {
+        return pri_id;
+    }
+
+    public void setPri_id(int pri_id) {
+        this.pri_id = pri_id;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,7 +51,8 @@ public class UserInfo {
     @Override
     public String toString() {
         return "UserInfo{" +
-                "id=" + id +
+                "pri_id=" + pri_id +
+                ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';

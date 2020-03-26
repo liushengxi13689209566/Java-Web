@@ -1,24 +1,23 @@
 package com.huarun.service;
 
 import com.huarun.pojo.UserInfo;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * 用户信息 service
  */
-
 public interface UserInfoService {
 
     /**
      * 获取指定用户ID对应的用户账户信息
      *
-     * @param userID 用户ID
+     * @param userID 用户ID,
      * @return 返回用户账户信息
      */
-    UserInfo getUserInfo( int userID,String );
+    UserInfo getUserInfoByStuID(String userID);
+
+    UserInfo getUserInfoByTeaID(String userID);
+
+    UserInfo getUserInfoByAdmID(String userID);
 
 //    /**
 //     * 获取指定 userName 对应的用户账户信息

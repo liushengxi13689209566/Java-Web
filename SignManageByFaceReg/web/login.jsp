@@ -4,20 +4,26 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>登陆</title>
+    <title>实验课考勤管理系统</title>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/model/login/login.css">
+    <style>
+        .login_div{
+            width:500px;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
 <!-- 定义容器 -->
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-sm-3"></div>
-
         <!-- 这一列为登陆表单 -->
-        <div class="col-md-4 col-sm-6">
+<%--        <div class="col-md-4 col-sm-6">--%>
+            <div class="login_div">
             <div class="panel panel-default">
 
                 <!-- 登陆面板的标题 -->
@@ -32,10 +38,10 @@
                     <form id="login_form" class="form-horizontal" style="">
 
                         <div class="form-group">
-                            <label class="control-label col-md-4 col-sm-4">用户名：</label>
+                            <label class="control-label col-md-4 col-sm-4">用户ID：</label>
                             <div class="col-md-7 col-sm-7">
                                 <input type="text" id="userID" class="form-control"
-                                       placeholder="用户名" name="userID"/>
+                                       placeholder="用户ID" name="userID"/>
                             </div>
                         </div>
 
@@ -49,7 +55,18 @@
                                        placeholder="密码" name="password">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4">
+                                角色：
+                            </label>
+                            <div class="col-md-7 col-sm-7">
+                                <select id="role" class="form-control" name="role">
+                                    <option value="student">学生</option>
+                                    <option value="teacher">任课老师</option>
+                                    <option value="admin">系统管理员</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-4 col-sm-4">
                                 <!-- <span class="glyphicon glyphicon-lock"></span> -->
@@ -60,7 +77,7 @@
                                        placeholder="验证码" name="checkCode">
                             </div>
                             <div>
-                                <img id="checkCodeImg" alt="checkCodeImg"
+                                <img style="width: 100px;" id="checkCodeImg" alt="checkCodeImg"
                                      src="account/checkCode/1">
                             </div>
                         </div>
@@ -109,9 +126,8 @@
 
     // 登陆信息加密模块
     function infoEncrypt(userID, password, checkCode) {
-        var str1 = $.md5(password);
-        var str2 = $.md5(str1 + userID);
-        var str3 = $.md5(str2 + checkCode.toUpperCase());
+        var str3 = $.md5(userID+ password + checkCode.toUpperCase());
+        console.log("str3== " + str3);
         return str3;
     }
 
@@ -128,7 +144,7 @@
                 userID: {
                     validators: {
                         notEmpty: {
-                            message: '用户名不能为空'
+                            message: '用户ID不能为空'
                         }, regexp: {
                             regexp: '[0-9]+',
                             message: '只允许输入数字'
@@ -166,6 +182,7 @@
                 var userID = $('#userID').val();
                 var password = $('#password').val();
                 var checkCode = $('#checkCode').val();
+                var role = $('#role').val();
 
                 // 加密
                 password = infoEncrypt(userID, password, checkCode)
@@ -173,6 +190,7 @@
                 var data = {
                     "id": userID,
                     "password": password,
+                    "role": role,
                 }
                 //JSON.stringify(data)序列化
                 $.ajax({
@@ -184,6 +202,8 @@
                     success: function (response) {
                         // 接收到后端响应
                         // 分析返回的 JSON 数据
+                        console.log(response);
+
                         if (response.status_code != 0) {
                             var field;
                             if (response.status_code == 3) {
@@ -204,7 +224,7 @@
                             $('#checkCode').val("");
                         } else {
                             // 页面跳转
-                            window.location.href = "/mainPage";
+                            window.location.href = "${pageContext.request.contextPath}/book/allBook";
                         }
                     },
                     error: function (data) {
@@ -216,3 +236,6 @@
 </script>
 </body>
 </html>
+
+
+

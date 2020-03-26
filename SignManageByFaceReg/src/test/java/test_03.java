@@ -3,6 +3,8 @@ import com.huarun.baidu.AiFaceObject;
 import com.huarun.baidu.FaceReg;
 import com.huarun.utils.FileUtil;
 import com.huarun.utils.Photo;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,7 +34,21 @@ public class test_03 {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
-        test_03.faceDetect();
+//        test_03.faceDetect();
+        String str = "04161173";
+        if (!StringUtils.isNumeric(str)) {
+            System.out.println("vffbvv");
+        } else {
+            System.out.println("yes");
+        }
+
+        String str1 = "4161173";
+        if (!StringUtils.isNumeric(str1)) {
+            System.out.println("vffbvv");
+        } else {
+            System.out.println("yes");
+        }
     }
 }
