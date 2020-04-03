@@ -353,6 +353,7 @@
         $('#info_modal').modal("show");
     }
 </script>
+
 <div class="panel panel-default">
     <ol class="breadcrumb">
         <li>货物入库</li>

@@ -5,36 +5,6 @@
   Time: 4:01 下午
   To change this template use File | Settings | File Templates.
 --%>
-<%--<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>--%>
-<%--<!DOCTYPE HTML>--%>
-<%--<html>--%>
-<%--<head>--%>
-<%--  <title>首页</title>--%>
-<%--  <style type="text/css">--%>
-<%--    a {--%>
-<%--      text-decoration: none;--%>
-<%--      color: black;--%>
-<%--      font-size: 18px;--%>
-<%--    }--%>
-<%--    h3 {--%>
-<%--      width: 180px;--%>
-<%--      height: 38px;--%>
-<%--      margin: 100px auto;--%>
-<%--      text-align: center;--%>
-<%--      line-height: 38px;--%>
-<%--      background: deepskyblue;--%>
-<%--      border-radius: 4px;--%>
-<%--    }--%>
-<%--  </style>--%>
-<%--</head>--%>
-<%--<body>--%>
-
-<%--<h3>--%>
-<%--  <a href="${pageContext.request.contextPath}/book/allBook">点击进入列表页</a>--%>
-<%--</h3>--%>
-<%--</body>--%>
-<%--</html>--%>
-
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -43,16 +13,15 @@
     <title>人脸识别</title>
 </head>
 <body>
-<>
-    <div>
-        <%--    * 前端页面需要使用到两个标签，一个是<video>一个是<canvas>，--%>
-        <%--    * 这两个标签，video是将摄像头获取到的数据呈现成视频，canvas是画布，将视频中的画面换成图片--%>
-        <video id="video" width="400" height="300"></video>
-        <canvas id="canvas" width="400" height="300" style="display: none"></canvas>
-    </div>
-    <button id="SignIn"> 考勤 </button>
-    <a href="login.jsp"> 我要登录 </a><br/>
-    <a href="test.jsp"> 测试 </a><br/>
+<div>
+    <%--    * 前端页面需要使用到两个标签，一个是<video>一个是<canvas>，--%>
+    <%--    * 这两个标签，video是将摄像头获取到的数据呈现成视频，canvas是画布，将视频中的画面换成图片--%>
+    <video id="video" width="400" height="300"></video>
+    <canvas id="canvas" width="400" height="300" style="display: none"></canvas>
+</div>
+<button id="SignIn"> 考勤 </button>
+<a href="login.jsp"> 我要登录 </a><br/>
+<a href="/WEB-INF/jsp/test.html"> 测试 </a><br/>
 <a href="${pageContext.request.contextPath}/book/allBook">点击进入列表页</a><br/>
 
 </div>
@@ -104,7 +73,7 @@
     function goPath(path) {
         console.log("path==" + path);
 
-        console.log("${pageContext.request.contextPath} ==" ${pageContext.request.contextPath} );
+        console.log("${pageContext.request.contextPath} ==" ${pageContext.request.contextPath});
 
         pen.drawImage(video, 0, 0, 400, 300);
         var url = canvas.toDataURL();

@@ -20,7 +20,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/book/toAddBook">新增</a>
@@ -41,8 +40,8 @@
                     <th>书籍编号</th>
                     <th>书籍名字</th>
                     <th>书籍数量</th>
-                    <th>书籍详情</th>
-                    <th>操作</th>
+<%--                    <th>书籍详情</th>--%>
+<%--                    <th>操作</th>--%>
                 </tr>
                 </thead>
 
@@ -52,7 +51,7 @@
                         <td>${book.getBookID()}</td>
                         <td>${book.getBookName()}</td>
                         <td>${book.getBookCounts()}</td>
-                        <td>${book.getDetail()}</td>
+<%--                        <td>${book.getDetail()}</td>--%>
                         <td>
                             <a href="${pageContext.request.contextPath}/book/toUpdateBook?id=${book.getBookID()}">更改</a>
                             |

@@ -1,6 +1,8 @@
 package com.huarun.pojo;
 
-public class Books {
+import java.io.Serializable;
+
+public class Books implements Serializable {
     private int bookID;
     private String bookName;
     private int bookCounts;

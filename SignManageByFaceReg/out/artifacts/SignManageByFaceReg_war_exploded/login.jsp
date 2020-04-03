@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/model/login/login.css">
     <style>
-        .login_div{
-            width:500px;
+        .login_div {
+            width: 500px;
             margin: 20px auto;
         }
     </style>
@@ -22,8 +22,8 @@
     <div class="row">
         <div class="col-md-4 col-sm-3"></div>
         <!-- 这一列为登陆表单 -->
-<%--        <div class="col-md-4 col-sm-6">--%>
-            <div class="login_div">
+        <%--        <div class="col-md-4 col-sm-6">--%>
+        <div class="login_div">
             <div class="panel panel-default">
 
                 <!-- 登陆面板的标题 -->
@@ -126,7 +126,7 @@
 
     // 登陆信息加密模块
     function infoEncrypt(userID, password, checkCode) {
-        var str3 = $.md5(userID+ password + checkCode.toUpperCase());
+        var str3 = $.md5(userID + password + checkCode.toUpperCase());
         console.log("str3== " + str3);
         return str3;
     }
@@ -224,7 +224,7 @@
                             $('#checkCode').val("");
                         } else {
                             // 页面跳转
-                            window.location.href = "${pageContext.request.contextPath}/book/allBook";
+                            window.location.href = "/main.jsp";
                         }
                     },
                     error: function (data) {

@@ -27,7 +27,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * 用户账户请求 Handler
@@ -55,10 +54,7 @@ public class AccountController {
      */
     @RequestMapping(value = "checkCode/{time}", method = RequestMethod.GET)
     public void getCheckCode(@PathVariable("time") String time, HttpServletResponse response, HttpServletRequest request) {
-
 //        System.out.println(time);
-
-
         BufferedImage checkCodeImage = null;
         String checkCodeString = null;
 
@@ -119,55 +115,55 @@ public class AccountController {
             System.out.println("NULLLLLLLL");
         }
         // 判断用户是否已经登陆
-        if (currentUser != null && !currentUser.isAuthenticated()) {
-            String id = (String) user.get(USER_ID);
-            String password = (String) user.get(USER_PASSWORD);
-            UsernamePasswordToken token = new UsernamePasswordToken(id, password);
+//        if (currentUser != null && !currentUser.isAuthenticated()) {
 
-            // 执行登陆操作
-            try {
-                //会调用 realms/UserAuthorizingRealm 中的 doGetAuthenticationInfo 方法
-                currentUser.login(token);
+        String id = (String) user.get(USER_ID);
+        String password = (String) user.get(USER_PASSWORD);
+        UsernamePasswordToken token = new UsernamePasswordToken(id, password);
 
-                // 设置登陆状态并记录
-                Session session = currentUser.getSession();
-                session.setAttribute("isAuthenticate", "true");
+        // 执行登陆操作
+        try {
+            //会调用 realms/UserAuthorizingRealm 中的 doGetAuthenticationInfo 方法
+            currentUser.login(token);
 
-                String userID = (String) session.getAttribute("userID");
-                String userName = (String) session.getAttribute("userName");
-                String accessIP = session.getHost();
+            // 设置登陆状态并记录
+            Session session = currentUser.getSession();
+            session.setAttribute("isAuthenticate", "true");
 
-                System.out.println("uservjdfbf,,fj,fb" + userID);
-                System.out.println(userName);
-                System.out.println(accessIP);
+            String userID = (String) session.getAttribute("userID");
+            String userName = (String) session.getAttribute("userName");
+            String accessIP = session.getHost();
 
-                System.out.println(id);
-                System.out.println(password);
-                System.out.println(token);
+            System.out.println("uservjdfbf,,fj,fb" + userID);
+            System.out.println(userName);
+            System.out.println(accessIP);
 
-                status_code = StatusCode.SUCCESS;
-                msg = "登录成功啦！！！";
-                //用户名错误
-            } catch (UnknownAccountException e) {
-                status_code = StatusCode.UNKNOWN_ACCOUNT;
-                msg = "用户名错误";
-                //密码错误
-            } catch (IncorrectCredentialsException e) {
-                status_code = StatusCode.INCORRECT_CREDENTIALS;
-                msg = "密码或验证码错误";
-                //总的异常
-            } catch (AuthenticationException e) {
-                status_code = StatusCode.AUTHENTICATION_ERROR;
-                msg = "服务器错误";
-            }
-        } else {
-            status_code = StatusCode.ALREADY_LOGIN;
-            msg = "对不起，您已经登录";
+            System.out.println(id);
+            System.out.println(password);
+            System.out.println(token);
+
+            status_code = StatusCode.SUCCESS;
+            msg = "登录成功啦！！！";
+            //用户名错误
+        } catch (UnknownAccountException e) {
+            status_code = StatusCode.UNKNOWN_ACCOUNT;
+            msg = "用户名错误";
+            //密码错误
+        } catch (IncorrectCredentialsException e) {
+            status_code = StatusCode.INCORRECT_CREDENTIALS;
+            msg = "密码或验证码错误";
+            //总的异常
+        } catch (AuthenticationException e) {
+            status_code = StatusCode.AUTHENTICATION_ERROR;
+            msg = "服务器错误";
         }
+//        } else {
+//            status_code = StatusCode.ALREADY_LOGIN;
+//            msg = "对不起，您已经登录";
+//        }
         result.put("status_code", status_code);
         result.put("msg", msg);
         System.out.println("result == " + result);
-
         ResponseUtil.write(response, result);
     }
 //

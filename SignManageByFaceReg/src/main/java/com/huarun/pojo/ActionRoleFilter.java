@@ -1,6 +1,8 @@
 package com.huarun.pojo;
 
-public class ActionRoleFilter {
+import java.io.Serializable;
+
+public class ActionRoleFilter implements Serializable {
     private int action_id;
     private String action_url;
     private String action_filter;

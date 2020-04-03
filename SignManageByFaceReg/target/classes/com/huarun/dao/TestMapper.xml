@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huarun.dao.TestMapper">
+
+    <select id="queryall" resultType="TestInfo">
+        select * from SignManage.test_111
+    </select>
+
+    <select id="queryallbyID" resultType="TestInfo">
+        select * from SignManage.test_111 where course_id = #{id}
+    </select>
+
+    <select id="queryallbyname" resultType="TestInfo">
+        select * from SignManage.test_222 where course_name = #{name}
+    </select>
+
+    <select id="queryallbyStr" resultType="TestInfo">
+        select * from SignManage.test_${num}
+    </select>
+</mapper>

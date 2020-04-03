@@ -1,6 +1,8 @@
 package com.huarun.pojo;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     private int pri_id;
     private String id;
     private String name;
