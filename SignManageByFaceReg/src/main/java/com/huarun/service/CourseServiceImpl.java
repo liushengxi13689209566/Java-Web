@@ -16,4 +16,10 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseInfo> queryAllCourse() {
         return courseMapper.queryAllCourse();
     }
+
+    @Override
+    public CourseInfo queryCourseByID(int id) {
+        return courseMapper.queryCourseByID(id);
+    }
+
 }

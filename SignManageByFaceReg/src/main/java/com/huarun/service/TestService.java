@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface TestService {
     List<TestInfo> queryallbyStr(String num);
+
     List<TestInfo> queryall();
+
+    List<TestInfo> queryVarbinary();
 }

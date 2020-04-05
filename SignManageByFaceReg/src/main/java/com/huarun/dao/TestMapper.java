@@ -13,4 +13,6 @@ public interface TestMapper {
     List<TestInfo> queryallbyID(int id);
 
     List<TestInfo> queryall();
+
+    List<TestInfo> queryVarbinary();
 }

@@ -23,4 +23,9 @@ public class TestServiceImpl implements TestService {
     public List<TestInfo> queryall() {
         return testMapper.queryall();
     }
+
+    @Override
+    public List<TestInfo> queryVarbinary() {
+        return testMapper.queryVarbinary();
+    }
 }

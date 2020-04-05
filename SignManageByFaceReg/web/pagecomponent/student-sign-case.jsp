@@ -46,7 +46,7 @@
 <script>
     $.ajax({
         type: 'GET',
-        url: 'course/getCourse',
+        url: 'course/getMyCourse',
         dataType: 'json',
         contentType: 'application/json',
         data: {
@@ -66,7 +66,8 @@
                     + "</td><td>" + elem.course_credit
                     + "</td><td>" + timestampToTime(elem.course_start)
                     + "</td><td>" + timestampToTime(elem.course_end)
-                    + "</td><td><a href='${pageContext.request.contextPath}/book/allBook'>查看考勤</a></td></tr>"
+                    + "</td><td><a href='${pageContext.request.contextPath}/SignCase/OneCourseSignCase/getOneStuSignCase?course_id='" + elem.course_id + ">查看考勤</a></td></tr>"
+                    // + "</td><td><a href='javascript:void(0)' class='menu_item' name='pagecomponent/test.jsp'>查看考勤</a></td></tr>"
                 );
             });
         },

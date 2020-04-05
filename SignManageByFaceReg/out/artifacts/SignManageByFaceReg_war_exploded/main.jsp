@@ -134,6 +134,13 @@
                                                 <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
                                                name="pagecomponent/student-sign-case.jsp">实验课考勤信息查看</a>
                                         </li>
+
+                                        <li class="list-group-item">
+                                            <a href="javascript:void(0)" class="menu_item"
+                                                <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
+                                               name="pagecomponent/test.jsp">测试考勤数据</a>
+                                        </li>
+
                                     </ul>
                                 </shiro:hasRole>
                                 <shiro:hasRole name="teacher">

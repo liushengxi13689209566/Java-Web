@@ -10,9 +10,6 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 public class MyTest {
-    @Autowired
-    private TestService testService;
-
     @Test
     public void test() {
 //        JSONObject jsonObj = new JSONObject();
@@ -24,15 +21,21 @@ public class MyTest {
 //        System.out.println(jsonObj);
 //
 //        System.out.println(jsonObj.get("cbcvdbvbdv"));
+//        List<TestInfo> list = testMapper.queryVarbinary();
 
-
-//        List<TestInfo> list = testService.queryall("111");
-//
 //        if (list.isEmpty()) {
 //            System.out.println("cvvvsvsv");
 //        }
-////        for (TestInfo ii : list) {
-////            System.out.println(ii);
-////        }
+//        for (TestInfo ii : list) {
+//            System.out.println(ii);
+//        }
+        String str = "2019 come on";
+
+        // 方法一
+
+        for (int i = 0; i < str.length(); i++) {
+
+            System.out.println(str.charAt(i));
+        }
     }
 }

@@ -7,4 +7,9 @@
     <select id="queryAllCourse" resultType="CourseInfo">
         select * from SignManage.course
     </select>
+
+    <select id="queryCourseByID" resultType="CourseInfo">
+        select * from SignManage.course where course_id = #{id}
+    </select>
+
 </mapper>

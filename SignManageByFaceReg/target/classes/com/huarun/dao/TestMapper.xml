@@ -20,4 +20,9 @@
     <select id="queryallbyStr" resultType="TestInfo">
         select * from SignManage.test_${num}
     </select>
+
+    <select id="queryVarbinary" resultType="TestInfo">
+        select * from SignManage.test_222
+    </select>
+
 </mapper>
