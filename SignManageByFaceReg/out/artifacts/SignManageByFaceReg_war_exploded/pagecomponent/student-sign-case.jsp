@@ -10,6 +10,11 @@
 <html>
 <head>
     <title>实验课考勤信息查看</title>
+    <%--    <style>--%>
+    <%--        .menu_item{--%>
+    <%--            cursor:pointer;--%>
+    <%--        }--%>
+    <%--    </style>--%>
 </head>
 <body>
 
@@ -44,6 +49,13 @@
 </script>
 
 <script>
+    function click_item(e) {
+        var url = $(e).attr('name');
+        console.log(url)
+        $('#panel').load(url);
+    }
+</script>
+<script>
     $.ajax({
         type: 'GET',
         url: 'course/getMyCourse',
@@ -66,8 +78,7 @@
                     + "</td><td>" + elem.course_credit
                     + "</td><td>" + timestampToTime(elem.course_start)
                     + "</td><td>" + timestampToTime(elem.course_end)
-                    + "</td><td><a href='${pageContext.request.contextPath}/SignCase/OneCourseSignCase/getOneStuSignCase?course_id='" + elem.course_id + ">查看考勤</a></td></tr>"
-                    // + "</td><td><a href='javascript:void(0)' class='menu_item' name='pagecomponent/test.jsp'>查看考勤</a></td></tr>"
+                    + "</td><td><a  href='javascript:void(0)' class='menu_item' name='${pageContext.request.contextPath}/SignCase/OneCourseSignCase/getOneStuSignCase?course_id=" + elem.course_id + "' onclick='click_item(this)'>查看考勤</a></td></tr>"
                 );
             });
         },
