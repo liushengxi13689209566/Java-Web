@@ -11,8 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +47,22 @@ public class SignCaseController {
         //构造返回的的结构数据
         List<SignCaseRecord> rows = new ArrayList<SignCaseRecord>();
         for (int i = 0; i < timeList.size(); i++) {
-            rows.add(new SignCaseRecord(timeList.get(i).getCourse_start_timestamp(),
-                    timeList.get(i).getCourse_end_timestamp(), signCase.getSign_case_bitmap().charAt(i)));
+            String tsStr = "";
+            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            //方法一
+            tsStr = sdf.format(timeList.get(i).getCourse_start_timestamp());
+
+            System.out.println(tsStr);
+
+            rows.add(new SignCaseRecord(i + 1,
+                    timeList.get(i).getCourse_start_timestamp(),
+                    timeList.get(i).getCourse_end_timestamp(),
+                    signCase.getSign_case_bitmap().charAt(i)));
+        }
+        for (SignCaseRecord tt : rows) {
+            System.out.println(tt);
         }
         model.addAttribute("list", rows);
-        return "allSignCase";
+        return "SignCaseShow";
     }
-
 }
