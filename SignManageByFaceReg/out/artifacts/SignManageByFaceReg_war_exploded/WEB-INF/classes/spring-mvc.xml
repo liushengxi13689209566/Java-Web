@@ -12,18 +12,20 @@
 
     <!-- 配置SpringMVC -->
     <!-- 1.开启SpringMVC注解驱动 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
     <!-- 2.静态资源默认servlet配置-->
     <mvc:default-servlet-handler/>
 
     <!-- 3.配置 jsp 显示 ViewResolver 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <!-- 4.扫描web相关的bean -->
-    <context:component-scan base-package="com.huarun.controller" />
-
+    <context:component-scan base-package="com.huarun.controller"/>
+    <!--    5.配置参数校验框架-->
+    <mvc:annotation-driven/>
+    
 </beans>

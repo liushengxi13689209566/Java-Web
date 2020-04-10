@@ -5,6 +5,11 @@
 
 <mapper namespace="com.huarun.dao.StudentMapper">
     <select id="getUserInfoByStuID" resultType="UserInfo">
+        select pri_id,id,name,password from SignManage.student where id = #{userID}
+    </select>
+
+    <select id="getStudentInfoByStuID" resultType="StudentInfo">
         select * from SignManage.student where id = #{userID}
     </select>
+
 </mapper>

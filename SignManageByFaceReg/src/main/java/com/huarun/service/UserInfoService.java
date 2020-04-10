@@ -1,5 +1,6 @@
 package com.huarun.service;
 
+import com.huarun.pojo.StudentInfo;
 import com.huarun.pojo.UserInfo;
 
 /**

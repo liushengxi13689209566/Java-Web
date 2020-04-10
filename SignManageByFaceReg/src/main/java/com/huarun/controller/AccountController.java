@@ -166,31 +166,36 @@ public class AccountController {
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
     }
-//
-//    /**
-//     * 注销账户
-//     *
-//     * @return 返回一个 Map 对象，键值为 result 的内容代表注销操作的结果，值为 success 或 error
-//     */
-//    @RequestMapping(value = "logout", method = RequestMethod.GET)
-//    public
-//    @ResponseBody
-//    Map<String, Object> logout() {
-//        // 初始化 Response
-//        Response response = responseUtil.newResponseInstance();
-//
-//        Subject currentSubject = SecurityUtils.getSubject();
-//        if (currentSubject != null && currentSubject.isAuthenticated()) {
-//            // 执行账户注销操作
-//            currentSubject.logout();
-//            response.setResponseResult(Response.RESPONSE_RESULT_SUCCESS);
-//        } else {
-//            response.setResponseResult(Response.RESPONSE_RESULT_ERROR);
-//            response.setResponseMsg("did not login");
-//        }
-//
-//        return response.generateResponse();
-//    }
+
+    /**
+     * 账户退出
+     *
+     * @return 返回一个 Map 对象，键值为 result 的内容代表注销操作的结果，值为 success 或 error
+     */
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    void logout(HttpServletResponse response) throws Exception {
+
+        JSONObject result = new JSONObject();
+        int status_code = 0;
+        String msg = "";
+
+        Subject currentSubject = SecurityUtils.getSubject();
+        if (currentSubject != null && currentSubject.isAuthenticated()) {
+            // 执行账户注销操作
+            currentSubject.logout();
+            status_code = StatusCode.SUCCESS;
+            msg = "退出成功！！！";
+        } else {
+            status_code = StatusCode.LOGOUT_ERROR;
+            msg = "退出失败！！！";
+        }
+        result.put("status_code", status_code);
+        result.put("msg", msg);
+        System.out.println("result == " + result);
+        ResponseUtil.write(response, result);
+    }
 //
 //    /**
 //     * 修改账户密码

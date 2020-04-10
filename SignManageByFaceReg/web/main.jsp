@@ -73,6 +73,7 @@
             <!-- 左侧导航栏  -->
             <!-- 依照 accordion 为 parent -->
             <div class="panel-group" id="accordion">
+                <%--1。个人信息管理--%>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -99,7 +100,7 @@
                                 <!--若为超级管理员-->
                                 <%--                                <shiro:hasRole name="systemAdmin">--%>
                                 <li class="list-group-item">
-                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                    <a href="javascript:void(0)" class="menu_item"
                                        name="pagecomponent/storageManagement.jsp">更新人脸照片</a>
                                 </li>
                                 <%-- <li class="list-group-item">--%>
@@ -113,7 +114,7 @@
                     </div>
                 </div>
 
-                <%--先完成这个功能--%>
+                <%--2。实验课考勤信息管理功能--%>
                 <shiro:hasAnyRoles name="student,teacher">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -156,6 +157,53 @@
                         </div>
                     </div>
                 </shiro:hasAnyRoles>
+
+
+                <%--3。课程信息管理功能--%>
+                <shiro:hasAnyRoles name="teacher,admin">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse3" data-toggle="collapse" data-parent="#accordion"
+                                   class="parentMenuTitle collapseHead">课程信息管理</a>
+                                <div class="pull-right">
+                                    <span class="caret"></span>
+                                </div>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse collapseBody">
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <!--若为普通管理员-->
+                                    <shiro:hasRole name="teacher">
+                                        <li class="list-group-item">
+                                            <a href="javascript:void(0)" class="menu_item"
+                                               name="pagecomponent/courseStudentHandle.jsp">学生管理</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="javascript:void(0)" class="menu_item"
+                                               name="pagecomponent/courseHandle.jsp">课程管理</a>
+                                        </li>
+                                    </shiro:hasRole>
+                                    <!--若为超级管理员-->
+                                        <%--                                <shiro:hasRole name="systemAdmin">--%>
+                                        <%--                                    <li class="list-group-item">--%>
+                                        <%--                                        <a href="javascript:void(0)" class="menu_item"--%>
+                                        <%--                                           name="pagecomponent/storageManagement.jsp">更新人脸照片</a>--%>
+                                        <%--                                    </li>--%>
+                                        <%-- <li class="list-group-item">--%>
+                                        <%-- <a href="javascript:void(0)" id=""--%>
+                                        <%--class="menu_item"--%>
+                                        <%-- name="pagecomponent/stockRecordManagement.html">出入库记录</a>--%>
+                                        <%--</li>--%>
+                                        <%--</shiro:hasRole>--%>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </shiro:hasAnyRoles>
+
+
             </div>
         </div>
 

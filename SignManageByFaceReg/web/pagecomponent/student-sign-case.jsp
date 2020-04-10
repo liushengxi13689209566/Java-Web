@@ -46,9 +46,7 @@
         var D = date.getDate() + ' ';
         return Y + M + D;
     }
-</script>
 
-<script>
     function click_item(e) {
         var url = $(e).attr('name');
         console.log(url)

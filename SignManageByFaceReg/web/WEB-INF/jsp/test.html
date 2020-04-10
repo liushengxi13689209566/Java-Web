@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>hello</title>
-    <script src="../../static/jquery/jquery-3.4.1.min.js"></script>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+        function click_item(e) {
+            var url = $(e).attr('name');
+            console.log($(e).attr('href'))
+        }
+    </script>
 </head>
-
 <body>
-<a href="" id="test_id"> 点我 </a>
 
-<script>
-    $('#test_id').click(function () {
-        alert("Hello World  !!");
-    })
-</script>
+<a href="/course/getMyTeaCourse" onclick=click_item(this)>学生管理</a>
 
 </body>
 </html>
-

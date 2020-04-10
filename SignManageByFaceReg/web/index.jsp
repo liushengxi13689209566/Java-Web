@@ -57,14 +57,12 @@
             console.log(err.name || err);
             /* 处理error */
         });
-
     /*
     * 考勤调用方法
     * */
     document.getElementById("SignIn").addEventListener('click', function () {
         goPath("FaceSignIn");
     });
-
     /*
     *通过 canvas 画笔，将 vedio 截图（画一幅）
     * canvas.toDataURL() 将数据装换成 base64 类型数据（我们的面部数据）
@@ -72,9 +70,7 @@
     */
     function goPath(path) {
         console.log("path==" + path);
-
         console.log("${pageContext.request.contextPath} ==" ${pageContext.request.contextPath});
-
         pen.drawImage(video, 0, 0, 400, 300);
         var url = canvas.toDataURL();
         var result = url.split(",")[1];
@@ -87,7 +83,6 @@
             success: function (response) {
                 console.log(response);
                 console.log("response.flag == bdfvbkfbvkfb ");
-
                 if (response.status_code != 0) {
                     alert(response.msg);
                 } else {
@@ -102,4 +97,3 @@
     }
 </script>
 </html>
-

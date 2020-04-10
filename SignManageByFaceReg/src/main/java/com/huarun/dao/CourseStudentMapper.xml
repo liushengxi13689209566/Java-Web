@@ -9,4 +9,12 @@
         select * from SignManage.course_student where student_id = #{userID}
     </select>
 
+    <select id="queryOneCourseAllStudent" resultType="CourseStudent">
+        select * from SignManage.course_student where course_id = #{course_id}
+    </select>
+
+    <delete id="delOneStudentInCourse">
+        delete from SignManage.course_student
+        where course_id = #{course_id} and student_id = #{student_id}
+    </delete>
 </mapper>

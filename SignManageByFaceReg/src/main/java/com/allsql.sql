@@ -1,3 +1,46 @@
+# 考虑 专业，班级
+# 专业表。这里简化了一下，没有再进行学院等的划分
+DROP TABLE IF EXISTS `major`;
+CREATE TABLE `major`
+(
+    `major_id`   int         NOT NULL AUTO_INCREMENT,
+    `major_name` varchar(30) NOT NULL,
+    `major_desc` varchar(30) NOT NULL,
+    PRIMARY KEY (`major_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8MB4
+  AUTO_INCREMENT = 1;
+insert into major(major_name, major_desc)
+values ('计算机科学与技术', '');
+
+insert into major(major_name, major_desc)
+values ('软件工程', '');
+
+insert into major(major_name, major_desc)
+values ('大数据', '');
+
+# 班级表
+DROP TABLE IF EXISTS `class`;
+CREATE TABLE `class`
+(
+    `class_id`   int         NOT NULL AUTO_INCREMENT,
+    `class_name` varchar(30) NOT NULL,
+    `major_id`   int         NOT NULL,
+    PRIMARY KEY (`class_id`),
+    FOREIGN KEY (major_id) REFERENCES major (major_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8MB4
+  AUTO_INCREMENT = 1;
+
+insert into class(class_name, major_id)
+values ('1606', 1);
+insert into class(class_name, major_id)
+values ('1607', 1);
+insert into class(class_name, major_id)
+values ('1601', 1);
+insert into class(class_name, major_id)
+values ('1509', 3);
+
 # 学生表
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student`
@@ -6,13 +49,20 @@ CREATE TABLE `student`
     `id`       varchar(20) NOT NULL,
     `name`     varchar(30) NOT NULL,
     `password` varchar(30) NOT NULL,
+    `class_id` int         NOT NULL,
     #班级
     #所学课程
     PRIMARY KEY (`pri_id`),
-    UNIQUE KEY (`id`)
+    UNIQUE KEY (`id`),
+    FOREIGN KEY (class_id) REFERENCES class (class_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
+
+insert into student(id, name, password, class_id)
+values ('04161173', '刘生玺', '123456', 1);
+insert into student(id, name, password, class_id)
+values ('04161172', '刘贵财', '123456', 3);
 
 # 老师表
 DROP TABLE IF EXISTS `teacher`;
@@ -28,6 +78,12 @@ CREATE TABLE `teacher`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
+
+insert into teacher(id, name, password)
+values ('001', '王春梅', '123456');
+insert into teacher(id, name, password)
+values ('002', '刘老师', '123456');
+
 # 管理员表
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin`
@@ -42,6 +98,9 @@ CREATE TABLE `admin`
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
 
+
+insert into admin(id, name, password)
+values ('111', '孙雪华', '123456');
 
 # 创建 URL 权限表 anon,authc 等拦截器,以及角色设置
 DROP TABLE IF EXISTS `sm_action_role_filter`;
@@ -58,16 +117,6 @@ CREATE TABLE `sm_action_role_filter`
   AUTO_INCREMENT = 1;
 
 # 不需要角色表
-insert into student(id, name, password)
-values ('04161173', '刘生玺', '123456');
-insert into student(id, name, password)
-values ('04161172', '刘贵财', '123456');
-insert into teacher(id, name, password)
-values ('001', '王春梅', '123456');
-insert into teacher(id, name, password)
-values ('002', '刘老师', '123456');
-insert into admin(id, name, password)
-values ('111', '孙雪华', '123456');
 
 # 课程表（id,名称，课时，学分，起始时间，结束时间,课程名也是唯一的）
 DROP TABLE IF EXISTS `course`;
@@ -118,6 +167,29 @@ insert into course_student(student_id, course_id)
 values ('04161172', 1);
 insert into course_student(student_id, course_id)
 values ('04161172', 5);
+
+# 课程与老师关联表
+DROP TABLE IF EXISTS `course_teacher`;
+CREATE TABLE `course_teacher`
+(
+    `teacher_id` varchar(20) NOT NULL,
+    `course_id`  int         NOT NULL,
+    PRIMARY KEY (`teacher_id`, `course_id`),
+    FOREIGN KEY (teacher_id) REFERENCES teacher (id),
+    FOREIGN KEY (course_id) REFERENCES course (course_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8MB4;
+# 测试阶段：王春梅上两节课
+# 刘老师上两节课
+insert into course_teacher(teacher_id, course_id)
+values ('001', 3);
+insert into course_teacher(teacher_id, course_id)
+values ('001', 4);
+insert into course_teacher(teacher_id, course_id)
+values ('002', 1);
+insert into course_teacher(teacher_id, course_id)
+values ('002', 5);
+
 
 # 课程上课时间表(timestamp 只到 2038 年)
 DROP TABLE IF EXISTS `sm_course_time`;
@@ -227,8 +299,6 @@ CREATE TABLE `test_222`
 
 insert into test_222(name)
 values ('刘生玺');
-
-
 
 #今天不签，明天不签，后天签，
 # 需要有 直接设置某一位，默认设置所有为0。的操作。

@@ -1,6 +1,7 @@
 package com.huarun.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.huarun.SignInTerminal.pojo.FaceSignInData;
 import com.huarun.baidu.FaceReg;
 import com.huarun.utils.ConfigParam;
 import com.huarun.utils.StatusCode;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import javax.validation.Valid;
 
 
 //只要有人进行考勤就一定能够查出来想对应的信息，直接进行信息查询即可。
@@ -24,7 +25,7 @@ import java.util.Map;
 public class FaceSignInController {
     @RequestMapping("/FaceSignIn")
     @ResponseBody
-    public void FaceSignIn(@RequestBody Map<String, String> map, HttpServletResponse response) throws Exception {
+    public void FaceSignIn(@RequestBody @Valid FaceSignInData faceSignInData, HttpServletResponse response) throws Exception {
 
         System.out.println("fvvbdvdsvbdbv");
 
@@ -32,7 +33,7 @@ public class FaceSignInController {
         JSONObject result = new JSONObject();
 
         //1.检测是否有人脸存在-》请正对摄像头
-        Photo image = new Photo(map.get("face"), "BASE64");
+        Photo image = new Photo(faceSignInData.getFaceImage(), "BASE64");
         String str = FaceReg.faceDetect(image);
         System.out.println("str  ==  " + str);
         if (str == null) {

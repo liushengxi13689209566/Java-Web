@@ -1,8 +1,9 @@
 package com.huarun.OtherStructure;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class SignCaseRecord {
+public class SignCaseRecord implements Serializable {
     //那一天的那一节课，签到标志位
     private int id; //表示是第几节课，筛选过后也要正常显示
     private Timestamp course_start_timestamp;
