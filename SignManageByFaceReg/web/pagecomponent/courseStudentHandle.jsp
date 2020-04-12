@@ -38,7 +38,7 @@
                 url: 'course/getMyTeaCourse',
                 method: 'GET',
                 // queryParams: queryParamsFun,
-                // sidePagination: "server",
+                sidePagination: "server",
                 dataType: 'json',
                 // 分页选项
                 // pagination: true,
@@ -87,19 +87,24 @@
                         field: 'operation',
                         title: '操作',
                         formatter: function (value, row, index) {
+                            // var s = '<button class="btn btn-info btn-sm edit"><span>编辑</span></button>';
+                            // return s;
                             return [
-                                '<a href="javascript:void(0)" class="btn btn-info btn-sm edit">查看课程学生</a>'].join('')
+                                // '<a href="javascript:void(0)" class="btn btn-info btn-sm edit">查看课程学生</a>'
+                                '<a href="javascript:void(0)" class="edit">查看课程学生</a>'
+                            ].join('')
                         },
+                        events: {
+                            'click .edit': function (e, value, row, index) {
+                                console.log("进入查看课程学生！！！")
+                                selectID = row.course_id;
+                                console.log("row.id == " + row.course_id)
+                                $('#oneCourseAllStudentList').bootstrapTable('refresh', {
+                                    url: 'course/getOneCourseAllStudent'
+                                })
+                            }
+                        }
                     }],
-                events: {
-                    'click .edit': function (e, value, row, index) {
-                        console.log("进入查看课程学生！！！")
-                        selectID = row.id;
-                        $('#oneCourseAllStudentList').bootstrapTable('refresh', {
-                            url: 'course/getOneCourseAllStudent'
-                        })
-                    }
-                }
                 // 操作列中编辑按钮的动作
                 // 'click .edit': function (e, value, row, index) {
                 //     selectID = row.id;
@@ -112,74 +117,72 @@
                 // }
             });
     }
-
-
-    //一门课学生列表表格
-    // $('#oneCourseAllStudentList').bootstrapTable(
-    //     {
-    //         url: 'course/getOneCourseAllStudent',
-    //         method: 'GET',
-    //         queryParams: getCourseID,
-    //         // sidePagination: "server",
-    //         dataType: 'json',
-    //         // 分页选项
-    //         // pagination: true,
-    //         // pageNumber: 1,
-    //         // pageSize: 5,
-    //         // pageList: [5, 10, 25, 50, 100],
-    //         //单选选项
-    //         // clickToSelect: true
-    //         responseHandler: function (res) {
-    //             $.each(res.rows, function (row) {
-    //                 $.inArray(row)
-    //             })
-    //             return res;
-    //         },
-    //         columns: [
-    //             {
-    //                 field: 'id',
-    //                 title: '学号'
-    //                 //sortable: true
-    //             },
-    //             {
-    //                 field: 'name',
-    //                 title: '姓名'
-    //             },
-    //             {
-    //                 field: 'major_times',
-    //                 title: '专业'
-    //             },
-    //             {
-    //                 field: 'class_name',
-    //                 title: '班级'
-    //             },
-    //             {
-    //                 field: 'operation',
-    //                 title: '操作',
-    //                 formatter: function (value, row, index) {
-    //                     return [
-    //                         '<a href="javascript:void(0)" class="btn btn-info btn-sm edit" >查看课程学生</a>'
-    //                     ].join('')
-    //                 },
-    //             }],
-    //         events: {
-    //             'click .edit': function (e, value, row, index) {
-    //                 selectID = row.id;
-    //                 //
-    //                 // getOneCourseAllStudent(row);
-    //             },
-    //             // 操作列中编辑按钮的动作
-    //             // 'click .edit': function (e, value, row, index) {
-    //             //     selectID = row.id;
-    //             //     rowEditOperation(row);
-    //             // },
-    //             // 'click .delete': function (e, value, row, index) {
-    //             //     selectID = row.id;
-    //             //     $('#deleteWarning_modal').modal(
-    //             //         'show');
-    //             // }
-    //         }
-    //     });
+    
+    // 一门课学生列表表格
+    $('#oneCourseAllStudentList').bootstrapTable(
+        {
+            // url: 'course/getOneCourseAllStudent',
+            method: 'GET',
+            queryParams: getCourseID,
+            //必须有，不然就会渲染不出来
+            sidePagination: "server",
+            dataType: 'json',
+            // 分页选项
+            // pagination: true,
+            // pageNumber: 1,
+            // pageSize: 5,
+            // pageList: [5, 10, 25, 50, 100],
+            //单选选项
+            // clickToSelect: true
+            responseHandler: function (res) {
+                $.each(res.rows, function (row) {
+                    $.inArray(row)
+                })
+                return res;
+            },
+            columns: [
+                {
+                    field: 'id',
+                    title: '学号'
+                    //sortable: true
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'major_times',
+                    title: '专业'
+                },
+                {
+                    field: 'class_name',
+                    title: '班级'
+                },
+                {
+                    field: 'operation',
+                    title: '操作',
+                    formatter: function (value, row, index) {
+                        return [
+                            '<a href="javascript:void(0)" class="btn btn-info btn-sm edit" >查看课程学生</a>'
+                        ].join('')
+                    },
+                }],
+            events: {
+                'click .edit': function (e, value, row, index) {
+                    selectID = row.id;
+                },
+                // 操作列中编辑按钮的动作
+                // 'click .edit': function (e, value, row, index) {
+                //     selectID = row.id;
+                //     rowEditOperation(row);
+                // },
+                // 'click .delete': function (e, value, row, index) {
+                //     selectID = row.id;
+                //     $('#deleteWarning_modal').modal(
+                //         'show');
+                // }
+            }
+        });
 
 
     // 表格刷新
@@ -190,9 +193,13 @@
     }
 
     function getCourseID(params) {
-        return selectID;
+        console.log("进入getCourseId函数")
+        var temp = {
+            course_id: selectID
+        }
+        console.log(temp)
+        return temp;
     }
-
 </script>
 
 
@@ -248,6 +255,7 @@
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
                 <table id="courseList" class="table table-striped"></table>
+                <table id="oneCourseAllStudentList" class="table table-striped"></table>
             </div>
         </div>
     </div>
@@ -303,4 +311,3 @@
 </script>
 </body>
 </html>
-
