@@ -21,6 +21,6 @@ public class StudentController {
 
         courseStudentService.delOneStudentInCourse(course_id, student_id);
 
-        return "StudentInfoShow";
+        return "/pagecomponent/StudentInfoShow.jsp";
     }
 }

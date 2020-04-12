@@ -90,20 +90,36 @@
                             // var s = '<button class="btn btn-info btn-sm edit"><span>编辑</span></button>';
                             // return s;
                             return [
-                                // '<a href="javascript:void(0)" class="btn btn-info btn-sm edit">查看课程学生</a>'
-                                '<a href="javascript:void(0)" class="edit">查看课程学生</a>'
+                                '<a href="javascript:void(0)" ' +
+                                'class="btn btn-info btn-sm edit" ' +
+                                'name="pagecomponent/StudentInfoShow.jsp">查看课程学生</a>'
+                                // '<a href="javascript:void(0)" class="edit">查看课程学生</a>'
                             ].join('')
                         },
                         events: {
                             'click .edit': function (e, value, row, index) {
                                 console.log("进入查看课程学生！！！")
                                 $('#courseList').bootstrapTable('destroy')
-
                                 selectID = row.course_id;
                                 console.log("row.id == " + row.course_id)
-                                $('#oneCourseAllStudentList').bootstrapTable('refresh', {
-                                    url: 'course/getOneCourseAllStudent'
-                                })
+
+                                // ajax 请求设置服务端 course_id。实在是没办法了
+                                // setSessionCourseID(row.course_id)
+
+                                // var url = "course/getOneCourseAllStudent?course_id=" + selectID;
+
+                                var url = $(this).attr("name");
+
+                                console.log(url)
+
+                                // $('#panel').load(url, {'course_id': row.course_id});
+                                $('#panel').load(url, {
+                                    'course_id': row.course_id
+                                });
+
+                                // $('#oneCourseAllStudentList').bootstrapTable('refresh', {
+                                //     url: 'course/getOneCourseAllStudent'
+                                // })
                             }
                         }
                     }],
@@ -118,6 +134,30 @@
                 //         'show');
                 // }
             });
+    }
+
+    function setSessionCourseID(course_id) {
+        // ajax
+        $.ajax({
+            type: "GET",
+            url: "course/setSessionCourseID?course_id=" + course_id,
+            dataType: "json",
+            contentType: "application/json",
+            // data: JSON.stringify(data),
+            success: function (response) {
+                if (response.status_code != 0) {
+                    type = "success";
+                    msg = "客户添加成功";
+                } else if (response.result == "error") {
+                    type = "error";
+                    msg = "客户添加失败";
+                }
+                // infoModal(type, msg);
+                // tableRefresh();
+            },
+            error: function (response) {
+            }
+        })
     }
 
     // 一门课学生列表表格
@@ -138,6 +178,7 @@
             // clickToSelect: true
             responseHandler: function (res) {
                 $.each(res.rows, function (row) {
+                    console.log(row)
                     $.inArray(row)
                 })
                 return res;
@@ -153,7 +194,7 @@
                     title: '姓名'
                 },
                 {
-                    field: 'major_times',
+                    field: 'major_name',
                     title: '专业'
                 },
                 {
@@ -257,7 +298,19 @@
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
                 <table id="courseList" class="table table-striped"></table>
-                <table id="oneCourseAllStudentList" class="table table-striped"></table>
+                <%--                <table id="oneCourseAllStudentList" class="table table-striped">--%>
+                <%--                    <div class="row">--%>
+                <%--                        <div class="col-md-4 column">--%>
+                <%--                            <a class="btn btn-primary"--%>
+                <%--                               href="${pageContext.request.contextPath}/book/toAddBook">新增一名学生</a>--%>
+                <%--                        </div>--%>
+
+                <%--                        <div class="col-md-4 column">--%>
+                <%--                            <a class="btn btn-primary"--%>
+                <%--                               href="${pageContext.request.contextPath}/book/toAddBook">新增一名学生</a>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                </table>
             </div>
         </div>
     </div>

@@ -10,7 +10,6 @@ import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -126,7 +125,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/getOneCourseAllStudent", method = RequestMethod.GET)
-    public String getOneCourseAllStudent(Model model, int course_id) {
+    public void getOneCourseAllStudent(int course_id, HttpServletResponse response) throws Exception {
         List<CourseStudent> list = courseStudentService.queryOneCourseAllStudent(course_id);
 
         for (CourseStudent courseStudent : list) {
@@ -142,8 +141,19 @@ public class CourseController {
 
             rows.add(new StudentInfoShow(studentInfo, classInfo, majorInfo));
         }
-        model.addAttribute("course_id", course_id);
-        model.addAttribute("list", rows);
-        return "StudentInfoShow";
+        JSONObject result = new JSONObject();
+        JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
+
+        result.put("rows", array);
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", "成功");
+
+        System.out.println("result == " + result);
+        ResponseUtil.write(response, result);
+//        return "/pagecomponent/StudentInfoShow.jsp";
     }
+//    @RequestMapping(value = "/getOneCourseAllStudent", method = RequestMethod.GET)
+//    public void setSessionCourseID()
+
+
 }
