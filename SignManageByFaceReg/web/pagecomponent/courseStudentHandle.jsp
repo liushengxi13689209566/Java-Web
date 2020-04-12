@@ -97,6 +97,7 @@
                         events: {
                             'click .edit': function (e, value, row, index) {
                                 console.log("进入查看课程学生！！！")
+                                $('#courseList').bootstrapTable('destroy')
                                 selectID = row.course_id;
                                 console.log("row.id == " + row.course_id)
                                 $('#oneCourseAllStudentList').bootstrapTable('refresh', {
@@ -117,7 +118,7 @@
                 // }
             });
     }
-    
+
     // 一门课学生列表表格
     $('#oneCourseAllStudentList').bootstrapTable(
         {
@@ -208,49 +209,49 @@
         <li>课程学生管理</li>
     </ol>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-1 col-sm-2">
-                <div class="btn-group">
-                    <button class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown">
-                        <span id="search_type">查询方式</span> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="javascript:void(0)" class="dropOption">客户ID</a></li>
-                        <li><a href="javascript:void(0)" class="dropOption">客户名称</a></li>
-                        <li><a href="javascript:void(0)" class="dropOption">所有</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-9 col-sm-9">
-                <div>
-                    <div class="col-md-3 col-sm-4">
-                        <input id="search_input" type="text" class="form-control"
-                               placeholder="客户ID">
-                    </div>
-                    <div class="col-md-2 col-sm-2">
-                        <button id="search_button" class="btn btn-success">
-                            <span class="glyphicon glyphicon-search"></span> <span>查询</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <%--        <div class="row">--%>
+        <%--            <div class="col-md-1 col-sm-2">--%>
+        <%--                <div class="btn-group">--%>
+        <%--                    <button class="btn btn-default dropdown-toggle"--%>
+        <%--                            data-toggle="dropdown">--%>
+        <%--                        <span id="search_type">查询方式</span> <span class="caret"></span>--%>
+        <%--                    </button>--%>
+        <%--                    <ul class="dropdown-menu" role="menu">--%>
+        <%--                        <li><a href="javascript:void(0)" class="dropOption">客户ID</a></li>--%>
+        <%--                        <li><a href="javascript:void(0)" class="dropOption">客户名称</a></li>--%>
+        <%--                        <li><a href="javascript:void(0)" class="dropOption">所有</a></li>--%>
+        <%--                    </ul>--%>
+        <%--                </div>--%>
+        <%--            </div>--%>
+        <%--            <div class="col-md-9 col-sm-9">--%>
+        <%--                <div>--%>
+        <%--                    <div class="col-md-3 col-sm-4">--%>
+        <%--                        <input id="search_input" type="text" class="form-control"--%>
+        <%--                               placeholder="客户ID">--%>
+        <%--                    </div>--%>
+        <%--                    <div class="col-md-2 col-sm-2">--%>
+        <%--                        <button id="search_button" class="btn btn-success">--%>
+        <%--                            <span class="glyphicon glyphicon-search"></span> <span>查询</span>--%>
+        <%--                        </button>--%>
+        <%--                    </div>--%>
+        <%--                </div>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
 
-        <div class="row" style="margin-top: 25px">
-            <div class="col-md-5">
-                <button class="btn btn-sm btn-default" id="add_customer">
-                    <span class="glyphicon glyphicon-plus"></span> <span>添加客户</span>
-                </button>
-                <button class="btn btn-sm btn-default" id="import_customer">
-                    <span class="glyphicon glyphicon-import"></span> <span>导入</span>
-                </button>
-                <button class="btn btn-sm btn-default" id="export_customer">
-                    <span class="glyphicon glyphicon-export"></span> <span>导出</span>
-                </button>
-            </div>
-            <div class="col-md-5"></div>
-        </div>
+        <%--        <div class="row" style="margin-top: 25px">--%>
+        <%--            <div class="col-md-5">--%>
+        <%--                <button class="btn btn-sm btn-default" id="add_customer">--%>
+        <%--                    <span class="glyphicon glyphicon-plus"></span> <span>添加客户</span>--%>
+        <%--                </button>--%>
+        <%--                <button class="btn btn-sm btn-default" id="import_customer">--%>
+        <%--                    <span class="glyphicon glyphicon-import"></span> <span>导入</span>--%>
+        <%--                </button>--%>
+        <%--                <button class="btn btn-sm btn-default" id="export_customer">--%>
+        <%--                    <span class="glyphicon glyphicon-export"></span> <span>导出</span>--%>
+        <%--                </button>--%>
+        <%--            </div>--%>
+        <%--            <div class="col-md-5"></div>--%>
+        <%--        </div>--%>
 
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
