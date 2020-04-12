@@ -24,6 +24,7 @@
           href="${pageContext.request.contextPath}/css/mainPage.css">
 </head>
 
+<body>
 <!-- 导航栏 -->
 <div id="navBar">
     <!-- 此处加载顶部导航栏 -->
@@ -141,7 +142,6 @@
                                                 <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
                                                name="pagecomponent/test.jsp">测试考勤数据</a>
                                         </li>
-
                                     </ul>
                                 </shiro:hasRole>
                                 <shiro:hasRole name="teacher">

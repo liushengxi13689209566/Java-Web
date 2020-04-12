@@ -16,12 +16,15 @@
         .table > thead > tr > th {
             text-align: center;
         }
+
+        .menu_item {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-
     <%--添加学生与整体导入学生信息的接口--%>
     <div class="row">
         <div class="col-md-4 column">
@@ -55,7 +58,9 @@
                         <td>${studentInfoShow.getClass_name()}</td>
                         <td>
                                 <%-- 没有权利去更改学生信息吧 --%>
-                            <a href="${pageContext.request.contextPath}/student/delOneStudentInCourse/?student_id=${studentInfoShow.getId()}&course_id=${requestScope.get('course_id')}">删除</a>
+                            <a class='menu_item'
+                               name="${pageContext.request.contextPath}/student/delOneStudentInCourse/?student_id=${studentInfoShow.getId()}&course_id=${requestScope.get('course_id')}"
+                               onclick="click_item(this)">删除</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -64,6 +69,22 @@
         </div>
     </div>
 </div>
-
 </body>
+
+<script>
+    $.ajax({
+        type: 'GET',
+        url: 'student/delOneStudentInCourse/?student_id=${studentInfoShow.getId()}&course_id=${requestScope.get('course_id')}',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response)
+            alert("删除成功")
+        },
+        error: function (response) {
+            console.log(response)
+        }
+    })
+</script>
+
 </html>

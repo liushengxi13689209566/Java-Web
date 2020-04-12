@@ -19,10 +19,8 @@ public class StudentController {
         System.out.println("course_id == " + course_id);
         System.out.println("student_id == " + student_id);
 
-
         courseStudentService.delOneStudentInCourse(course_id, student_id);
-        String ret = "redirect:/";
 
-        return ret;
+        return "StudentInfoShow";
     }
 }

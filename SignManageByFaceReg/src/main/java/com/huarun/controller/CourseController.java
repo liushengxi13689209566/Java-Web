@@ -132,6 +132,7 @@ public class CourseController {
         for (CourseStudent courseStudent : list) {
             System.out.println(courseStudent);
         }
+
         //构造返回的的结构数据
         List<StudentInfoShow> rows = new ArrayList<StudentInfoShow>();
         for (CourseStudent courseStudent : list) {
