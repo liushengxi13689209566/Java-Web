@@ -24,8 +24,7 @@
 
 <script>
 
-    var selectID;
-
+    //立即函数
     $(function () {
         courseListInit();
     })
@@ -76,12 +75,12 @@
                     {
                         field: 'course_start',
                         title: '起始时间',
-                        // visible: false
+                        formatter: timestampToTime
                     },
                     {
                         field: 'course_end',
                         title: '结束时间',
-                        // visible: false
+                        formatter: timestampToTime
                     },
                     {
                         field: 'operation',
@@ -99,8 +98,8 @@
                         events: {
                             'click .edit': function (e, value, row, index) {
                                 console.log("进入查看课程学生！！！")
-                                $('#courseList').bootstrapTable('destroy')
-                                selectID = row.course_id;
+                                // $('#courseList').bootstrapTable('destroy')
+                                // selectID = row.course_id;
                                 console.log("row.id == " + row.course_id)
 
                                 // ajax 请求设置服务端 course_id。实在是没办法了
@@ -109,10 +108,8 @@
                                 // var url = "course/getOneCourseAllStudent?course_id=" + selectID;
 
                                 var url = $(this).attr("name");
-
                                 console.log(url)
-
-                                // $('#panel').load(url, {'course_id': row.course_id});
+                                //重新绘制页面
                                 $('#panel').load(url, {
                                     'course_id': row.course_id
                                 });
@@ -136,98 +133,6 @@
             });
     }
 
-    function setSessionCourseID(course_id) {
-        // ajax
-        $.ajax({
-            type: "GET",
-            url: "course/setSessionCourseID?course_id=" + course_id,
-            dataType: "json",
-            contentType: "application/json",
-            // data: JSON.stringify(data),
-            success: function (response) {
-                if (response.status_code != 0) {
-                    type = "success";
-                    msg = "客户添加成功";
-                } else if (response.result == "error") {
-                    type = "error";
-                    msg = "客户添加失败";
-                }
-                // infoModal(type, msg);
-                // tableRefresh();
-            },
-            error: function (response) {
-            }
-        })
-    }
-
-    // 一门课学生列表表格
-    $('#oneCourseAllStudentList').bootstrapTable(
-        {
-            // url: 'course/getOneCourseAllStudent',
-            method: 'GET',
-            queryParams: getCourseID,
-            //必须有，不然就会渲染不出来
-            sidePagination: "server",
-            dataType: 'json',
-            // 分页选项
-            // pagination: true,
-            // pageNumber: 1,
-            // pageSize: 5,
-            // pageList: [5, 10, 25, 50, 100],
-            //单选选项
-            // clickToSelect: true
-            responseHandler: function (res) {
-                $.each(res.rows, function (row) {
-                    console.log(row)
-                    $.inArray(row)
-                })
-                return res;
-            },
-            columns: [
-                {
-                    field: 'id',
-                    title: '学号'
-                    //sortable: true
-                },
-                {
-                    field: 'name',
-                    title: '姓名'
-                },
-                {
-                    field: 'major_name',
-                    title: '专业'
-                },
-                {
-                    field: 'class_name',
-                    title: '班级'
-                },
-                {
-                    field: 'operation',
-                    title: '操作',
-                    formatter: function (value, row, index) {
-                        return [
-                            '<a href="javascript:void(0)" class="btn btn-info btn-sm edit" >查看课程学生</a>'
-                        ].join('')
-                    },
-                }],
-            events: {
-                'click .edit': function (e, value, row, index) {
-                    selectID = row.id;
-                },
-                // 操作列中编辑按钮的动作
-                // 'click .edit': function (e, value, row, index) {
-                //     selectID = row.id;
-                //     rowEditOperation(row);
-                // },
-                // 'click .delete': function (e, value, row, index) {
-                //     selectID = row.id;
-                //     $('#deleteWarning_modal').modal(
-                //         'show');
-                // }
-            }
-        });
-
-
     // 表格刷新
     function tableRefresh() {
         $('#courseList').bootstrapTable('refresh', {
@@ -235,13 +140,12 @@
         });
     }
 
-    function getCourseID(params) {
-        console.log("进入getCourseId函数")
-        var temp = {
-            course_id: selectID
-        }
-        console.log(temp)
-        return temp;
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        return Y + M + D;
     }
 </script>
 
@@ -316,53 +220,5 @@
     </div>
 </div>
 
-
-<script>
-    function timestampToTime(timestamp) {
-        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        var Y = date.getFullYear() + '-';
-        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-        var D = date.getDate() + ' ';
-        return Y + M + D;
-    }
-
-    <%--function click_item(e) {--%>
-    <%--    var url = $(e).attr('name');--%>
-    <%--    console.log(url)--%>
-    <%--    $('#panel').load(url);--%>
-    <%--}--%>
-
-    <%--$.ajax({--%>
-    <%--    type: 'GET',--%>
-    <%--    url: 'course/getMyTeaCourse',--%>
-    <%--    dataType: 'json',--%>
-    <%--    contentType: 'application/json',--%>
-    <%--    data: {--%>
-    <%--        // searchType: 'searchAll',--%>
-    <%--        // keyWord: '',--%>
-    <%--        // offset: -1,--%>
-    <%--        // limit: -1--%>
-    <%--    },--%>
-    <%--    success: function (response) {--%>
-    <%--        console.log(response)--%>
-    <%--        $.each(response.rows, function (index, elem) {--%>
-    <%--            console.log(elem)--%>
-    <%--            $('#course_table').append(--%>
-    <%--                "<tr><td>" + elem.course_id--%>
-    <%--                + "</td><td>" + elem.course_name--%>
-    <%--                + "</td><td>" + elem.course_times--%>
-    <%--                + "</td><td>" + elem.course_credit--%>
-    <%--                + "</td><td>" + timestampToTime(elem.course_start)--%>
-    <%--                + "</td><td>" + timestampToTime(elem.course_end)--%>
-    <%--                + "</td><td><a class='menu_item' name='${pageContext.request.contextPath}/course/getOneCourseAllStudent?course_id=" + elem.course_id + "' onclick='click_item(this)'>查看课程学生</a></td></tr>"--%>
-    <%--            );--%>
-    <%--        });--%>
-    <%--    },--%>
-    <%--    error: function (response) {--%>
-    <%--        // $('#course_table').append("<option value='-1'>加载失败</option>");--%>
-    <%--        $('#course_table').append("<tr><td>" + "加载失败" + "</td></tr>");--%>
-    <%--    }--%>
-    <%--})--%>
-</script>
 </body>
 </html>

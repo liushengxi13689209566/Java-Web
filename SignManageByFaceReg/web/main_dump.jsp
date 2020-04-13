@@ -1,17 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: tattoo
-  Date: 2020/3/27
-  Time: 2:47 下午
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <!--//{pageContext.request.contextPath}作用是取出部署应用程序的名字-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>实验课考勤管理系统</title>
+    <title>仓库管理系统</title>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
@@ -23,8 +18,8 @@
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/mainPage.css">
 </head>
-
 <body>
+
 <!-- 导航栏 -->
 <div id="navBar">
     <!-- 此处加载顶部导航栏 -->
@@ -33,10 +28,10 @@
         <div class="container-fluid">
             <!-- 导航栏标题 -->
             <div class="navbar-header">
-                <a href="javascript:void(0)" class="navbar-brand home">实验课考勤管理系统</a>
+                <a href="javascript:void(0)" class="navbar-brand home">仓库管理系统</a>
             </div>
 
-            <!-- 导航栏下拉菜单：注销登陆 -->
+            <!-- 导航栏下拉菜单；用户信息与注销登陆 -->
             <div>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -47,12 +42,10 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <%--                            <!-通过 session 获取的 name 的值-->--%>
-                            <%--                            <shiro:hasRole name="commonsAdmin">--%>
-                            <%--                                <li>--%>
-                            <%--                                    <a href="#" id="editInfo"> <span--%>
-                            <%--                                            class="glyphicon glyphicon-pencil"></span> &nbsp;&nbsp;修改个人信息</a></li>--%>
-                            <%--                            </shiro:hasRole>--%>
+                            <!-通过session获取的name的值-->
+                            <li>
+                                <a href="#" id="editInfo"> <span
+                                        class="glyphicon glyphicon-pencil"></span> &nbsp;&nbsp;修改个人信息</a></li>
                             <li>
                                 <a href="javascript:void(0)" id="signOut"> <span
                                         class="glyphicon glyphicon-off"></span> &nbsp;&nbsp;注销登录
@@ -72,17 +65,14 @@
         <div id="sideBar" class="col-md-2 col-sm-3">
             <!--  此处加载左侧导航栏 -->
             <!-- 左侧导航栏  -->
-            <!-- 依照 accordion 为 parent -->
+            <!--依照accordion为parent-->
             <div class="panel-group" id="accordion">
-                <%--1。个人信息管理--%>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <!--<a> 链接至 class 为 collapse1 的 div，即库存管理与出入库管理-->
+                            <!--<a>链接至class为collapse1的div，即库存管理与出入库管理-->
                             <a href="#collapse1" data-toggle="collapse" data-parent="#accordion"
-                            <%--class="parentMenuTitle collapseHead">库存管理</a>--%>
-                            <%--                                    个人信息管理每一种身份都需要--%>
-                               class="parentMenuTitle collapseHead">个人信息管理</a>
+                               class="parentMenuTitle collapseHead">库存管理</a>
                             <div class="pull-right">
                                 <span class="caret"></span>
                             </div>
@@ -92,118 +82,141 @@
                         <div class="panel-body">
                             <ul class="list-group">
                                 <!--若为普通管理员-->
-                                <%--                                <shiro:hasRole name="commonsAdmin">--%>
                                 <li class="list-group-item">
                                     <a href="javascript:void(0)" id="" class="menu_item"
-                                       name="pagecomponent/storageManagementCommon.jsp">修改密码</a>
+                                       name="pagecomponent/storageManagementCommon.jsp">库存查询</a>
                                 </li>
-                                <%--                                </shiro:hasRole>--%>
                                 <!--若为超级管理员-->
-                                <%--                                <shiro:hasRole name="systemAdmin">--%>
                                 <li class="list-group-item">
-                                    <a href="javascript:void(0)" class="menu_item"
-                                       name="pagecomponent/storageManagement.jsp">更新人脸照片</a>
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/storageManagement.jsp">库存查询</a>
                                 </li>
-                                <%-- <li class="list-group-item">--%>
-                                <%-- <a href="javascript:void(0)" id=""--%>
-                                <%--class="menu_item"--%>
-                                <%-- name="pagecomponent/stockRecordManagement.html">出入库记录</a>--%>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id=""
+                                       class="menu_item"
+                                       name="pagecomponent/stockRecordManagement.html">出入库记录</a>
                                 </li>
-                                <%--                                </shiro:hasRole>--%>
                             </ul>
                         </div>
                     </div>
                 </div>
-
-                <%--2。实验课考勤信息管理功能--%>
-                <shiro:hasAnyRoles name="student,teacher">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a href="#collapse2" data-toggle="collapse" data-parent="#accordion"
-                                   class="parentMenuTitle collapseHead">实验课考勤信息管理</a>
-                                <div class="pull-right">
-                                    <span class="caret"></span>
-                                </div>
-                            </h4>
-                        </div>
-                        <div id="collapse2" class="panel-collapse collapse collapseBody in">
-                            <div class="panel-body">
-                                <shiro:hasRole name="student">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <a href="javascript:void(0)" class="menu_item"
-                                                <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
-                                               name="pagecomponent/student-sign-case.jsp">实验课考勤信息查看</a>
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <a href="javascript:void(0)" class="menu_item"
-                                                <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
-                                               name="pagecomponent/test.jsp">测试考勤数据</a>
-                                        </li>
-                                    </ul>
-                                </shiro:hasRole>
-                                <shiro:hasRole name="teacher">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <a href="javascript:void(0)" class="menu_item"
-                                                <%-- name="pagecomponent/stock-outManagement.jsp">实验课考勤信息查看</a>--%>
-                                               name="pagecomponent/course-sign-case.jsp">实验课考勤信息查看</a>
-                                        </li>
-                                    </ul>
-                                </shiro:hasRole>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapse2" data-toggle="collapse" data-parent="#accordion"
+                               class="parentMenuTitle collapseHead">出入库管理</a>
+                            <div class="pull-right">
+                                <span class="caret"></span>
                             </div>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse collapseBody in">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/stock-inManagement.jsp">货物入库</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/stock-outManagement.jsp">货物出库</a>
+                                </li>
+                            </ul>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="#">货物入库</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="#">货物出库</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </shiro:hasAnyRoles>
-
-
-                <%--3。课程信息管理功能--%>
-                <shiro:hasAnyRoles name="teacher,admin">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a href="#collapse3" data-toggle="collapse" data-parent="#accordion"
-                                   class="parentMenuTitle collapseHead">课程信息管理</a>
-                                <div class="pull-right">
-                                    <span class="caret"></span>
-                                </div>
-                            </h4>
-                        </div>
-                        <div id="collapse3" class="panel-collapse collapse collapseBody">
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    <!--若为普通管理员-->
-                                    <shiro:hasRole name="teacher">
-                                        <li class="list-group-item">
-                                            <a href="javascript:void(0)" class="menu_item"
-                                               name="pagecomponent/courseStudentHandle.jsp">学生管理</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <a href="javascript:void(0)" class="menu_item"
-                                               name="pagecomponent/courseHandle.jsp">课程管理</a>
-                                        </li>
-                                    </shiro:hasRole>
-                                    <!--若为超级管理员-->
-                                        <%--                                <shiro:hasRole name="systemAdmin">--%>
-                                        <%--                                    <li class="list-group-item">--%>
-                                        <%--                                        <a href="javascript:void(0)" class="menu_item"--%>
-                                        <%--                                           name="pagecomponent/storageManagement.jsp">更新人脸照片</a>--%>
-                                        <%--                                    </li>--%>
-                                        <%-- <li class="list-group-item">--%>
-                                        <%-- <a href="javascript:void(0)" id=""--%>
-                                        <%--class="menu_item"--%>
-                                        <%-- name="pagecomponent/stockRecordManagement.html">出入库记录</a>--%>
-                                        <%--</li>--%>
-                                        <%--</shiro:hasRole>--%>
-                                </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapse3" data-toggle="collapse" data-parent="#accordion"
+                               class="parentMenuTitle collapseHead">人员管理</a>
+                            <div class="pull-right	">
+                                <span class="caret"></span>
                             </div>
+                        </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse collapseBody">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/repositoryAdminManagement.jsp">仓库管理员管理</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </shiro:hasAnyRoles>
-
-
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapse4" data-toggle="collapse" data-parent="#accordion"
+                               class="parentMenuTitle collapseHead">基础数据</a>
+                            <div class="pull-right	">
+                                <span class="caret"></span>
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse collapseBody">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/supplierManagement.jsp">供应商信息管理</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/customerManagement.jsp">客户信息管理</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/goodsManagement.jsp">货物信息管理</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/repositoryManagement.jsp">仓库信息管理</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapse5" data-toggle="collapse" data-parent="#accordion"
+                               class="parentMenuTitle collapseHead">系统维护</a>
+                            <div class="pull-right	"><span class="caret"></span></div>
+                        </h4>
+                    </div>
+                    <div id="collapse5" class="panel-collapse collapse collapseBody">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id="" class="menu_item"
+                                       name="pagecomponent/passwordModification.jsp">更改密码</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id=""
+                                       class="menu_item"
+                                       name="pagecomponent/userOperationRecorderManagement.html">系统日志</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" id=""
+                                       class="menu_item" name="pagecomponent/accessRecordManagement.html">登陆日志</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -212,29 +225,49 @@
             <!--  此处异步加载各个面板 -->
 
             <!-- 欢迎界面 -->
-            <div class="panel panel-default">
-                <!-- 面包屑 -->
-                <ol class="breadcrumb">
-                    <li>主页</li>
-                </ol>
-                <div class="panel-body">
-                    <div class="row" style="margin-top: 100px; margin-bottom: 100px">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10" style="text-align: center">
-                            <div class="col-md-4 col-sm-4">
-                                <a href="javascript:void(0)" class="thumbnail shortcut"> <img
-                                        src="media/icons/stock_search-512.png" alt="考勤信息查看"
-                                        class="img-rounded link" style="width: 150px; height: 150px;">
-                                    <div class="caption">
-                                        <h3 class="title">考勤信息查看</h3>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
-                </div>
-            </div>
+            <%--<div class="panel panel-default">--%>
+            <%--<!-- 面包屑 -->--%>
+            <%--<ol class="breadcrumb">--%>
+            <%--<li>主页</li>--%>
+            <%--</ol>--%>
+
+            <%--<div class="panel-body">--%>
+            <%--<div class="row" style="margin-top: 100px; margin-bottom: 100px">--%>
+            <%--<div class="col-md-1"></div>--%>
+            <%--<div class="col-md-10" style="text-align: center">--%>
+            <%--<div class="col-md-4 col-sm-4">--%>
+            <%--<a href="javascript:void(0)" class="thumbnail shortcut"> <img--%>
+            <%--src="media/icons/stock_search-512.png" alt="库存查询"--%>
+            <%--class="img-rounded link" style="width: 150px; height: 150px;">--%>
+            <%--<div class="caption">--%>
+            <%--<h3 class="title">库存查询</h3>--%>
+            <%--</div>--%>
+            <%--</a>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-4 col-sm-4">--%>
+            <%--<a href="javascript:void(0)" class="thumbnail shortcut"> <img--%>
+            <%--src="media/icons/stock_in-512.png" alt="货物入库"--%>
+            <%--class="img-rounded link" style="width: 150px; height: 150px;">--%>
+            <%--<div class="caption">--%>
+            <%--<h3 class="title">货物入库</h3>--%>
+            <%--</div>--%>
+            <%--</a>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-4 col-sm-4">--%>
+            <%--<a href="javascript:void(0)" class="thumbnail shortcut"> <img--%>
+            <%--src="media/icons/stock_out-512.png" alt="货物出库"--%>
+            <%--class="img-rounded link" style="width: 150px; height: 150px;">--%>
+            <%--<div class="caption">--%>
+            <%--<h3 class="title">货物出库</h3>--%>
+            <%--</div>--%>
+            <%--</a>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="col-md-1"></div>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+
             <!-- end -->
         </div>
     </div>

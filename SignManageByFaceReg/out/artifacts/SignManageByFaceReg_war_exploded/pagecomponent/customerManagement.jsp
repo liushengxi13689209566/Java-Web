@@ -494,7 +494,6 @@
         $('#info_content').text(msg);
         $('#info_modal').modal("show");
     }
-
 </script>
 <div class="panel panel-default">
     <ol class="breadcrumb">

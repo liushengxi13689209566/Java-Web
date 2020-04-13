@@ -86,20 +86,17 @@
 <%--        }--%>
 <%--    })--%>
 <%--</script>--%>
-    <%
-       String course_id = request.getParameter("course_id");
-       System.out.println(course_id);
-    %>
-
-
+<%--获取参数--%>
+<%
+    String course_id = request.getParameter("course_id");
+    System.out.println(course_id);
+%>
 <script>
-
+    // 使用参数
     var id = "<%=course_id%>";
     console.log("user == fvnjdfvjbfkjvbfkdvfbddkbkdbf")
     console.log("id == " + id)
-
 </script>
-
 
 <script>
 
@@ -114,6 +111,45 @@
         console.log(temp)
         return temp;
     }
+
+    // 表格刷新
+    function oneCourseAllStudentListTableRefresh() {
+        $('#oneCourseAllStudentList').bootstrapTable('refresh', {
+            query: {}
+        });
+    }
+
+    function deleteOnCourseOneStudent(student_id, course_id) {
+        var data = {
+            "student_id": student_id,
+            "course_id": course_id
+        }
+        // ajax
+        $.ajax({
+            type: "GET",
+            // 因为 @RequestParam无法处理json,创建实体类又太夸张
+            // 所以我们直接构造
+            url: "student/delOneStudentInCourse",
+            dataType: "json",
+            contentType: "application/json",
+            data: data,
+            success: function (response) {
+                // $('#deleteWarning_modal').modal("hide");
+                console.log(response)
+                if (response.status_code == 0) {
+                    // infoModal(type, msg);
+                    //减少后端请求，前端页面刷新即可
+                    $('#oneCourseAllStudentList').bootstrapTable('remove', {
+                        field: 'id',
+                        values: [student_id]
+                    });
+                    // oneCourseAllStudentListTableRefresh();
+                }
+            }, error: function (response) {
+            }
+        })
+    }
+
 
     // 一门课学生列表表格
     function OneCourseAllStudentListInit() {
@@ -162,27 +198,23 @@
                         title: '操作',
                         formatter: function (value, row, index) {
                             return [
-                                '<a href="javascript:void(0)" class="btn btn-info btn-sm edit" >查看课程学生</a>'
+                                '<button class="btn btn-danger btn-sm delete"><span>删除</span></button>'
                             ].join('')
                         },
+                        events: {
+                            'click .delete': function (e, value, row, index) {
+                                // selectID = row.id;
+                                if (confirm('确定删除 ? ') == false)
+                                    return false;
+
+                                console.log("确认删除了！！！")
+                                deleteOnCourseOneStudent(row.id, <%=course_id%>)
+                            }
+                        }
                     }],
-                events: {
-                    'click .edit': function (e, value, row, index) {
-                        selectID = row.id;
-                    },
-                    // 操作列中编辑按钮的动作
-                    // 'click .edit': function (e, value, row, index) {
-                    //     selectID = row.id;
-                    //     rowEditOperation(row);
-                    // },
-                    // 'click .delete': function (e, value, row, index) {
-                    //     selectID = row.id;
-                    //     $('#deleteWarning_modal').modal(
-                    //         'show');
-                    // }
-                }
-            });
+            })
     }
+
 
 </script>
 <div class="panel panel-default">
@@ -254,5 +286,43 @@
         </div>
     </div>
 </div>
+
+
+<!-- 删除提示模态框 -->
+<div class="modal fade" id="deleteWarning_modal" table-index="-1"
+     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">警告</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3" style="text-align: center;">
+                        <img src="media/icons/warning-icon.png" alt=""
+                             style="width: 70px; height: 70px; margin-top: 20px;">
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <h3>是否确认删除该条客户信息</h3>
+                        <p>(注意：若该客户已经有仓库出库记录，则该客户信息将不能删除成功。如需删除该客户的信息，请先删除该客户的出库记录)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <span>取消</span>
+                </button>
+                <button class="btn btn-danger" type="button" id="delete_confirm">
+                    <span>确认删除</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
 
 </html>
