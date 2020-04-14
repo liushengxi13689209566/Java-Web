@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huarun.OtherStructure.StudentInfoShow;
+import com.huarun.exception.CourseStudentServiceException;
 import com.huarun.pojo.*;
 import com.huarun.service.*;
 import com.huarun.utils.ResponseUtil;
@@ -12,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/course")
@@ -152,8 +156,40 @@ public class CourseController {
         ResponseUtil.write(response, result);
 //        return "/pagecomponent/StudentInfoShow.jsp";
     }
-//    @RequestMapping(value = "/getOneCourseAllStudent", method = RequestMethod.GET)
-//    public void setSessionCourseID()
 
+    @RequestMapping(value = "/importOneCourseStudents", method = RequestMethod.POST)
+    public void importOneCourseStudents(@RequestParam("file") MultipartFile file,
+                                        @RequestParam("course_id") int course_id,
+                                        HttpServletResponse response) throws Exception {
+        int status_code = 0;
+        String msg = "";
 
+        System.out.println("进入importOneCourseStudents");
+        
+        // 读取文件内容
+        int total = 0;
+        int available = 0;
+        if (file == null) {
+            status_code = StatusCode.FILE_NULL;
+            msg = "文件为空，失败！！";
+        }
+        Map<String, Object> importInfo = courseStudentService.importOneCourseStudents(file, course_id);
+        if (importInfo != null) {
+            total = (int) importInfo.get("total");
+            available = (int) importInfo.get("available");
+        }
+
+        //返回
+        JSONObject result = new JSONObject();
+
+        result.put("status_code", status_code);
+        result.put("msg", msg);
+        result.put("available", available);
+        result.put("total", total);
+
+        System.out.println("importOneCourseStudents result == " + result);
+
+        ResponseUtil.write(response, result);
+
+    }
 }

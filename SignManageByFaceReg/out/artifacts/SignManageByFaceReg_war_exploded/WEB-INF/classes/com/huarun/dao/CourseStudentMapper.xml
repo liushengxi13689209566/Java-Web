@@ -17,4 +17,12 @@
         delete from SignManage.course_student
         where course_id = #{course_id} and student_id = #{student_id}
     </delete>
+
+    <insert id="insertBatch">
+        insert into SignManage.course_student(student_id,course_id)
+        values
+        <foreach collection="list" item="stuID" separator="">
+            (#{stuID},#{course_id})
+        </foreach>
+    </insert>
 </mapper>

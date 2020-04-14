@@ -15,4 +15,7 @@ public class StatusCode {
     public static final int AUTHENTICATION_ERROR = 5;
     public static final int LOGOUT_ERROR = 6;
 
+    //导入功能
+    public static final int FILE_NULL = 7;
+
 }

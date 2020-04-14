@@ -27,5 +27,15 @@
     <context:component-scan base-package="com.huarun.controller"/>
     <!--    5.配置参数校验框架-->
     <mvc:annotation-driven/>
-    
+
+    <mvc:default-servlet-handler/>
+
+    <!-- 配置 MultipartResolver -->
+    <!--    springmvc项目想要上传文件，需要使用multipart方式，所以在spring-mvc.xml配置文件中需要增加multipart相关配置-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="4095000"/>
+    </bean>
+
 </beans>

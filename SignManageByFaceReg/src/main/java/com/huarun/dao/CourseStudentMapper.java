@@ -14,4 +14,8 @@ public interface CourseStudentMapper {
 
     //删除一门课中的一个学生
     int delOneStudentInCourse(@Param("course_id") int course_id, @Param("student_id") String student_id);
+
+    //批量导入一门课学生
+    void insertBatch(@Param("stuIDList") List<String> stuIDList, @Param("course_id") int course_id);
+
 }

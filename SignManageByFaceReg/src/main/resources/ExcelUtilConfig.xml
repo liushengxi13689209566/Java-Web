@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+    <entity class="String">
+        <property>
+            <field>id</field>
+            <value>学号</value>
+        </property>
+    </entity>
+</configuration>
