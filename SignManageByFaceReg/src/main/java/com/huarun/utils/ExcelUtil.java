@@ -20,6 +20,7 @@ import java.util.*;
 /**
  *
  */
+
 public class ExcelUtil {
 
     // 默认配置文件名
@@ -109,6 +110,7 @@ public class ExcelUtil {
         // 获取类名和映射信息
         String className = classType.getName();
         MappingInfo mappingInfo = excelMappingInfo.get(className);
+
         if (mappingInfo == null)
             return null;
 
@@ -131,6 +133,7 @@ public class ExcelUtil {
             while (cellIterator.hasNext()) {
                 cell = cellIterator.next();
                 field = mappingInfo.valuesMap.get(cell.getStringCellValue());
+
                 Class<?> fieldType = classType.getDeclaredField(field).getType();
 
                 fieldTypeList.add(cell.getColumnIndex(), fieldType);
@@ -141,7 +144,8 @@ public class ExcelUtil {
             while (rowIterator.hasNext()) {
                 row = rowIterator.next();
                 cellIterator = row.iterator();
-                Object elem = classType.newInstance();
+//                Object elem = classType.newInstance();
+                Object elem = classType.getDeclaredConstructor().newInstance();
 
                 // 读取单元格
                 while (cellIterator.hasNext()) {

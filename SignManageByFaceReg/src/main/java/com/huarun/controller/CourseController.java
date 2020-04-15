@@ -9,12 +9,14 @@ import com.huarun.pojo.*;
 import com.huarun.service.*;
 import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -158,14 +160,23 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/importOneCourseStudents", method = RequestMethod.POST)
-    public void importOneCourseStudents(@RequestParam("file") MultipartFile file,
-                                        @RequestParam("course_id") int course_id,
-                                        HttpServletResponse response) throws Exception {
+//    public void importOneCourseStudents(@RequestParam("file") MultipartFile file,
+//                                        @RequestParam("course_id") int course_id,
+//                                        HttpServletResponse response) throws Exception {
+    public void importOneCourseStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int status_code = 0;
         String msg = "";
 
         System.out.println("进入importOneCourseStudents");
-        
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("course_id"));
+        MultipartFile file = multipartRequest.getFile("file");
+
+        System.out.println(file.getOriginalFilename());
+
+        int course_id = Integer.parseInt(multipartRequest.getParameter("course_id"));
+
         // 读取文件内容
         int total = 0;
         int available = 0;
@@ -177,6 +188,8 @@ public class CourseController {
         if (importInfo != null) {
             total = (int) importInfo.get("total");
             available = (int) importInfo.get("available");
+            status_code = StatusCode.SUCCESS;
+            msg = "成功！！！";
         }
 
         //返回

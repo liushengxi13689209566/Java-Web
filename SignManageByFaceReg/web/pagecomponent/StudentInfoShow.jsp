@@ -54,7 +54,7 @@
     // 表格刷新
     function oneCourseAllStudentListTableRefresh() {
         $('#oneCourseAllStudentList').bootstrapTable('refresh', {
-            query: {}
+            query: {getCourseID}
         });
     }
 
@@ -139,19 +139,26 @@
             $('#confirm').removeClass("hide");
             $('#submit').addClass("hide");
 
-            var data = {
-                "course_id": <%=course_id%>
-            }
+            var fileObj = document.getElementById("import_file_upload"); // js 获取文件对象
+            console.log(fileObj)
 
-            // ajax
-            $.ajaxFileUpload({
-                //type 当要提交自定义参数时，这个参数要设置成 post
-                type: "POST",
+            //构建 FormData 对象
+            var formData = new FormData(document.getElementById("import_file_upload"));
+
+            // formData.append("file", fileObj);
+            formData.append("course_id", <%=course_id%>)
+
+            console.log(formData)
+
+            $.ajax({
                 url: "course/importOneCourseStudents",
-                secureuri: false,
-                dataType: 'json',
-                fileElementId: "file",
-                data: data,
+                type: "post",
+                data: formData,
+                async: true,
+                cache: false,
+                dataType: "json",
+                contentType: false,
+                processData: false,
                 success: function (data, status) {
                     var total = 0;
                     var available = 0;
@@ -160,7 +167,7 @@
                     var info;
 
                     $('#import_progress_bar').addClass("hide");
-                    if (data.result == "success") {
+                    if (data.status_code == 0) {
                         total = data.total;
                         available = data.available;
                         info = msg1;
@@ -181,6 +188,7 @@
         $('#confirm').click(function () {
             // modal dissmiss
             importModalReset();
+            oneCourseAllStudentListTableRefresh()
         })
     }
 
@@ -377,7 +385,9 @@
 									<span class="btn btn-info btn-file"> <span> <span
                                             class="glyphicon glyphicon-upload"></span> <span>上传文件</span>
 									</span>
-									<form id="import_file_upload"><input type="file" id="file" name="file"></form>
+									<form id="import_file_upload" enctype="multipart/form-data">
+                                        <input type="file" id="file" name="file">
+                                    </form>
 									</span>
                                 </div>
                             </div>

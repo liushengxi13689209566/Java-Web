@@ -4,6 +4,7 @@ import com.huarun.dao.CourseStudentMapper;
 import com.huarun.dao.StudentMapper;
 import com.huarun.exception.CourseStudentServiceException;
 import com.huarun.pojo.CourseStudent;
+import com.huarun.test.StuIDpojo;
 import com.huarun.utils.ExcelUtil;
 import org.apache.commons.lang.StringUtils;
 // mybatis 总的异常处理
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,8 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     @Autowired
     private StudentMapper studentMapper;
 
-    private ExcelUtil excelUtil;
+    //构造需要的 Excel 数据结构
+    private ExcelUtil excelUtil = new ExcelUtil();
 
     @Override
     public List<CourseStudent> queryMyCourseIDByUserID(String userID) {
@@ -42,47 +45,77 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     //这里需要处理一下excel中输入 04161173 会没有0的情况
-    private boolean customerCheck(String stu_id) {
-        boolean ret = StringUtils.isNumeric(stu_id);
+    private boolean customerCheck(StuIDpojo stuIDpojo1) {
+        boolean ret = StringUtils.isNumeric(stuIDpojo1.getId());
+        System.out.println("ret == " + ret);
+        System.out.println("stuIDpojo1.getId() == " + stuIDpojo1.getId());
+        System.out.println("length  == " + stuIDpojo1.getId().length());
+
         if (ret) {
-            if (stu_id.length() == 7) {
-                stu_id = '0' + stu_id;
+            if (stuIDpojo1.getId().length() == 7) {
+                stuIDpojo1.setId('0' + stuIDpojo1.getId());
             }
         }
         return ret;
     }
 
     @Override
-    public Map<String, Object> importOneCourseStudents(MultipartFile file, int course_id) throws CourseStudentServiceException {
+    public Map<String, Object> importOneCourseStudents(MultipartFile file, int course_id) throws CourseStudentServiceException, IOException {
         // 初始化结果集
         Map<String, Object> result = new HashMap<>();
         int total = 0;
         int available = 0;
+        System.out.println("进入importOneCourseStudents    SERVICE！！");
+
+//        Reader reader = null;
+//        reader = new InputStreamReader(file.getInputStream(), "utf-8");
+//        BufferedReader br = new BufferedReader(reader);
+//        String line;
+//        while ((line = br.readLine()) != null) {
+//            // 一次读入一行数据
+//            System.out.println(line);
+//        }
+//        reader.close();
+
 
         // 从 Excel 文件中读取
-        List<Object> studentsID = excelUtil.excelReader(String.class, file);
+        List<Object> studentsID = excelUtil.excelReader(StuIDpojo.class, file);
+
+        System.out.println("vbbfbvbfv");
+
+        StuIDpojo stuIDpojo;
+        for (Object str : studentsID) {
+            stuIDpojo = (StuIDpojo) str;
+            System.out.println("导入的ID是:" + stuIDpojo);
+        }
+
         if (studentsID != null) {
             total = studentsID.size();
 
             // 验证每一条记录
             try {
-                List<String> availableList = new ArrayList<>();
+                StuIDpojo stuIDpojo1;
+                List<StuIDpojo> availableList = new ArrayList<>();
                 for (Object object : studentsID) {
-                    String id = (String) object;
-                    if (customerCheck(id)) {
-                        if (studentMapper.getUserInfoByStuID(id) != null)
-                            availableList.add(id);
+                    stuIDpojo1 = (StuIDpojo) object;
+                    if (customerCheck(stuIDpojo1)) {
+                        System.out.println("stuIDpojo1 == " + stuIDpojo1);
+                        if (studentMapper.getUserInfoByStuID(stuIDpojo1.getId()) != null) {
+                            availableList.add(stuIDpojo1);
+                        }
                     }
                 }
-
-                for (String str : availableList) {
-                    System.out.println("导入的ID是:" + str);
+                for (StuIDpojo tt : availableList) {
+                    System.out.println("导入的有效的ID是:" + tt);
                 }
 
                 // 保存到数据库
                 available = availableList.size();
                 if (available > 0) {
-                    courseStudentMapper.insertBatch(availableList, course_id);
+                    Map params = new HashMap();
+                    params.put("availableList", availableList);
+                    params.put("course_id", course_id);
+                    courseStudentMapper.insertBatch(params);
                 }
             } catch (PersistenceException e) {
                 throw new CourseStudentServiceException(e);

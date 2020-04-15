@@ -21,8 +21,8 @@
     <insert id="insertBatch">
         insert into SignManage.course_student(student_id,course_id)
         values
-        <foreach collection="list" item="stuID" separator="">
-            (#{stuID},#{course_id})
+        <foreach collection="params.availableList" item="stuIDpojo" separator=",">
+            (#{stuIDpojo.id},#{params.course_id})
         </foreach>
     </insert>
 </mapper>
