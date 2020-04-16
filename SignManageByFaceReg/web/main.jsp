@@ -47,12 +47,6 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <%--                            <!-通过 session 获取的 name 的值-->--%>
-                            <%--                            <shiro:hasRole name="commonsAdmin">--%>
-                            <%--                                <li>--%>
-                            <%--                                    <a href="#" id="editInfo"> <span--%>
-                            <%--                                            class="glyphicon glyphicon-pencil"></span> &nbsp;&nbsp;修改个人信息</a></li>--%>
-                            <%--                            </shiro:hasRole>--%>
                             <li>
                                 <a href="javascript:void(0)" id="signOut"> <span
                                         class="glyphicon glyphicon-off"></span> &nbsp;&nbsp;注销登录
@@ -175,7 +169,6 @@
                         <div id="collapse3" class="panel-collapse collapse collapseBody">
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <!--若为普通管理员-->
                                     <shiro:hasRole name="teacher">
                                         <li class="list-group-item">
                                             <a href="javascript:void(0)" class="menu_item"
@@ -204,6 +197,30 @@
                     </div>
                 </shiro:hasAnyRoles>
 
+                <%--4。学生信息管理功能 专属于管理员--%>
+                <shiro:hasRole name="admin">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse4" data-toggle="collapse" data-parent="#accordion"
+                                   class="parentMenuTitle collapseHead">学生信息管理</a>
+                                <div class="pull-right">
+                                    <span class="caret"></span>
+                                </div>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse collapseBody">
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" class="menu_item"
+                                           name="pagecomponent/SystemStudentInfoManage.jsp">系统学生信息管理</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </shiro:hasRole>
 
             </div>
         </div>

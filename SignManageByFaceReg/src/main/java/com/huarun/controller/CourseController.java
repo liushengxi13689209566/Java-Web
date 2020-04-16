@@ -34,12 +34,6 @@ public class CourseController {
     private CourseStudentService courseStudentService;
     @Autowired
     private CourseTeacherService courseTeacherService;
-    @Autowired
-    private MajorService majorService;
-    @Autowired
-    private ClassService classService;
-    @Autowired
-    private StudentService studentService;
 
     @RequestMapping(value = "/getMyCourse", method = RequestMethod.GET)
     public void getMyCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -128,35 +122,6 @@ public class CourseController {
 
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
-    }
-
-    @RequestMapping(value = "/getOneCourseAllStudent", method = RequestMethod.GET)
-    public void getOneCourseAllStudent(int course_id, HttpServletResponse response) throws Exception {
-        List<CourseStudent> list = courseStudentService.queryOneCourseAllStudent(course_id);
-
-        for (CourseStudent courseStudent : list) {
-            System.out.println(courseStudent);
-        }
-
-        //构造返回的的结构数据
-        List<StudentInfoShow> rows = new ArrayList<StudentInfoShow>();
-        for (CourseStudent courseStudent : list) {
-            StudentInfo studentInfo = studentService.getStudentInfoByStuID(courseStudent.getStudent_id());
-            ClassInfo classInfo = classService.getClassInfoByClassID(studentInfo.getClass_id());
-            MajorInfo majorInfo = majorService.getMajorInfoByID(classInfo.getMajor_id());
-
-            rows.add(new StudentInfoShow(studentInfo, classInfo, majorInfo));
-        }
-        JSONObject result = new JSONObject();
-        JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
-
-        result.put("rows", array);
-        result.put("status_code", StatusCode.SUCCESS);
-        result.put("msg", "成功");
-
-        System.out.println("result == " + result);
-        ResponseUtil.write(response, result);
-//        return "/pagecomponent/StudentInfoShow.jsp";
     }
 
     @RequestMapping(value = "/importOneCourseStudents", method = RequestMethod.POST)

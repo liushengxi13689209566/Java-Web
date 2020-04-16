@@ -240,7 +240,7 @@
     function OneCourseAllStudentListInit() {
         $('#oneCourseAllStudentList').bootstrapTable(
             {
-                url: 'course/getOneCourseAllStudent',
+                url: 'student/getOneCourseAllStudent',
                 method: 'GET',
                 queryParams: getCourseID,
                 //必须有，不然就会渲染不出来

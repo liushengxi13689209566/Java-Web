@@ -105,13 +105,11 @@
                             },
                             events: {
                                 // 操作列中编辑按钮的动作
-                                'click .edit': function (e, value,
-                                                         row, index) {
+                                'click .edit': function (e, value, row, index) {
                                     selectID = row.id;
                                     rowEditOperation(row);
                                 },
-                                'click .delete': function (e,
-                                                           value, row, index) {
+                                'click .delete': function (e, value, row, index) {
                                     selectID = row.id;
                                     $('#deleteWarning_modal').modal(
                                         'show');
