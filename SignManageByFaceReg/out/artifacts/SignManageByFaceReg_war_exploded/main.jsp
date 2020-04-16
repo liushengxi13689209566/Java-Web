@@ -20,6 +20,8 @@
           href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/jquery-ui.css">
+<%--    <link rel="stylesheet" type="text/css"--%>
+    <%--          href="${pageContext.request.contextPath}/css/bootstrap-select.min.css">--%>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/mainPage.css">
 </head>
@@ -216,6 +218,10 @@
                                         <a href="javascript:void(0)" class="menu_item"
                                            name="pagecomponent/SystemStudentInfoManage.jsp">系统学生信息管理</a>
                                     </li>
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" class="menu_item"
+                                           name="pagecomponent/test.jsp">测试二级联动</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -277,10 +283,10 @@
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/js/mainPage.js"></script>
 <script type="text/javascript"
-        src="${pageContext.request.contextPath}/js/ajaxfileupload.js"></script>
-<script type="text/javascript"
         src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<%--<script type="text/javascript"--%>
+<%--        src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>--%>
 </body>
 </html>

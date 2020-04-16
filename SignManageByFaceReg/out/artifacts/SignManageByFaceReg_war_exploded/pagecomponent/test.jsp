@@ -11,220 +11,136 @@
 <head>
     <title>实验课考勤信息查看</title>
 </head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
 <body>
 
-<link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
-
-<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table-locale-all.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
-
-<style>
-    .select,
-    #locale {
-        width: 100%;
-    }
-
-    .like {
-        margin-right: 10px;
-    }
-</style>
-
-<div id="toolbar">
-    <button id="remove" class="btn btn-danger" disabled>
-        <i class="glyphicon glyphicon-remove"></i> Delete
-    </button>
+<div>
+    <select class="selectpicker">
+        <option>Mustard</option>
+        <option>Ketchup</option>
+        <option>Barbecue</option>
+    </select>
 </div>
-<table
-        id="table"
-        data-toolbar="#toolbar"
-        data-search="true"
-        data-show-refresh="true"
-        data-show-toggle="true"
-        data-show-fullscreen="true"
-        data-show-columns="true"
-        data-show-columns-toggle-all="true"
-        data-detail-view="true"
-        data-show-export="true"
-        data-click-to-select="true"
-        data-detail-formatter="detailFormatter"
-        data-minimum-count-columns="2"
-        data-show-pagination-switch="true"
-        data-pagination="true"
-        data-id-field="id"
-        data-page-list="[10, 25, 50, 100, all]"
-        data-show-footer="true"
-        data-side-pagination="server"
-        data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"
-        data-response-handler="responseHandler">
-</table>
 
-<script>
-    var $table = $('#table')
-    var $remove = $('#remove')
-    var selections = []
+<div class="panel panel-default">
+    <ol class="breadcrumb">
+        <li>系统学生信息管理</li>
+    </ol>
+    <div class="panel-body">
 
-    function getIdSelections() {
-        return $.map($table.bootstrapTable('getSelections'), function (row) {
-            return row.id
-        })
-    }
+        <select id="select" class="sel">
+            <option value="weiguo">魏国</option>
+            <option value="shuguo">蜀国</option>
+            <option value="wuguo">吴国</option>
+        </select>
 
-    function responseHandler(res) {
-        $.each(res.rows, function (i, row) {
-            row.state = $.inArray(row.id, selections) !== -1
-        })
-        return res
-    }
+        <select id="val" class="sel"></select>　
 
-    function detailFormatter(index, row) {
-        var html = []
-        $.each(row, function (key, value) {
-            html.push('<p><b>' + key + ':</b> ' + value + '</p>')
-        })
-        return html.join('')
-    }
+    </div>
+</div>
 
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="like" href="javascript:void(0)" title="Like">',
-            '<i class="fa fa-heart"></i>',
-            '</a>  ',
-            '<a class="remove" href="javascript:void(0)" title="Remove">',
-            '<i class="fa fa-trash"></i>',
-            '</a>'
-        ].join('')
-    }
 
-    window.operateEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like action, row: ' + JSON.stringify(row))
-        },
-        'click .remove': function (e, value, row, index) {
-            $table.bootstrapTable('remove', {
-                field: 'id',
-                values: [row.id]
-            })
+  <select id="YiJi" onChange="move()">
+
+                <!-- 根据id来获取value，onChange()事件触发move()修改二级select的text值来实现联动 -->
+
+                <option selected value="YiJi">-- 请选择 --</option>
+
+                <!--默认选中-->
+
+                <option value="San">3</option>
+
+                <option value="Si">4</option>
+
+                <option value="Wu">5</option>
+
+            </select>
+
+        <select id="ErJi">
+
+                <option selected>-- 请选择 --</option>
+
+            </select>
+
+    <script>
+
+    function move() {
+
+        var YiJi = document.getElementById("YiJi");
+
+        var ErJi = document.getElementById("ErJi");
+
+        //获取一级和二级的属性
+
+        var add;
+
+        if (YiJi.value == "San") {
+
+            add = new Array("1", "2", "3"); //对比value值，实现对应二级text值的动态生成
+
+        } else if (YiJi.value == "Si") {
+
+            add = new Array("1", "2", "3", "4");
+
+        } else if (YiJi.value == "Wu") {
+
+            add = new Array("1", "2", "3", "4", "5");
+
+        } else if (YiJi.value == "YiJi") {
+
+            add = new Array("请选择");
+
         }
+
+        else {
+
+            add = null; //如果没有的话就为空,在这里是不存在这种情况，不过你也可以自己设置出来；
+
+        }
+
+        ErJi.length = 0;
+
+        for (var i = 0; i < add.length; i++) {
+
+            var aaa = new Option();
+
+            aaa.text = add[i].split()[0];
+
+            ErJi.add(aaa);
+
+            //把text值添加到二级select中，显示出来
+
+        }
+
     }
 
-    function totalTextFormatter(data) {
-        return 'Total'
-    }
-
-    function totalNameFormatter(data) {
-        return data.length
-    }
-
-    function totalPriceFormatter(data) {
-        var field = this.field
-        return '$' + data.map(function (row) {
-            return +row[field].substring(1)
-        }).reduce(function (sum, i) {
-            return sum + i
-        }, 0)
-    }
-
-    function initTable() {
-        $table.bootstrapTable('destroy').bootstrapTable({
-            height: 550,
-            locale: $('#locale').val(),
-            columns: [
-                [{
-                    field: 'state',
-                    checkbox: true,
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    title: 'Item ID',
-                    field: 'id',
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: totalTextFormatter
-                }, {
-                    title: 'Item Detail',
-                    colspan: 3,
-                    align: 'center'
-                }],
-                [{
-                    field: 'name',
-                    title: 'Item Name',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'price',
-                    title: 'Item Price',
-                    sortable: true,
-                    align: 'center',
-                    footerFormatter: totalPriceFormatter
-                }, {
-                    field: 'operate',
-                    title: 'Item Operate',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: operateFormatter
-                }]
-            ]
-        })
-        $table.on('check.bs.table uncheck.bs.table ' +
-            'check-all.bs.table uncheck-all.bs.table',
-            function () {
-                $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
-
-                // save your data, here just save the current page
-                selections = getIdSelections()
-                // push or splice the selections if you want to save all data selections
-            })
-        $table.on('all.bs.table', function (e, name, args) {
-            console.log(name, args)
-        })
-        $remove.click(function () {
-            var ids = getIdSelections()
-            $table.bootstrapTable('remove', {
-                field: 'id',
-                values: ids
-            })
-            $remove.prop('disabled', true)
-        })
-    }
-
-    $(function () {
-        initTable()
-
-        $('#locale').change(initTable)
-    })
 </script>
 
-<div class="container" style="float: left;width:500px;height: 341px">
-
-    <div id="toolbar">
-        <button id="remove" class="btn btn-danger" disabled=""><i class="glyphicon glyphicon-remove"></i> Delete
-        </button>
-    </div>
-    <table id="table" data-toolbar="#toolbar" data-search="true"
-           data-detail-formatter="detailFormatter" data-minimum-count-columns="2" data-show-pagination-switch="true"
-           data-pagination="true" data-id-field="id" data-page-list="[10, 25, 50, 100, ALL]" data-show-footer="false"
-           data-side-pagination="server" data-url="./system/Dealer_obtainMachAndName"
-           data-response-handler="responseHandler">
-    </table>
-</div>
-
-<!-- 右边联动部分 -->
-<div class="container" style="float: left;width:500px">
-    <table id="tablelink" data-toolbar="#toolbar"
-           data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
-           data-pagination="true" data-id-field="id" data-page-list="[10, 25, 50, 100, ALL]" data-show-footer="false"
-           data-side-pagination="server" data-url="./system/Dealer_obtainAIllerMes"
-           data-response-handler="responseHandler"
-           data-query-params="getPatientId"
-    </table>
-</div>
+<script type="text/javascript">
+    var select = document.getElementById("select");
+    select.onchange = function () {
+        var selvalue = select.value;
+        var val = document.getElementById("val");
+        switch (selvalue) {
+            case "weiguo" :
+                val.innerHTML = "<option>荀彧</option><option>曹操</option>";
+                break;
+            case "shuguo" :
+                val.innerHTML = "<option>刘备</option><option>诸葛亮</option>";
+                break;
+            case "wuguo" :
+                val.innerHTML = "<option>孙权</option><option>周瑜</option>";
+                break;
+            default :
+                alert("erro");
+        }
+    };
+</script>
 
 </body>
 </html>
