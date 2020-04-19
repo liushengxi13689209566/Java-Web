@@ -42,9 +42,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean addOneStudent(StudentDO studentDO) throws StudentServiceException {
+    public void addOneStudent(StudentDO studentDO) throws StudentServiceException {
         try {
-            return studentMapper.addOneStudent(studentDO);
+
+            System.out.println("studentDO == " + studentDO);
+            studentMapper.addOneStudent(studentDO);
         } catch (PersistenceException e) {
             throw new StudentServiceException(e);
         }

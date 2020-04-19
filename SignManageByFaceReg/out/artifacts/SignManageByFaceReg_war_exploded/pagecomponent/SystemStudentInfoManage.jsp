@@ -165,13 +165,9 @@
         });
         $('#add_modal_submit').click(function () {
             console.log("点击了提交按钮了")
-            var fileObj = document.getElementById("student_form"); // js 获取form对象
-            console.log(fileObj)
-
             //构建 FormData 对象
             var formData = new FormData(document.getElementById("student_form"));
             console.log(formData)
-
             // ajax
             $.ajax({
                 url: "student/addOneStudent",
@@ -189,7 +185,6 @@
                     } else {
                         alert("sorry! 学生添加失败");
                     }
-
                     studentsListTableRefresh();
                     // reset
                     $('#student_name').val("");

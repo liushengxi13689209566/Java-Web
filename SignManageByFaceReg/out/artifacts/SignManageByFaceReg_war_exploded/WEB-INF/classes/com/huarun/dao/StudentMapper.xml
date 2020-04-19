@@ -4,6 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.huarun.dao.StudentMapper">
+
+    <!--    <resultMap id="studentDO" type="com.huarun.pojo.StudentDO">-->
+    <!--        <id column="pri_id" property="pri_id"/>-->
+    <!--        <result column="id" property="id"/>-->
+    <!--        <result column="name" property="name"/>-->
+    <!--        <result column="password" property="password"/>-->
+    <!--        <result column="major_id" property="major_id"/>-->
+    <!--        <result column="class_id" property="class_id"/>-->
+    <!--        <result column="identity_card" property="identity_card"/>-->
+    <!--        <result column="sex" property="sex"/>-->
+    <!--    </resultMap>-->
+
     <select id="getUserInfoByStuID" resultType="UserInfo">
         select pri_id,id,name,password from SignManage.student where id = #{userID}
     </select>
@@ -20,10 +32,11 @@
         select  max(id) from SignManage.student
     </select>
 
-    <select id="addOneStudent" resultType="boolean" parameterType="StudentDO">
-        INSERT INTO student(id,name,password,major_id,class_id,identity_card,sex)
-        VALUES ((SELECT MAX(id) FROM student temp) + 1, #{name} ,#{password},
-                #{major_id}, #{class_id},#{identity_card},#{sex});
+    <select id="addOneStudent">
+        INSERT INTO SignManage.student(id,name,password,major_id,class_id,identity_card,sex)
+        VALUES (#{studentDO.id}, #{studentDO.name} ,#{studentDO.password},
+                #{studentDO.major_id}, #{studentDO.class_id},
+                #{studentDO.identity_card},#{studentDO.sex});
     </select>
 
 </mapper>

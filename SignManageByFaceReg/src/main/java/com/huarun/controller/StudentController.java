@@ -135,52 +135,65 @@ public class StudentController {
         System.out.println("进入addOneStudent-------------" + multipartRequest.getParameter("student_id_card"));
 
 
-//        //所有数据的校验由前端之后来做
-//        String name = multipartRequest.getParameter("student_name");
-//        int major_id = Integer.parseInt(multipartRequest.getParameter("major_id"));
-//        int class_id = Integer.parseInt(multipartRequest.getParameter("class_id"));
-//        String sex = multipartRequest.getParameter("student_sex");
-//        String ID_card = multipartRequest.getParameter("student_id_card");
-//
-//
+        //所有数据的校验由前端之后来做
+        String name = multipartRequest.getParameter("student_name");
+        int major_id = Integer.parseInt(multipartRequest.getParameter("major_id"));
+        int class_id = Integer.parseInt(multipartRequest.getParameter("class_id"));
+        String sex = multipartRequest.getParameter("student_sex");
+        String ID_card = multipartRequest.getParameter("student_id_card");
+
+
         MultipartFile file = multipartRequest.getFile("student_picture");
         System.out.println("student_picture === " + file.getOriginalFilename());
-//
-//        //人脸检测图片（质量-》人脸-）
-//        Picture image = new Picture(Base64Util.encode(file.getBytes()), "BASE64");
-//        //证件照，不进行活体检测
-//        Map<String, Object> ret = FaceRegObject.faceDetect(image, false, FacePictureType.CERT);
-//        if ((int) ret.get("status_code") != StatusCode.SUCCESS) {
-//            result.put("status_code", ret.get("status_code"));
-//            result.put("msg", ret.get("msg"));
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-//        //人脸注册
-//        //为学生先生成 id
-//        FaceAddUserInfo faceAddUserInfo = new FaceAddUserInfo(
-//                studentService.getMaxStuID(),
-//                name,
-//                major_id,
-//                majorService.getMajorInfoByID(major_id).getMajor_name(),
-//                class_id,
-//                classService.getClassInfoByClassID(class_id).getClass_name()
-//        );
-//        ret = FaceRegObject.faceAdd(image, faceAddUserInfo);
-//        if ((int) ret.get("status_code") != StatusCode.SUCCESS) {
-//            result.put("status_code", ret.get("status_code"));
-//            result.put("msg", ret.get("msg"));
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-//        //数据库保存学生信息
-//        StudentDO studentDO = new StudentDO(0, "",
-//                name, ID_card.substring(ID_card.length() - 6),
-//                major_id,
-//                class_id,
-//                ID_card,
-//                sex);
-//        studentService.addOneStudent(studentDO);
+
+        //人脸检测图片（质量-》人脸-）
+        Picture image = new Picture(Base64Util.encode(file.getBytes()), "BASE64");
+        //证件照，不进行活体检测
+        Map<String, Object> ret = FaceRegObject.faceDetect(image, false, FacePictureType.CERT);
+
+        System.out.println("status_code == " + ret.get("status_code"));
+        System.out.println("msg == " + ret.get("msg"));
+
+        if ((int) ret.get("status_code") != StatusCode.SUCCESS) {
+            result.put("status_code", ret.get("status_code"));
+            result.put("msg", ret.get("msg"));
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        //人脸注册
+        //为学生先生成 id
+        FaceAddUserInfo faceAddUserInfo = new FaceAddUserInfo(
+                studentService.getMaxStuID(),
+                name,
+                major_id,
+                majorService.getMajorInfoByID(major_id).getMajor_name(),
+                class_id,
+                classService.getClassInfoByClassID(class_id).getClass_name()
+        );
+        ret = FaceRegObject.faceAdd(image, faceAddUserInfo);
+        System.out.println("status_code == " + ret.get("status_code"));
+        System.out.println("msg == " + ret.get("msg"));
+
+
+        if ((int) ret.get("status_code") != StatusCode.SUCCESS) {
+            result.put("status_code", ret.get("status_code"));
+            result.put("msg", ret.get("msg"));
+            ResponseUtil.write(response, result);
+            return;
+        }
+        //数据库保存学生信息
+        StudentDO studentDO = new StudentDO(
+                0,
+                "0" + Integer.parseInt(studentService.getMaxStuID().substring(1)) + 1,
+                name,
+                ID_card.substring(ID_card.length() - 6),
+                major_id,
+                class_id,
+                ID_card,
+                sex);
+        studentService.addOneStudent(studentDO);
+
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "添加成功");
         System.out.println("result == " + result);

@@ -21,5 +21,5 @@ public interface StudentMapper {
     String getMaxStuID();
 
     //添加一个学生，密码默认为：身份证号后六位
-    boolean addOneStudent(@Param("studentDO") StudentDO studentDO);
+    void addOneStudent(@Param("studentDO") StudentDO studentDO);
 }
