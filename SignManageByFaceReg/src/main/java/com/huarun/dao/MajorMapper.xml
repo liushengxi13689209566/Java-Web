@@ -4,9 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.huarun.dao.MajorMapper">
-    <select id="getMajorInfoByID" resultType="MajorInfo">
+    <select id="getMajorInfoByID" resultType="MajorDO">
         select * from SignManage.major where
         major_id =  #{major_id}
     </select>
 
+    <select id="getAllMajor" resultType="MajorDO">
+        select * from SignManage.major
+    </select>
 </mapper>

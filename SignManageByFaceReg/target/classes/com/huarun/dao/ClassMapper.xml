@@ -5,8 +5,11 @@
 
 <mapper namespace="com.huarun.dao.ClassMapper">
 
-    <select id="getClassInfoByClassID" resultType="ClassInfo">
+    <select id="getClassInfoByClassID" resultType="ClassDO">
         select * from SignManage.class where class_id = #{class_id}
     </select>
 
+    <select id="getAllMajor" resultType="ClassDO">
+        select * from SignManage.class
+    </select>
 </mapper>

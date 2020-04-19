@@ -6,7 +6,7 @@ public class StatusCode {
 
     public static final int SUCCESS = 0;
 
-    public static final int NO_FACE = 1;
+    public static final int FACE_COUNT_NOT_ONE = 1;
     public static final int NO_SEARCH_RESULT = 2;
 
     //登录验证,退出
@@ -15,7 +15,12 @@ public class StatusCode {
     public static final int AUTHENTICATION_ERROR = 5;
     public static final int LOGOUT_ERROR = 6;
 
-    //导入功能
+
     public static final int FILE_NULL = 7;
+    public static final int FACE_NOT_CLEAR = 8;
+    public static final int FACE_OVERFLOW = 9;
+    public static final int FACE_SHELTER = 10;
+    public static final int AGE_OVER = 10;
+
 
 }

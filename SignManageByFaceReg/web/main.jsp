@@ -20,8 +20,6 @@
           href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/jquery-ui.css">
-<%--    <link rel="stylesheet" type="text/css"--%>
-    <%--          href="${pageContext.request.contextPath}/css/bootstrap-select.min.css">--%>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/mainPage.css">
 </head>
@@ -286,7 +284,5 @@
         src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.zh-CN.js"></script>
-<%--<script type="text/javascript"--%>
-<%--        src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>--%>
 </body>
 </html>

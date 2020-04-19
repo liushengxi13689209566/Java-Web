@@ -3,7 +3,6 @@ package com.huarun.service;
 import com.huarun.dao.AdminMapper;
 import com.huarun.dao.StudentMapper;
 import com.huarun.dao.TeacherMapper;
-import com.huarun.pojo.StudentInfo;
 import com.huarun.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

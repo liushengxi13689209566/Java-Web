@@ -2,18 +2,18 @@ package com.huarun.pojo;
 
 import java.io.Serializable;
 
-public class ClassInfo implements Serializable {
+public class ClassDO implements Serializable {
     private int class_id;
     private String class_name;
-    private int major_id;
+    private int class_desc;
 
-    public ClassInfo(int class_id, String class_name, int major_id) {
+    public ClassDO(int class_id, String class_name, int class_desc) {
         this.class_id = class_id;
         this.class_name = class_name;
-        this.major_id = major_id;
+        this.class_desc = class_desc;
     }
 
-    public ClassInfo() {
+    public ClassDO() {
     }
 
     public int getClass_id() {
@@ -32,20 +32,20 @@ public class ClassInfo implements Serializable {
         this.class_name = class_name;
     }
 
-    public int getMajor_id() {
-        return major_id;
+    public int getClass_desc() {
+        return class_desc;
     }
 
-    public void setMajor_id(int major_id) {
-        this.major_id = major_id;
+    public void setClass_desc(int class_desc) {
+        this.class_desc = class_desc;
     }
 
     @Override
     public String toString() {
-        return "ClassInfo{" +
+        return "ClassDO{" +
                 "class_id=" + class_id +
                 ", class_name='" + class_name + '\'' +
-                ", major_id=" + major_id +
+                ", class_desc=" + class_desc +
                 '}';
     }
 }

@@ -31,7 +31,7 @@ public class FaceDetect {
 
             Map<String, Object> map = new HashMap<>();
             map.put("image", image);
-            map.put("face_field", "faceshape,facetype,age,beauty,gender"); //所需要获取的人脸信息
+            map.put("face_field", "faceshape,facetype,age,beauty,gender,quality"); //所需要获取的人脸信息
             map.put("image_type", "BASE64");
 
             String param = GsonUtils.toJson(map);
@@ -53,3 +53,62 @@ public class FaceDetect {
         FaceDetect.faceDetect();
     }
 }
+/*
+{
+    "error_code":0,
+    "error_msg":"SUCCESS",
+    "log_id":1555201354589,
+    "timestamp":1587207424,
+    "cached":0,
+    "result":{
+        "face_num":1,
+        "face_list":[
+            {
+                "face_token":"3982e82fcb1263f98ee4dc68532c7b35",
+                "location":{
+                    "left":161.19,
+                    "top":166.42,
+                    "width":249,
+                    "height":232,
+                    "rotation":0
+                },
+                "face_probability":1,
+                "angle":{
+                    "yaw":-6.52,
+                    "pitch":19.74,
+                    "roll":-2.49
+                },
+                "face_shape":{
+                    "type":"heart",
+                    "probability":0.51
+                },
+                "face_type":{
+                    "type":"human",
+                    "probability":1
+                },
+                "age":22,
+                "beauty":79.84,
+                "gender":{
+                    "type":"female",
+                    "probability":1
+                },
+                "quality":{
+                    "occlusion":{
+                        "left_eye":0,
+                        "right_eye":0,
+                        "nose":0,
+                        "mouth":0,
+                        "left_cheek":0.02,
+                        "right_cheek":0.01,
+                        "chin_contour":0
+                    },
+                    "blur":0,
+                    "illumination":167,
+                    "completeness":1
+                }
+            }
+        ]
+    }
+}
+
+* */

@@ -1,8 +1,8 @@
 package com.huarun.OtherStructure;
 
-import com.huarun.pojo.ClassInfo;
-import com.huarun.pojo.MajorInfo;
-import com.huarun.pojo.StudentInfo;
+import com.huarun.pojo.ClassDO;
+import com.huarun.pojo.MajorDO;
+import com.huarun.pojo.StudentDO;
 
 import java.io.Serializable;
 
@@ -12,11 +12,11 @@ public class StudentInfoShow implements Serializable {
     private String major_name;
     private String class_name;
 
-    public StudentInfoShow(StudentInfo studentInfo, ClassInfo classInfo, MajorInfo majorInfo) {
-        this.id = studentInfo.getId();
-        this.name = studentInfo.getName();
-        this.major_name = majorInfo.getMajor_name();
-        this.class_name = classInfo.getClass_name();
+    public StudentInfoShow(StudentDO studentDO, ClassDO classDO, MajorDO majorDO) {
+        this.id = studentDO.getId();
+        this.name = studentDO.getName();
+        this.major_name = majorDO.getMajor_name();
+        this.class_name = classDO.getClass_name();
     }
 
     public StudentInfoShow(String id, String name, String major_name, String class_name) {

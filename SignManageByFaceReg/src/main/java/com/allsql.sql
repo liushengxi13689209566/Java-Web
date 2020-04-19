@@ -1,3 +1,21 @@
+# 创建 URL 权限表 anon,authc 等拦截器,以及角色设置
+DROP TABLE IF EXISTS `sm_action_role_filter`;
+CREATE TABLE `sm_action_role_filter`
+(
+    `action_id`     int         NOT NULL AUTO_INCREMENT,
+    `action_url`    varchar(50) NOT NULL,
+    `action_filter` varchar(20) DEFAULT 'authc',
+    `action_desc`   varchar(30),
+    `action_role`   varchar(30) DEFAULT 'admin,teacher,student',
+    PRIMARY KEY (action_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8MB4
+  AUTO_INCREMENT = 1;
+
+
+# 不需要角色表
+DROP TABLE IF EXISTS `sm_role`;
+
 # 考虑 专业，班级
 # 专业表。这里简化了一下，没有再进行学院等的划分
 DROP TABLE IF EXISTS `major`;
@@ -12,12 +30,12 @@ CREATE TABLE `major`
   AUTO_INCREMENT = 1;
 insert into major(major_name, major_desc)
 values ('计算机科学与技术', '');
-
 insert into major(major_name, major_desc)
 values ('软件工程', '');
-
 insert into major(major_name, major_desc)
 values ('大数据', '');
+insert into major(major_name, major_desc)
+values ('网络工程', '');
 
 # 班级表
 DROP TABLE IF EXISTS `class`;
@@ -25,50 +43,56 @@ CREATE TABLE `class`
 (
     `class_id`   int         NOT NULL AUTO_INCREMENT,
     `class_name` varchar(30) NOT NULL,
-    `major_id`   int         NOT NULL,
-    PRIMARY KEY (`class_id`),
-    FOREIGN KEY (major_id) REFERENCES major (major_id)
+    `class_desc` varchar(30) NOT NULL,
+    PRIMARY KEY (`class_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
 
-insert into class(class_name, major_id)
-values ('1606', 1);
-insert into class(class_name, major_id)
-values ('1607', 1);
-insert into class(class_name, major_id)
-values ('1601', 1);
-insert into class(class_name, major_id)
-values ('1509', 3);
+insert into class(class_name, class_desc)
+values ('1606', '');
+insert into class(class_name, class_desc)
+values ('1607', '');
+insert into class(class_name, class_desc)
+values ('1601', '');
+insert into class(class_name, class_desc)
+values ('1509', '');
 
 # 学生表
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student`
 (
-    `pri_id`   int         NOT NULL AUTO_INCREMENT,
-    `id`       varchar(20) NOT NULL,
-    `name`     varchar(30) NOT NULL,
-    `password` varchar(30) NOT NULL,
-    `class_id` int         NOT NULL,
-    #班级
-    #所学课程
+    `pri_id`        int            NOT NULL AUTO_INCREMENT,
+    #下面这个字段是学号
+    `id`            varchar(20)    NOT NULL,
+    `name`          varchar(30)    NOT NULL,
+    `password`      varchar(30)    NOT NULL,
+    #专业，班级
+    `major_id`      int            NOT NULL,
+    `class_id`      int            NOT NULL,
+    `identity_card` varchar(20)    NOT NULL,
+    `sex`           enum ('男','女') NOT NULL,
     PRIMARY KEY (`pri_id`),
     UNIQUE KEY (`id`),
+    FOREIGN KEY (major_id) REFERENCES major (major_id),
     FOREIGN KEY (class_id) REFERENCES class (class_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
 
-insert into student(id, name, password, class_id)
-values ('04161173', '刘生玺', '123456', 1);
-insert into student(id, name, password, class_id)
-values ('04161172', '刘贵财', '123456', 3);
-insert into student(id, name, password, class_id)
-values ('04161177', '张三', '123456', 3);
-insert into student(id, name, password, class_id)
-values ('04161178', '李四', '123456', 3);
-insert into student(id, name, password, class_id)
-values ('04161179', '王麻子', '123456', 3);
+insert into student(id, name, password, major_id, class_id, identity_card, sex)
+values ('04161173', '刘生玺', '111', 1, 3, '620123199802285118', '男');
+insert into student(id, name, password, major_id, class_id, identity_card, sex)
+values ('04161172', '刘玉洁', '111', 2, 1, '621123196602285117', '女');
+insert into student(id, name, password, major_id, class_id, identity_card, sex)
+values ('04161177', '张良', '111', 4, 4, '620123199802286332', '男');
+insert into student(id, name, password, major_id, class_id, identity_card, sex)
+values ('04161178', '李立', '111', 3, 1, '720123199802286666', '男');
+insert into student(id, name, password, major_id, class_id, identity_card, sex)
+values ('04161179', '王晓', '111', 1, 1, '623123200002286445', '女');
+
+INSERT INTO student(id, name, password, major_id, class_id)
+VALUES ((SELECT MAX(id) FROM student temp) + 1, '李进', '111', 1, 4);
 
 # 老师表
 DROP TABLE IF EXISTS `teacher`;
@@ -86,9 +110,9 @@ CREATE TABLE `teacher`
   AUTO_INCREMENT = 1;
 
 insert into teacher(id, name, password)
-values ('001', '王春梅', '123456');
+values ('001', '王春梅', '111');
 insert into teacher(id, name, password)
-values ('002', '刘老师', '123456');
+values ('002', '刘老师', '111');
 
 # 管理员表
 DROP TABLE IF EXISTS `admin`;
@@ -106,23 +130,8 @@ CREATE TABLE `admin`
 
 
 insert into admin(id, name, password)
-values ('111', '孙雪华', '123456');
+values ('111', '孙雪华', '111');
 
-# 创建 URL 权限表 anon,authc 等拦截器,以及角色设置
-DROP TABLE IF EXISTS `sm_action_role_filter`;
-CREATE TABLE `sm_action_role_filter`
-(
-    `action_id`     int         NOT NULL AUTO_INCREMENT,
-    `action_url`    varchar(50) NOT NULL,
-    `action_filter` varchar(20) DEFAULT 'authc',
-    `action_desc`   varchar(30),
-    `action_role`   varchar(30) DEFAULT 'admin,teacher,student',
-    PRIMARY KEY (action_id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = UTF8MB4
-  AUTO_INCREMENT = 1;
-
-# 不需要角色表
 
 # 课程表（id,名称，课时，学分，起始时间，结束时间,课程名也是唯一的）
 DROP TABLE IF EXISTS `course`;
@@ -153,6 +162,16 @@ values ('英语实验', 3, 4, '2019-1-2', '2020-1-2');
 
 # 如何分班，如何表示我自己要上的课？？人数基数是一个年级。
 # 课程与学生关联表
+# insert into student(id, name, password, major_id, class_id)
+# values ('04161173', '刘生玺', '111', 1, 3);
+# insert into student(id, name, password, major_id, class_id)
+# values ('04161172', '刘玉洁', '111', 2, 1);
+# insert into student(id, name, password, major_id, class_id)
+# values ('04161177', '张良', '111', 4, 4);
+# insert into student(id, name, password, major_id, class_id)
+# values ('04161178', '李立', '111', 3, 1);
+# insert into student(id, name, password, major_id, class_id)
+# values ('04161179', '王晓', '111', 1, 1);
 DROP TABLE IF EXISTS `course_student`;
 CREATE TABLE `course_student`
 (
@@ -292,12 +311,24 @@ values (2, '04161173', '012');
 DROP TABLE IF EXISTS `test_111`;
 CREATE TABLE `test_111`
 (
-    `course_id`   int         NOT NULL AUTO_INCREMENT,
-    `course_name` varchar(30) NOT NULL,
-    PRIMARY KEY (`course_id`)
+    `id`           int         NOT NULL AUTO_INCREMENT,
+    `test_varchar` varchar(20) NOT NULL AUTO_INCREMENT,
+    `name`         varchar(30) NOT NULL,
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
+
+insert into test_111(test_varchar, name)
+values ('04161173', 'vbdfvb');
+insert into test_111(name)
+values ('vbdfvb');
+insert into test_111(name)
+values ('vbdfvb');
+insert into test_111(name)
+values ('vbdfvb');
+
+
 
 DROP TABLE IF EXISTS `test_222`;
 CREATE TABLE `test_222`

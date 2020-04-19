@@ -125,9 +125,6 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/importOneCourseStudents", method = RequestMethod.POST)
-//    public void importOneCourseStudents(@RequestParam("file") MultipartFile file,
-//                                        @RequestParam("course_id") int course_id,
-//                                        HttpServletResponse response) throws Exception {
     public void importOneCourseStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int status_code = 0;
         String msg = "";

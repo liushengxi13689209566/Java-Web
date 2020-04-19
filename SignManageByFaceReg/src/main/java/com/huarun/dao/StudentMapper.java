@@ -1,6 +1,7 @@
 package com.huarun.dao;
 
-import com.huarun.pojo.StudentInfo;
+import com.huarun.exception.StudentServiceException;
+import com.huarun.pojo.StudentDO;
 import com.huarun.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,8 +12,14 @@ public interface StudentMapper {
     UserInfo getUserInfoByStuID(@Param("userID") String userID);
 
     //需要学生的所有信息
-    StudentInfo getStudentInfoByStuID(@Param("userID") String userID);
+    StudentDO getStudentInfoByStuID(@Param("userID") String userID);
 
     //查询所有学生的所有信息
-    List<StudentInfo> getAllStudentsInfo();
+    List<StudentDO> getAllStudentsInfo();
+
+    //得到最大的学号
+    String getMaxStuID();
+
+    //添加一个学生，密码默认为：身份证号后六位
+    boolean addOneStudent(@Param("studentDO") StudentDO studentDO);
 }

@@ -2,7 +2,7 @@ package com.huarun.service;
 
 import com.huarun.dao.StudentMapper;
 import com.huarun.exception.StudentServiceException;
-import com.huarun.pojo.StudentInfo;
+import com.huarun.pojo.StudentDO;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper studentMapper;
 
     @Override
-    public StudentInfo getStudentInfoByStuID(String userID) throws StudentServiceException {
+    public StudentDO getStudentInfoByStuID(String userID) throws StudentServiceException {
         try {
             return studentMapper.getStudentInfoByStuID(userID);
         } catch (PersistenceException e) {
@@ -24,9 +24,27 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentInfo> getAllStudentsInfo() throws StudentServiceException {
+    public List<StudentDO> getAllStudentsInfo() throws StudentServiceException {
         try {
             return studentMapper.getAllStudentsInfo();
+        } catch (PersistenceException e) {
+            throw new StudentServiceException(e);
+        }
+    }
+
+    @Override
+    public String getMaxStuID() throws StudentServiceException {
+        try {
+            return studentMapper.getMaxStuID();
+        } catch (PersistenceException e) {
+            throw new StudentServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean addOneStudent(StudentDO studentDO) throws StudentServiceException {
+        try {
+            return studentMapper.addOneStudent(studentDO);
         } catch (PersistenceException e) {
             throw new StudentServiceException(e);
         }

@@ -8,12 +8,22 @@
         select pri_id,id,name,password from SignManage.student where id = #{userID}
     </select>
 
-    <select id="getStudentInfoByStuID" resultType="StudentInfo">
+    <select id="getStudentInfoByStuID" resultType="StudentDO">
         select * from SignManage.student where id = #{userID}
     </select>
 
-    <select id="getAllStudentsInfo" resultType="StudentInfo">
+    <select id="getAllStudentsInfo" resultType="StudentDO">
         select * from SignManage.student
+    </select>
+
+    <select id="getMaxStuID" resultType="String">
+        select  max(id) from SignManage.student
+    </select>
+
+    <select id="addOneStudent" resultType="boolean" parameterType="StudentDO">
+        INSERT INTO student(id,name,password,major_id,class_id,identity_card,sex)
+        VALUES ((SELECT MAX(id) FROM student temp) + 1, #{name} ,#{password},
+                #{major_id}, #{class_id},#{identity_card},#{sex});
     </select>
 
 </mapper>

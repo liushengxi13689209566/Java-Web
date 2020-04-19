@@ -1,21 +1,7 @@
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.huarun.OtherStructure.StudentInfoShow;
-import com.huarun.dao.TestMapper;
-import com.huarun.pojo.ClassInfo;
-import com.huarun.pojo.MajorInfo;
-import com.huarun.pojo.StudentInfo;
-import com.huarun.pojo.TestInfo;
-import com.huarun.service.CourseService;
-import com.huarun.service.TestService;
 import com.huarun.utils.StatusCode;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyTest {
     @Test
