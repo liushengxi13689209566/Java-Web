@@ -55,7 +55,7 @@
                 //怎么不显示呐？
                 showSearchClearButton: true,
                 responseHandler: function (res) {
-                    // console.log(res)
+                    console.log(res)
                     $.each(res, function (row) {
                         $.inArray(row)
                     })
@@ -72,12 +72,31 @@
                         title: '姓名'
                     },
                     {
+                        field: 'sex',
+                        title: '性别'
+                    },
+                    {
                         field: 'major_name',
                         title: '专业'
                     },
                     {
                         field: 'class_name',
                         title: '班级'
+                    },
+                    {
+                        field: 'identity_card',
+                        title: '身份证号',
+                        formatter: function (value, row, index) {
+                            var len = value.length;
+                            var count = len - 9;// 前 4 后5
+                            var str = "";
+                            for (i = 0; i < count; i++) {
+                                str += '*';
+                            }
+                            console.log("str == " + str)
+                            return value.substring(0, 4) + str + value.substring(len - 5);
+                            // 620123199602285119
+                        }
                     },
                     {
                         field: 'operation',
