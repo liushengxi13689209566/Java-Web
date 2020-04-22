@@ -23,19 +23,19 @@ CREATE TABLE `major`
 (
     `major_id`   int         NOT NULL AUTO_INCREMENT,
     `major_name` varchar(30) NOT NULL,
-    `major_desc` varchar(30) NOT NULL,
+    `major_desc` varchar(50) NOT NULL,
     PRIMARY KEY (`major_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4
   AUTO_INCREMENT = 1;
 insert into major(major_name, major_desc)
-values ('计算机科学与技术', '');
+values ('计算机科学与技术', 'ComputerScienceAndTechnology');
 insert into major(major_name, major_desc)
-values ('软件工程', '');
+values ('软件工程', 'Software_project');
 insert into major(major_name, major_desc)
-values ('大数据', '');
+values ('大数据', 'Big_Data');
 insert into major(major_name, major_desc)
-values ('网络工程', '');
+values ('网络工程', 'Network_project');
 
 # 班级表
 DROP TABLE IF EXISTS `class`;
@@ -91,8 +91,13 @@ values ('04161178', '李立', '111', 3, 1, '720123199802286666', '男');
 insert into student(id, name, password, major_id, class_id, identity_card, sex)
 values ('04161179', '王晓', '111', 1, 1, '623123200002286445', '女');
 
-INSERT INTO student(id, name, password, major_id, class_id)
-VALUES ((SELECT MAX(id) FROM student temp) + 1, '李进', '111', 1, 4);
+# INSERT INTO student(id, name, password, major_id, class_id, identity_card, sex)
+# VALUES ((SELECT MAX(id) FROM student temp) + 1, '文清', '285117', 1, 2, '621123200002285117', '女');
+#
+# delete
+# from student
+# where pri_id = 7;
+
 
 # 老师表
 DROP TABLE IF EXISTS `teacher`;

@@ -1,7 +1,7 @@
 package com.huarun.baidu;
 
 
-import com.huarun.OtherStructure.FaceAddUserInfo;
+import com.huarun.OtherStructure.FaceUserInfo;
 import com.huarun.utils.FacePictureType;
 import com.huarun.utils.Picture;
 
@@ -122,20 +122,23 @@ public class FaceRegObject {
     }
 
     //人脸注册
-    public static Map<String, Object> faceAdd(Picture image, FaceAddUserInfo faceAddUserInfo) {
+    public static Map<String, Object> faceAdd(Picture image, FaceUserInfo faceUserInfo) {
         try {
             Map<String, Object> result = new HashMap<>();
             HashMap<String, String> options = new HashMap<String, String>();
 
-            options.put("user_info", com.alibaba.fastjson.JSON.toJSONString(faceAddUserInfo));
+            options.put("user_info", com.alibaba.fastjson.JSON.toJSONString(faceUserInfo));
             options.put("quality_control", "NORMAL");
             options.put("action_type", "REPLACE");
 
+            //client.addUser(image, imageType, groupId, userId, options);
             JSONObject res = AiFaceObject.getClient().addUser(
                     image.getImage(),
                     image.getImageType(),
-                    Integer.toString(faceAddUserInfo.getMajor_id()),
-                    faceAddUserInfo.getId(),
+                    //构造group ID (用户组id（由数字、字母、下划线组成），长度限制128B)
+                    //major_id+ "_" + Major_desc
+                    faceUserInfo.getMajor_id() + "_" + faceUserInfo.getMajor_desc(),
+                    faceUserInfo.getId(),
                     options);
 
             //判断注册结果
@@ -155,22 +158,67 @@ public class FaceRegObject {
         return null;
     }
 
-    //人脸搜索
-    public static String faceSearch(Picture image, String groupIdList) {
+    //人脸搜索/认证
+    public static Map<String, Object> faceSearch(Picture image, boolean isLiveness, FaceUserInfo faceUserInfo) {
         try {
+            Map<String, Object> result = new HashMap<>();
+            if (image.isEmpty()) {
+                result.put("status_code", StatusCode.FILE_NULL);
+                result.put("msg", "传入的人脸照片为空！！！");
+                return result;
+            }
             HashMap<String, String> options = new HashMap<String, String>();
+            //匹配阈值
+            options.put("match_threshold", "80");
+            if (isLiveness) {
+                options.put("liveness_control", "NORMAL");
+            }
+            //最多处理人脸的数目
+            //默认值为1(仅检测图片中面积最大的那个人脸) 最大值10
+            options.put("max_face_num", "1");
             options.put("quality_control", "NORMAL");
-            options.put("liveness_control", "LOW");
-            options.put("max_user_num", "1");
+            //不空就添加该选项
+            if (!faceUserInfo.getId().isEmpty()) {
+                options.put("user_id", faceUserInfo.getId());
+            }
+            options.put("max_user_num", "1"); //查找后返回的用户数量
 
-            JSONObject res = AiFaceObject.getClient().search(image.getImage(), image.getImageType(), groupIdList, options);
-            return res.toString();
+            JSONObject res = AiFaceObject.getClient().search(
+                    image.getImage(),
+                    image.getImageType(),
+                    faceUserInfo.getMajor_id() + "_" + faceUserInfo.getMajor_desc(),
+                    options);
+            //处理返回的结果
+            com.alibaba.fastjson.JSONObject ret = com.alibaba.fastjson.JSONObject.parseObject(res.toString());
+            System.out.println("ret == " + ret.toJSONString());
+
+            if (ret.getIntValue("error_code") != 0) {
+                result.put("status_code", StatusCode.NO_SEARCH_RESULT);
+                result.put("msg", "抱歉，搜索匹配人脸失败，请确认 id 是否输入正确以及是否在系统中注册！");
+                return result;
+            }
+
+            System.out.println("ret == " + ret.toJSONString());
+
+            //选项中已经控制了阀值，所以在这里只需要检测是否有数据返回即可
+            //没有数据返回的话，error_code不会是 0
+
+//            com.alibaba.fastjson.JSONArray user_list = ret.getJSONObject("result").getJSONArray("user_list");
+//
+//            if (user_list.getJSONObject(0).isEmpty()) {
+//                result.put("status_code", StatusCode.NO_SEARCH_RESULT);
+//                result.put("msg", "抱歉，搜索匹配人脸失败，请确认 id 是否输入正确以及是否在系统中注册！");
+//                return result;
+//            }
+            //搜索成功
+            result.put("status_code", StatusCode.SUCCESS);
+            result.put("msg", "搜索匹配人脸成功！！！");
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    //
 }
 
 

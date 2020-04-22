@@ -1,20 +1,25 @@
 package com.huarun.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.huarun.OtherStructure.FaceUserInfo;
 import com.huarun.baidu.FaceRegObject;
+import com.huarun.pojo.CourseTime;
 import com.huarun.pojo.StudentDO;
-import com.huarun.service.StudentService;
+import com.huarun.service.*;
 import com.huarun.utils.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,15 +30,43 @@ import java.util.Map;
 public class FaceSignInController {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private MajorService majorService;
+    @Autowired
+    private ClassService classService;
+    @Autowired
+    private CourseTimeService courseTimeService;
 
-    @RequestMapping("/FaceSignIn")
+//    private Map<String, Object> dateCompare(Timestamp course_start_timestamp, Timestamp sign_timestamp) {
+//        Map<String, Object> result = new HashMap<>();
+//        return result;
+//    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public void test(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<CourseTime> courseTimeList = courseTimeService.getCourseTimeByCourseID(3);
+        for (CourseTime courseTime : courseTimeList) {
+            System.out.println(courseTime);
+        }
+    }
+
+    @RequestMapping(value = "/FaceSignIn", method = RequestMethod.POST)
     public void FaceSignIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         System.out.println("fvvbdvdsvbdbv");
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        System.out.println("进入importOneCourseStudents-------------");
 
-        System.out.println("course_id == " + request.getParameter("course_id"));
-        System.out.println("userID == " + request.getParameter("userID"));
-        System.out.println("face_image == " + request.getParameter("face_image"));
+
+        System.out.println("course_id == " + multipartRequest.getParameter("course_id"));
+
+        System.out.println("userID == " + multipartRequest.getParameter("userID"));
+        System.out.println("face_image == " + multipartRequest.getParameter("face_image"));
+        //单位是毫秒
+//        System.out.println("timestamp == " + multipartRequest.getParameter("timestamp"));
+
+//        int course_id = Integer.parseInt(multipartRequest.getParameter("course_id"));
+//        Timestamp sign_timestamp = Timestamp.valueOf(multipartRequest.getParameter("timestamp"));
 
         //调用失败：请重试！
         JSONObject result = new JSONObject();
@@ -59,62 +92,30 @@ public class FaceSignInController {
             ResponseUtil.write(response, result);
             return;
         }
-        //3.人脸匹配认证（如果我输入一个其他人的ID的话，需要进行一个匹配检测。）
+        //3.人脸匹配认证（如果我输入一个其他人的ID的话，需要进行一个匹配检测）
+        FaceUserInfo faceUserInfo = new FaceUserInfo(
+                studentDO,
+                majorService.getMajorInfoByID(studentDO.getMajor_id()),
+                classService.getClassInfoByClassID(studentDO.getClass_id()));
+        ret = FaceRegObject.faceSearch(image, true, faceUserInfo);
 
+        System.out.println("status_code == " + ret.get("status_code"));
+        System.out.println("msg == " + ret.get("msg"));
+        if ((int) ret.get("status_code") != StatusCode.SUCCESS) {
+            result.put("status_code", ret.get("status_code"));
+            result.put("msg", ret.get("msg"));
+            ResponseUtil.write(response, result);
+            return;
+        }
 
-        //3。检查课程等是否需要上
-        //4。
+        //3。检查课程等是否需要上(因为已经是联动的，所以就不需要检测了)
+        //4.比对课程时间
 
-//        JSONObject ret = JSONObject.parseObject(str);
-//        if (ret.getIntValue("error_code") != 0) {
-//            result.put("status_code", StatusCode.CALL_FAILED);
-//            result.put("msg", "请重试 ！！！");
-//            System.out.println("call 失败！！！");
-//            ResponseUtil.write(response, result);
-//            return;
+//        List<CourseTime> courseTimeList = courseTimeService.getCourseTimeByCourseID(course_id);
+//        for (CourseTime courseTime : courseTimeList) {
+//            dateCompare(courseTime.getCourse_start_timestamp(), sign_timestamp);
 //        }
-//
-//        System.out.println("ret == " + ret);
-//        System.out.println("face_num == " + ret.getJSONObject("result").getIntValue("face_num"));
-//
-//        if (ret.getJSONObject("result").getIntValue("face_num") != 1) {
-//            result.put("status_code", StatusCode.NO_FACE);
-//            result.put("msg", "请正对摄像头！！！");
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-//        System.out.println(ret);
-//
-//        System.out.println("检测通过");
-//
-//        //2.人脸搜素 -》Y：考勤成功 N：考勤失败，请确认已在系统中注册。
-//        // 1:N 的搜索
-//        str = FaceRegObject.faceSearch(image, "group_repeat");
-//        System.out.println("face_search  str ==" + str);
-//
-//        if (str == null) {
-//            result.put("status_code", StatusCode.CALL_ERROR);
-//            result.put("msg", "请重试 ！！！");
-//
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-//        ret = JSONObject.parseObject(str);
-//        if (ret.getIntValue("error_code") != 0) {
-//            result.put("status_code", StatusCode.CALL_FAILED);
-//            result.put("msg", "请重试 ！！！");
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-//
-////        System.out.println("刘生玺 ==  " + ret.getJSONObject("result").getJSONArray("user_list").getJSONObject(0).getFloat("score"));
-//
-//        if (ret.getJSONObject("result").getJSONArray("user_list").getJSONObject(0).getFloat("score") < ConfigParam.FACE_SEARCH_SCORE) {
-//            result.put("status_code", StatusCode.NO_SEARCH_RESULT);
-//            result.put("msg", "考勤失败，请确认已在系统中注册。！！！");
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
+
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "考勤成功啦");
         ResponseUtil.write(response, result);

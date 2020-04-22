@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.aip.util.Base64Util;
-import com.huarun.OtherStructure.FaceAddUserInfo;
+import com.huarun.OtherStructure.FaceUserInfo;
 import com.huarun.OtherStructure.StudentInfoShow;
 import com.huarun.baidu.FaceRegObject;
 import com.huarun.pojo.ClassDO;
@@ -19,6 +19,7 @@ import com.huarun.utils.FacePictureType;
 import com.huarun.utils.Picture;
 import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -160,18 +161,26 @@ public class StudentController {
             ResponseUtil.write(response, result);
             return;
         }
-
         //人脸注册
         //为学生先生成 id
-        FaceAddUserInfo faceAddUserInfo = new FaceAddUserInfo(
-                studentService.getMaxStuID(),
+        int tmp = Integer.parseInt(studentService.getMaxStuID().substring(1));
+        tmp = tmp + 1;
+        System.out.println("tmp == " + tmp);
+        StudentDO studentDO = new StudentDO(
+                0,
+                "0" + tmp,
                 name,
+                ID_card.substring(ID_card.length() - 6),
                 major_id,
-                majorService.getMajorInfoByID(major_id).getMajor_name(),
                 class_id,
-                classService.getClassInfoByClassID(class_id).getClass_name()
-        );
-        ret = FaceRegObject.faceAdd(image, faceAddUserInfo);
+                ID_card,
+                sex);
+
+        FaceUserInfo faceUserInfo = new FaceUserInfo(
+                studentDO,
+                majorService.getMajorInfoByID(major_id),
+                classService.getClassInfoByClassID(class_id));
+        ret = FaceRegObject.faceAdd(image, faceUserInfo);
         System.out.println("status_code == " + ret.get("status_code"));
         System.out.println("msg == " + ret.get("msg"));
 
@@ -182,16 +191,8 @@ public class StudentController {
             ResponseUtil.write(response, result);
             return;
         }
+
         //数据库保存学生信息
-        StudentDO studentDO = new StudentDO(
-                0,
-                "0" + Integer.parseInt(studentService.getMaxStuID().substring(1)) + 1,
-                name,
-                ID_card.substring(ID_card.length() - 6),
-                major_id,
-                class_id,
-                ID_card,
-                sex);
         studentService.addOneStudent(studentDO);
 
         result.put("status_code", StatusCode.SUCCESS);
