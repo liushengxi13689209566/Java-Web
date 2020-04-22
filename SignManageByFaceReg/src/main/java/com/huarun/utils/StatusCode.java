@@ -20,7 +20,9 @@ public class StatusCode {
     public static final int FACE_NOT_CLEAR = 8;
     public static final int FACE_OVERFLOW = 9;
     public static final int FACE_SHELTER = 10;
-    public static final int AGE_OVER = 10;
+    public static final int AGE_OVER = 11;
+
+    public static final int NO_USERID = 12;
 
 
 }

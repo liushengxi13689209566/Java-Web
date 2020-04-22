@@ -102,11 +102,16 @@
                         field: 'operation',
                         title: '操作',
                         formatter: function (value, row, index) {
-                            return [
-                                '<button class="btn btn-danger btn-sm delete"><span>删除</span></button>'
-                            ].join('')
+                            var s = '<button class="btn btn-info btn-sm edit"><span>更改</span></button>';
+                            var d = '<button class="btn btn-danger btn-sm delete"><span>删除</span></button>';
+                            var fun = '';
+                            return s + ' ' + d;
                         },
                         events: {
+                            // 操作列中编辑按钮的动作
+                            'click .edit': function (e, value, row, index) {
+                                rowEditOperation(row);
+                            },
                             'click .delete': function (e, value, row, index) {
                                 // selectID = row.id;
                                 if (confirm('确定删除 ? ') == false)
@@ -137,11 +142,11 @@
                 $.each(response.rows, function (index, elem) {
                     // console.log("elem==")
                     // console.log(elem)
-                    $('#major_id').append("<option value='" + elem.major_id + "'>" + elem.major_name + "</option>");
+                    $('#major_id,#student_major_edit').append("<option value='" + elem.major_id + "'>" + elem.major_name + "</option>");
                 });
             },
             error: function (response) {
-                $('#major_id').append("<option value='-1'>加载失败</option>");
+                $('#major_id,#student_major_edit').append("<option value='-1'>加载失败</option>");
             }
 
         })
@@ -162,11 +167,11 @@
             // },
             success: function (response) {
                 $.each(response.rows, function (index, elem) {
-                    $('#class_id').append("<option value='" + elem.class_id + "'>" + elem.class_name + "</option>");
+                    $('#class_id,#student_class_edit').append("<option value='" + elem.class_id + "'>" + elem.class_name + "</option>");
                 });
             },
             error: function (response) {
-                $('#class_id').append("<option value='-1'>加载失败</option>");
+                $('#class_id,#student_class_edit').append("<option value='-1'>加载失败</option>");
             }
 
         })
@@ -219,6 +224,24 @@
             })
         })
     }
+
+    // 行编辑操作
+    function rowEditOperation(row) {
+        $('#edit_modal').modal("show");
+        // load info
+        $('#student_form_edit').bootstrapValidator("resetForm", true);
+        $('#student_id_edit').val(row.id);
+        $('#student_name_edit').val(row.name);
+        $('#student_sex_edit').val(row.sex);
+        $('#student_id_card_edit').val(row.identity_card);
+
+        console.log("major_name = " + row.major_name)
+        console.log("class_name = " + row.class_name)
+
+        $('#student_major_edit').val(row.major_name);
+        $('#student_class_edit').val(row.class_name);
+        $('#student_picture_edit').val();
+    }
 </script>
 
 
@@ -262,7 +285,7 @@
                 <button class="close" type="button" data-dismiss="modal"
                         aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="myModalLabel">添加学生信息</h4>
+                <h4 class="modal-title">添加学生信息</h4>
             </div>
             <div class="modal-body">
                 <!-- 模态框的内容 -->
@@ -341,6 +364,104 @@
                 </button>
                 <button class="btn btn-success" type="button" id="add_modal_submit">
                     <span>提交</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 编辑学生信息模态框 -->
+<div id="edit_modal" class="modal fade" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">更改学生信息</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 模态框的内容 -->
+                <div class="row">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-8 col-sm-8">
+                        <form enctype="multipart/form-data"
+                              class="form-horizontal" role="form" id="student_form_edit" style="margin-top: 25px">
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>学号：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="student_id_edit"
+                                           name="student_id" placeholder="学号">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>姓名：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="student_name_edit"
+                                           name="student_name" placeholder="姓名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>性别：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select id="student_sex_edit" name="student_sex" class="form-control">
+                                        <option value="">请选择性别:</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>身份证号：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="student_id_card_edit"
+                                           name="student_id_card" placeholder="身份证号">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>专业：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select id="student_major_edit" name="major_id" class="form-control">
+                                        <option value="">请选择对应专业:</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>班级：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select id="student_class_edit" name="class_id" class="form-control">
+                                        <option value="">请选择对应班级:</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>人脸照片更新：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="file" class="form-control" id="student_picture_edit"
+                                           name="student_picture" placeholder="人脸照片更新">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <span>取消</span>
+                </button>
+                <button class="btn btn-success" type="button" id="edit_modal_submit">
+                    <span>确认更改</span>
                 </button>
             </div>
         </div>

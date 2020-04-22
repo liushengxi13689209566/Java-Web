@@ -41,8 +41,13 @@ public class CourseController {
         System.out.println("jfvkfb     getCourse ");
 
         // 获取用户 ID
+        String userID = "";
         HttpSession session = request.getSession();
-        String userID = (String) session.getAttribute("userID");
+        if (session.getAttribute("userID") == null) {
+            userID = request.getParameter("id");
+        } else {
+            userID = (String) session.getAttribute("userID");
+        }
 
         System.out.println("userID == " + userID);
 
