@@ -23,6 +23,12 @@ public class StatusCode {
     public static final int AGE_OVER = 11;
 
     public static final int NO_USERID = 12;
+    public static final int CLASS_LATE = 13;
+    public static final int NO_COURSE_TIME = 14;
+
+    //    我们用 0 1 2 表示 未考勤，考勤成功，迟到，后续还可以加入更多(课时不可能超过 100 节)
+    public static final char SIGN_SUCCESS = '1';
+    public static final char SIGN_LATE = '2';
 
 
 }

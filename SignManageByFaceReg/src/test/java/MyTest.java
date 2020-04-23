@@ -1,6 +1,7 @@
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huarun.utils.StatusCode;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -22,13 +23,39 @@ public class MyTest {
 
     @Test
     public void TestTest() {
-        Timestamp a = Timestamp.valueOf("2018-05-18 09:32:32");
-        Timestamp b = Timestamp.valueOf("2018-05-11 09:32:32");
+//        String str = "****";
+//        if (StringUtils.isNotBlank(str)) {
+//            StringBuilder sb = new StringBuilder("18698587234");
+//
+//            sb.replace(3, 7, str);
+//            System.err.println("========" + sb.toString());
+//        }
+        String test = "liushengxi ";
+        System.out.println("test.charAt(2) == " + test.charAt(2));
+        StringBuilder sb = new StringBuilder(test);
+        sb.setCharAt(2, '6');
+        System.out.println("sb == " + sb);
+        System.out.println("test == " + test);
 
-//        if(b-a)
-        if (b.before(a)) {
-            System.out.println("b时间比a时间早");
-        }
+//        StringBuffer buffer = new StringBuffer(test);
+//        System.out.println(buffer);
+//        buffer.setCharAt(2, '6');
+//        System.out.println(buffer);
+
+////        test.charAt(2) = '6';
+//        test.replace(test.charAt(2), '6');
+//        System.out.println("Test == " + test);
+
+//        Timestamp a = Timestamp.valueOf("1587568267000");
+//        System.out.println(a.toString());
+//
+//        Timestamp b = Timestamp.valueOf("2018-05-11 09:32:32");
+//        b.getTime();
+//
+////        if(b-a)
+//        if (b.before(a)) {
+//            System.out.println("b时间比a时间早");
+//        }
     }
 
 //    public void test() {

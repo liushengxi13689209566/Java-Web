@@ -106,7 +106,7 @@
 
         var formData = new FormData(document.getElementById("sign_form"));
         formData.append("face_image", result); //将处理后的人脸照片添加进去
-        // formData.append("timestamp", Date.parse(new Date())) //只精确到秒的时间戳
+        formData.append("timestamp", Date.parse(new Date())) //只精确到秒的时间戳
         console.log("time == " + Date.parse(new Date()))
         $.ajax({
             type: "GET",
