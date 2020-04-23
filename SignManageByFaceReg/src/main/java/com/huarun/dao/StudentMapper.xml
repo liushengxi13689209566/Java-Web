@@ -38,5 +38,9 @@
                 #{studentDO.major_id}, #{studentDO.class_id},
                 #{studentDO.identity_card},#{studentDO.sex});
     </select>
-
+    <update id="stuPasswordModify">
+        update SignManage.student set password = #{new_pass}
+        where id = #{userID}
+    </update>
+    
 </mapper>

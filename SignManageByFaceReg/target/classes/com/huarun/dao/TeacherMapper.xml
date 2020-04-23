@@ -7,4 +7,10 @@
     <select id="getUserInfoByTeaID" resultType="UserInfo">
         select * from SignManage.teacher where id = #{userID}
     </select>
+
+    <update id="teaPasswordModify">
+        update SignManage.teacher set password = #{new_pass}
+        where id = #{userID}
+    </update>
+
 </mapper>

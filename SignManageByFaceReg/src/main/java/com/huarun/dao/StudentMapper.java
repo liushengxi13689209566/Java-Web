@@ -22,4 +22,7 @@ public interface StudentMapper {
 
     //添加一个学生，密码默认为：身份证号后六位
     void addOneStudent(@Param("studentDO") StudentDO studentDO);
+
+    // 修改密码
+    void stuPasswordModify(@Param("userID") String userID, @Param("new_pass") String new_pass);
 }

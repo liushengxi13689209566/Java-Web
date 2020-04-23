@@ -90,7 +90,7 @@
                                 <%--                                <shiro:hasRole name="commonsAdmin">--%>
                                 <li class="list-group-item">
                                     <a href="javascript:void(0)" id="" class="menu_item"
-                                       name="pagecomponent/storageManagementCommon.jsp">修改密码</a>
+                                       name="pagecomponent/modifyPassword.jsp">修改密码</a>
                                 </li>
                                 <%--                                </shiro:hasRole>--%>
                                 <!--若为超级管理员-->

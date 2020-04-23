@@ -7,4 +7,9 @@
     <select id="getUserInfoByAdmID" resultType="UserInfo">
         select * from SignManage.admin where id = #{userID}
     </select>
+
+    <update id="admPasswordModify">
+        update SignManage.admin set password = #{new_pass}
+        where id = #{userID}
+    </update>
 </mapper>

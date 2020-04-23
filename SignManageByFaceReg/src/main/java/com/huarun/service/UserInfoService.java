@@ -1,6 +1,7 @@
 package com.huarun.service;
 
 import com.huarun.pojo.UserInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户信息 service
@@ -18,6 +19,13 @@ public interface UserInfoService {
     UserInfo getUserInfoByTeaID(String userID);
 
     UserInfo getUserInfoByAdmID(String userID);
+
+    // 修改密码
+    void stuPasswordModify(@Param("userID") String userID, @Param("new_pass") String new_pass);
+
+    void teaPasswordModify(@Param("userID") String userID, @Param("new_pass") String new_pass);
+
+    void admPasswordModify(@Param("userID") String userID, @Param("new_pass") String new_pass);
 
 //    /**
 //     * 获取指定 userName 对应的用户账户信息

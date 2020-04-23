@@ -34,4 +34,19 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo getUserInfoByAdmID(String userID) {
         return adminMapper.getUserInfoByAdmID(userID);
     }
+
+    @Override
+    public void stuPasswordModify(String userID, String new_pass) {
+        studentMapper.stuPasswordModify(userID, new_pass);
+    }
+
+    @Override
+    public void teaPasswordModify(String userID, String new_pass) {
+        teacherMapper.teaPasswordModify(userID, new_pass);
+    }
+
+    @Override
+    public void admPasswordModify(String userID, String new_pass) {
+        adminMapper.admPasswordModify(userID, new_pass);
+    }
 }
