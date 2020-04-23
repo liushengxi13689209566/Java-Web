@@ -173,28 +173,16 @@ public class AccountController {
      * @return 返回一个 Map 对象，键值为 result 的内容代表注销操作的结果，值为 success 或 error
      */
     @RequestMapping(value = "logout", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    void logout(HttpServletResponse response) throws Exception {
-
-        JSONObject result = new JSONObject();
-        int status_code = 0;
-        String msg = "";
-
+    public String logout(HttpServletResponse response) throws Exception {
         Subject currentSubject = SecurityUtils.getSubject();
         if (currentSubject != null && currentSubject.isAuthenticated()) {
             // 执行账户注销操作
             currentSubject.logout();
-            status_code = StatusCode.SUCCESS;
-            msg = "退出成功！！！";
+            //重定向到 /
+            return "redirect:/";
         } else {
-            status_code = StatusCode.LOGOUT_ERROR;
-            msg = "退出失败！！！";
+            return "";
         }
-        result.put("status_code", status_code);
-        result.put("msg", msg);
-        System.out.println("result == " + result);
-        ResponseUtil.write(response, result);
     }
 //
 //    /**

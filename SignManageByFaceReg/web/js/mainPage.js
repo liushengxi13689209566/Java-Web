@@ -1,7 +1,7 @@
 $(function () {
     menuClickAction();
     welcomePageInit();
-    signOut();
+    // signOut();
     getRequestPrefix();
     homePage();
 });
@@ -32,19 +32,20 @@ function menuClickAction() {
 }
 
 // 注销登陆
-function signOut() {
-    $("#signOut").click(function () {
-        $.ajax({
-            type: "GET",
-            url: "account/logout",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (response) {
-                //刷新
-                window.location.reload(true);
-            }, error: function (response) {
-
-            }
-        })
-    })
-}
+// function signOut() {
+//     $("#signOut").click(function () {
+//         $.ajax({
+//             type: "GET",
+//             url: "account/logout",
+//             dataType: "json",
+//             contentType: "application/json",
+//             success: function (response) {
+//                 //刷新至 index.jsp 页面
+//                 console.log(response)
+//                 console.log("href == index.jsp ")
+//                 window.location.href = "/book/allBook";
+//             }, error: function (response) {
+//             }
+//         })
+//     })
+// }

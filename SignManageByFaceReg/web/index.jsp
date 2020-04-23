@@ -160,14 +160,14 @@
                                 </div>
                             </div class="col-md-7 col-sm-7">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-left: 10px;">
                             <label class="control-label col-md-5 col-sm-4">学号：</label>
                             <div class="col-md-3 col-sm-3">
                                 <input type="text" id="userID" class="form-control"
                                        placeholder="学号" name="userID"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-left: 10px;">
                             <label class="control-label col-md-5 col-sm-5">
                                 所考勤课程：
                             </label>
@@ -180,9 +180,13 @@
                         <div>
                             <div class="col-md-4 col-sm-4"></div>
                             <div class="col-md-4 col-sm-4">
-                                <button id="sign_button" type="button" class="btn btn-primary">
+                                <button id="sign_button" style="margin-right: 90px;" type="button"
+                                        class="btn btn-primary">
                                     &nbsp;&nbsp;&nbsp;&nbsp;考勤&nbsp;&nbsp;&nbsp;&nbsp;
                                 </button>
+                                <a href="./login.jsp" type="button" class="btn btn-primary">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;点击登录考勤后台&nbsp;&nbsp;&nbsp;&nbsp;
+                                </a>
                             </div>
                             <div class="col-md-4 col-sm-4"></div>
                         </div>
@@ -190,14 +194,13 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-4 col-sm-3"></div>
     </div>
 </div>
 
 <%--<button id="SignIn"> 考勤</button>--%>
 <%--<a href="login.jsp"> 我要登录 </a><br/>--%>
-<%--<a href="/WEB-INF/jsp/test.html"> 测试 </a><br/>--%>
+<%--<a href="/WEB-INF/jsp/login.jsp"> 测试 </a><br/>--%>
 <%--<a href="${pageContext.request.contextPath}/book/allBook">点击进入列表页</a><br/>--%>
 
 </body>

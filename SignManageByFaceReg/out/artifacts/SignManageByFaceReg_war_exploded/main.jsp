@@ -48,7 +48,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="javascript:void(0)" id="signOut"> <span
+                                <a href="${pageContext.request.contextPath}/account/logout"> <span
                                         class="glyphicon glyphicon-off"></span> &nbsp;&nbsp;注销登录
                                 </a>
                             </li>
