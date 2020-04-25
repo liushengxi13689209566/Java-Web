@@ -128,7 +128,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <a href="javascript:void(0)" class="menu_item"
-                                               name="pagecomponent/studentSignCase.jsp">实验课考勤信息查看</a>
+                                               name="pagecomponent/StudentSignCase.jsp">实验课考勤信息查看</a>
                                         </li>
 
                                         <li class="list-group-item">

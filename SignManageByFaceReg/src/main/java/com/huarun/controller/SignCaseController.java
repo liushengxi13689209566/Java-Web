@@ -52,29 +52,32 @@ public class SignCaseController {
         }
 
         SignCase signCase = signCaseService.getSignCaseByUserIDAndCourseID(userID, course_id);
+        
+        System.out.println("signcase == " + signCase);
 
         //构造返回的的结构数据
         List<SignCaseRecord> rows = new ArrayList<SignCaseRecord>();
+        System.out.println("size == " + timeList.size());
         for (int i = 0; i < timeList.size(); i++) {
-            String tsStr = "";
             DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             //方法一
-            tsStr = sdf.format(timeList.get(i).getCourse_start_timestamp());
-            System.out.println(tsStr);
+            String tsStr = sdf.format(timeList.get(i).getCourse_start_timestamp());
+
+            System.out.println("tsStr == " + tsStr);
+
             rows.add(new SignCaseRecord(i + 1,
                     timeList.get(i).getCourse_start_timestamp(),
                     timeList.get(i).getCourse_end_timestamp(),
                     signCase.getSign_case_bitmap().charAt(i)));
         }
 
-        JSONObject result = new JSONObject();
         JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
 
-        result.put("rows", array);
-        result.put("status_code", StatusCode.SUCCESS);
-        result.put("msg", "成功");
-
-        System.out.println("result == " + result);
-        ResponseUtil.write(response, result);
+//        result.put("rows", array);
+//        result.put("status_code", StatusCode.SUCCESS);
+//        result.put("msg", "成功");
+//
+//        System.out.println("result == " + result);
+        ResponseUtil.write(response, array);
     }
 }

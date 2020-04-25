@@ -16,10 +16,10 @@
 <%--获取参数--%>
 <%
     String course_id = request.getParameter("course_id");
-    System.out.println(course_id);
+//    System.out.println(course_id);
 
     String course_name = request.getParameter("course_name");
-    System.out.println(course_name);
+//    System.out.println(course_name);
 %>
 <%--<script>--%>
 <%--    // 使用参数--%>
@@ -69,11 +69,12 @@
     function signCaseRecordInit() {
         $('#signCaseRecord').bootstrapTable(
             {
+                toolbar: '.toolbar',
                 url: 'SignCase/OneCourseSignCase/getOneStuSignCase',
                 method: 'GET',
                 queryParams: getCourseID,
                 //必须有，不然就会渲染不出来
-                sidePagination: "server",
+                // sidePagination: "server",
                 dataType: 'json',
                 // 分页选项
                 // pagination: true,
@@ -83,8 +84,9 @@
                 //单选选项
                 // clickToSelect: true
                 responseHandler: function (res) {
-                    $.each(res.rows, function (row) {
-                        console.log(row)
+                    console.log(res)
+
+                    $.each(res, function (row) {
                         $.inArray(row)
                     })
                     return res;
@@ -132,18 +134,40 @@
             })
     }
 
+    $('#sign_flag_select').change(function () {
+        var flag = $('#sign_flag_select').val();
+        if (flag == "666") {
+            $('#signCaseRecord').bootstrapTable('filterBy', {})
+        } else {
+            $('#signCaseRecord').bootstrapTable('filterBy', {
+                sign_case_flag: $('#sign_flag_select').val()
+            })
+        }
+    })
 </script>
+
+
 <div class="panel panel-default">
     <ol class="breadcrumb">
         <li><%=course_name%>考勤信息查看</li>
     </ol>
     <div class="panel-body">
-        <div class="row" style="margin-top: 15px">
+        <div class="row" style="margin-top: 0px">
             <div class="col-md-12">
+                <div class="toolbar">
+                    <select id="sign_flag_select" name="sign_flag_select" class="form-control">
+                        <option value="666">全部考勤情况:</option>
+                        <option value="0">未考勤</option>
+                        <option value="2">迟到</option>
+                        <option value="1">考勤成功</option>
+                    </select>
+                </div>
                 <table id="signCaseRecord" class="table table-striped"></table>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
+
