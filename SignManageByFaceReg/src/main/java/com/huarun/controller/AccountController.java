@@ -256,6 +256,5 @@ public class AccountController {
         result.put("msg", "成功");
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
-
     }
 }

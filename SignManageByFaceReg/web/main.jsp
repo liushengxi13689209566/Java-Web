@@ -95,10 +95,10 @@
                                 <%--                                </shiro:hasRole>--%>
                                 <!--若为超级管理员-->
                                 <%--                                <shiro:hasRole name="systemAdmin">--%>
-                                <li class="list-group-item">
-                                    <a href="javascript:void(0)" class="menu_item"
-                                       name="pagecomponent/storageManagement.jsp">更新人脸照片</a>
-                                </li>
+                                <%--                                <li class="list-group-item">--%>
+                                <%--                                    <a href="javascript:void(0)" class="menu_item"--%>
+                                <%--                                       name="pagecomponent/modifyPicture.jsp">更新人脸照片</a>--%>
+                                <%--                                </li>--%>
                                 <%-- <li class="list-group-item">--%>
                                 <%-- <a href="javascript:void(0)" id=""--%>
                                 <%--class="menu_item"--%>
@@ -128,13 +128,11 @@
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <a href="javascript:void(0)" class="menu_item"
-                                                <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
-                                               name="pagecomponent/student-sign-case.jsp">实验课考勤信息查看</a>
+                                               name="pagecomponent/studentSignCase.jsp">实验课考勤信息查看</a>
                                         </li>
 
                                         <li class="list-group-item">
                                             <a href="javascript:void(0)" class="menu_item"
-                                                <%--name="pagecomponent/stock-inManagement.jsp">实验课考勤信息查看</a>--%>
                                                name="pagecomponent/test.jsp">测试考勤数据</a>
                                         </li>
                                     </ul>
