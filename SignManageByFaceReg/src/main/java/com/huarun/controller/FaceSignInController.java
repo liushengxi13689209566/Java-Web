@@ -37,15 +37,7 @@ public class FaceSignInController {
     private CourseTimeService courseTimeService;
     @Autowired
     private SignCaseService signCaseService;
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public void test(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<CourseTime> courseTimeList = courseTimeService.getCourseTimeByCourseID(3);
-        for (CourseTime courseTime : courseTimeList) {
-            System.out.println(courseTime);
-        }
-    }
-
+    
     @RequestMapping(value = "/FaceSignIn", method = RequestMethod.POST)
     public void FaceSignIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

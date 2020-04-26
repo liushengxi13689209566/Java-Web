@@ -141,8 +141,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <a href="javascript:void(0)" class="menu_item"
-                                                <%-- name="pagecomponent/stock-outManagement.jsp">实验课考勤信息查看</a>--%>
-                                               name="pagecomponent/course-sign-case.jsp">实验课考勤信息查看</a>
+                                               name="pagecomponent/CourseSignCase.jsp">实验课考勤信息查看</a>
                                         </li>
                                     </ul>
                                 </shiro:hasRole>
