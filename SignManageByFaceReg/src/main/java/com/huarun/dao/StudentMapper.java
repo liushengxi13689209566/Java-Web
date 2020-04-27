@@ -25,4 +25,8 @@ public interface StudentMapper {
 
     // 修改密码
     void stuPasswordModify(@Param("userID") String userID, @Param("new_pass") String new_pass);
+
+    //得到 某专业某个班级学生 的 所有信息
+    List<StudentDO> getStudentInfoByMajorIDAndClassID(@Param("major_id") int major_id,
+                                                      @Param("class_id") int class_id);
 }

@@ -24,6 +24,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<StudentDO> getStudentInfoByMajorIDAndClassID(int major_id, int class_id) throws StudentServiceException {
+        try {
+            return studentMapper.getStudentInfoByMajorIDAndClassID(major_id, class_id);
+        } catch (PersistenceException e) {
+            throw new StudentServiceException(e);
+        }
+    }
+
+    @Override
     public List<StudentDO> getAllStudentsInfo() throws StudentServiceException {
         try {
             return studentMapper.getAllStudentsInfo();
@@ -44,7 +53,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void addOneStudent(StudentDO studentDO) throws StudentServiceException {
         try {
-
             System.out.println("studentDO == " + studentDO);
             studentMapper.addOneStudent(studentDO);
         } catch (PersistenceException e) {

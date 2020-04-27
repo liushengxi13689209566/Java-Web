@@ -18,15 +18,24 @@
         CourseSignCaseListInit();
     })
 
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        return Y + M + D;
+    }
+
     // courseSignCaseList 表格
     function CourseSignCaseListInit() {
         console.log("初始化了！！！！")
         $('#courseSignCaseList').bootstrapTable(
             {
-                url: 'SignCase/getCourseSignCase',
+                toolbar: '.toolbar',
+                url: 'SignCase/getMyCourseSignCase',
                 method: 'GET',
-                // queryParams: queryParamsFun,
-                sidePagination: "server",
+                queryParams: {"interval_time": "7 day"}, //默认七天的数据
+                // sidePagination: "server",
                 dataType: 'json',
                 // 分页选项
                 // pagination: true,
@@ -36,9 +45,9 @@
                 //单选选项
                 // clickToSelect: true
                 responseHandler: function (res) {
-                    console.log(res)
-                    $.each(res.rows, function (i, row) {
-                        console.log(row)
+                    console.log("res == " + res)
+                    $.each(res, function (i, row) {
+
                         $.inArray(row)
                     })
                     return res;
@@ -50,8 +59,12 @@
                         //sortable: true
                     },
                     {
+                        field: 'major_name',
+                        title: '专业'
+                    },
+                    {
                         field: 'class_name',
-                        title: '班级名称'
+                        title: '班级'
                     },
                     {
                         field: 'course_name',
@@ -60,7 +73,7 @@
                     {
                         field: 'course_start_timestamp',
                         title: '考勤时间',
-                        // formatter: timestampToTime
+                        formatter: timestampToTime
                     },
                     {
                         field: 'late_count',
@@ -68,11 +81,11 @@
                     },
                     {
                         field: 'truancy_count',
-                        title: '出勤人数',
+                        title: '旷课人数',
                     },
                     {
                         field: 'success_count',
-                        title: '旷课人数',
+                        title: '出勤人数',
                     },
                     {
                         field: 'operation',
@@ -131,6 +144,13 @@
     <div class="panel-body">
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
+                <div class="toolbar">
+                    <select id="sign_flag_select" name="sign_flag_select" class="form-control">
+                        <option value="7 day">一周内</option>
+                        <option value="1 month">过去一个月</option>
+                        <option value="1 month">过去三个月</option>
+                    </select>
+                </div>
                 <table id="courseSignCaseList" class="table table-striped"></table>
                 </table>
             </div>

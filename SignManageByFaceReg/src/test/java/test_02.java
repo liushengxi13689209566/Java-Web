@@ -22,9 +22,11 @@ public class test_02 {
 
         stringList.addAll(stringList2);
 
-        for (String str : stringList) {
-            System.out.println(str);
-        }
+        System.out.println(stringList);
+
+//        for (String str : stringList) {
+//            System.out.println(str);
+//        }
 
 
     }

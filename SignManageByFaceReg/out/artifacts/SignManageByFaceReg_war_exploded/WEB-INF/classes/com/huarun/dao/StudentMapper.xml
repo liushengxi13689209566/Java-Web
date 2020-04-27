@@ -42,5 +42,10 @@
         update SignManage.student set password = #{new_pass}
         where id = #{userID}
     </update>
-    
+
+    <select id="getStudentInfoByMajorIDAndClassID" resultType="StudentDO">
+        select * from SignManage.student where
+        major_id = #{major_id} and class_id = #{class_id}
+    </select>
+
 </mapper>
