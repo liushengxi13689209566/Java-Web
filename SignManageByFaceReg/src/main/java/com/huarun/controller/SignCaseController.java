@@ -4,16 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huarun.OtherStructure.CourseSignCaseRecord;
+import com.huarun.OtherStructure.OneDayClassSignCaseRecord;
 import com.huarun.OtherStructure.SignCaseRecord;
 import com.huarun.pojo.*;
 import com.huarun.service.*;
-import com.huarun.test.PrintTest;
 import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +40,8 @@ public class SignCaseController {
     private MajorClassService majorClassService;
     @Autowired
     private CourseSignCaseRecordService courseSignCaseRecordService;
+    @Autowired
+    private StudentService studentService;
 
     @RequestMapping(value = "/OneCourseSignCase/getOneStuSignCase")
     public void getOneStuSignCase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -110,7 +111,7 @@ public class SignCaseController {
 
 //        这里会写的有点复杂，需要完善～！！！
         //会得到相关的课程 ID
-//        for (CourseTeacher courseTeacher : courseTeacherList) {
+        int count = 0;
         for (int i = 0; i < courseIDList.size(); i++) {
             List<CourseMajorClassDO> majorClassIDList =
                     courseMajorClassService.getMajorClassInfoByCourseID(courseIDList.get(i).getCourse_id());
@@ -127,13 +128,13 @@ public class SignCaseController {
                     System.out.println("classIDList == " + classIDList);
 
                     for (MajorClassDO majorClassDO : classIDList) {
-                        rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(courseIDList.get(i).getCourse_id(),
+                        rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
                                 majorClassIDList.get(j).getMajor_id(),
                                 majorClassDO.getClass_id(),
                                 interval_time));
                     }
                 } else {
-                    rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(courseIDList.get(i).getCourse_id(),
+                    rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
                             majorClassIDList.get(j).getMajor_id(),
                             majorClassIDList.get(j).getClass_id(),
                             interval_time));
@@ -151,6 +152,40 @@ public class SignCaseController {
 //
         System.out.println("array == " + array.toJSONString());
 
+        ResponseUtil.write(response, array);
+    }
+
+    @RequestMapping(value = "/getOneDayClassSignCase")
+    public void getOneDayClassSignCase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("进入了 getOneDayClassSignCase ");
+
+        List<OneDayClassSignCaseRecord> rows = new ArrayList<>();
+
+        System.out.println("进入addOneStudent-------------" + request.getParameter("course_id"));
+        System.out.println("进入addOneStudent-------------" + request.getParameter("major_id"));
+        System.out.println("进入addOneStudent-------------" + request.getParameter("class_id"));
+        System.out.println("进入addOneStudent-------------" + request.getParameter("bitmap_idx"));
+
+        //所有数据的校验由前端之后来做
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
+        int major_id = Integer.parseInt(request.getParameter("major_id"));
+        int class_id = Integer.parseInt(request.getParameter("class_id"));
+        int bitmap_idx = Integer.parseInt(request.getParameter("bitmap_idx"));
+
+        List<StudentDO> studentList = studentService.getStudentInfoByMajorIDAndClassID(major_id, class_id);
+
+        //不会出现空的情况
+        //if (studentList.isEmpty())
+        for (int i = 0; i < studentList.size(); i++) {
+            StudentDO tmp = studentList.get(i);
+            rows.add(new OneDayClassSignCaseRecord(i + 1, tmp,
+                    signCaseService.getSignCaseByUserDOAndCourseID(tmp, course_id).getSign_case_bitmap().charAt(bitmap_idx)));
+        }
+        JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
+//        result.put("rows", array);
+//        result.put("status_code", StatusCode.SUCCESS);
+//        result.put("msg", "成功");
+        System.out.println("array == " + array.toJSONString());
         ResponseUtil.write(response, array);
     }
 }

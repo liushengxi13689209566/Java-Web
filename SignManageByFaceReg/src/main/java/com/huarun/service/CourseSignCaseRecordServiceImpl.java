@@ -25,7 +25,7 @@ public class CourseSignCaseRecordServiceImpl implements CourseSignCaseRecordServ
     private CourseService courseService;
 
     @Override
-    public List<CourseSignCaseRecord> getCourseSignCaseRecord(int course_id, int major_id, int class_id, String interval_time) throws StudentServiceException {
+    public List<CourseSignCaseRecord> getCourseSignCaseRecord(int count, int course_id, int major_id, int class_id, String interval_time) throws StudentServiceException {
         List<CourseSignCaseRecord> rows = new ArrayList<>(); //最终会返回的数据
 
         MajorDO majorDO = majorService.getMajorInfoByID(major_id);
@@ -90,10 +90,10 @@ public class CourseSignCaseRecordServiceImpl implements CourseSignCaseRecordServ
             System.out.println("success_count == " + success_count);
             System.out.println("late_count == " + late_count);
 
-            rows.add(new CourseSignCaseRecord(0, major_id, majorDO.getMajor_name(),
+            rows.add(new CourseSignCaseRecord(++count, major_id, majorDO.getMajor_name(),
                     class_id, classDO.getClass_name(),
                     course_id, courseInfo.getCourse_name(),
-                    timeList.get(i - idx_start).getCourse_start_timestamp(),
+                    i, timeList.get(i - idx_start).getCourse_start_timestamp(),
                     late_count, truancy_count, success_count));
 
             System.out.println("rows == " + rows);

@@ -15,13 +15,14 @@ public class CourseSignCaseRecord implements Serializable {
     private int course_id;
     private String course_name; //与本老师相关的所有课程
 
+    private int bitmap_idx;//该日期对应下的位图下标
     private Timestamp course_start_timestamp; //课程时间，只有年月日
 
     private int late_count; //迟到人数
     private int truancy_count; //旷课人数
     private int success_count; //出勤人数
 
-    public CourseSignCaseRecord(int id, int major_id, String major_name, int class_id, String class_name, int course_id, String course_name, Timestamp course_start_timestamp, int late_count, int truancy_count, int success_count) {
+    public CourseSignCaseRecord(int id, int major_id, String major_name, int class_id, String class_name, int course_id, String course_name, int bitmap_idx, Timestamp course_start_timestamp, int late_count, int truancy_count, int success_count) {
         this.id = id;
         this.major_id = major_id;
         this.major_name = major_name;
@@ -29,6 +30,7 @@ public class CourseSignCaseRecord implements Serializable {
         this.class_name = class_name;
         this.course_id = course_id;
         this.course_name = course_name;
+        this.bitmap_idx = bitmap_idx;
         this.course_start_timestamp = course_start_timestamp;
         this.late_count = late_count;
         this.truancy_count = truancy_count;
@@ -94,6 +96,14 @@ public class CourseSignCaseRecord implements Serializable {
         this.course_name = course_name;
     }
 
+    public int getBitmap_idx() {
+        return bitmap_idx;
+    }
+
+    public void setBitmap_idx(int bitmap_idx) {
+        this.bitmap_idx = bitmap_idx;
+    }
+
     public Timestamp getCourse_start_timestamp() {
         return course_start_timestamp;
     }
@@ -136,6 +146,7 @@ public class CourseSignCaseRecord implements Serializable {
                 ", class_name='" + class_name + '\'' +
                 ", course_id=" + course_id +
                 ", course_name='" + course_name + '\'' +
+                ", bitmap_idx=" + bitmap_idx +
                 ", course_start_timestamp=" + course_start_timestamp +
                 ", late_count=" + late_count +
                 ", truancy_count=" + truancy_count +

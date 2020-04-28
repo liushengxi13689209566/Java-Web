@@ -47,7 +47,7 @@
                 responseHandler: function (res) {
                     console.log("res == " + res)
                     $.each(res, function (i, row) {
-
+                        console.log(row)
                         $.inArray(row)
                     })
                     return res;
@@ -96,44 +96,45 @@
                             return [
                                 '<a href="javascript:void(0)" ' +
                                 'class="btn btn-info btn-sm look" ' +
-                                'name="pagecomponent/SignCaseShow.jsp">查看考勤</a>'
+                                'name="pagecomponent/ClassSignCaseShow.jsp">查看详情</a>'
                                 // '<a href="javascript:void(0)" class="edit">查看课程学生</a>'
                             ].join('')
                         },
                         events: {
                             'click .look': function (e, value, row, index) {
-                                console.log("进入查看考勤！！！")
+                                console.log("进入 查看详情！！！")
                                 // $('#courseList').bootstrapTable('destroy')
                                 // selectID = row.course_id;
-                                console.log("row.id == " + row.course_id)
-
-                                // ajax 请求设置服务端 course_id。实在是没办法了
-                                // setSessionCourseID(row.course_id)
-
-                                // var url = "course/getOneCourseAllStudent?course_id=" + selectID;
+                                // console.log("row.id == " + row.course_id)
 
                                 var url = $(this).attr("name");
                                 console.log(url)
                                 //重新绘制页面
                                 $('#panel').load(url, {
                                     'course_id': row.course_id,
-                                    'course_name': row.course_name
+                                    'course_name': row.course_name,
+                                    'major_id': row.major_id,
+                                    'major_name': row.major_name,
+                                    'class_id': row.class_id,
+                                    'class_name': row.class_name,
+                                    'bitmap_idx': row.bitmap_idx,
+                                    'course_start_timestamp': row.course_start_timestamp
                                 });
                             }
                         }
                     }],
-                // 操作列中编辑按钮的动作
-                // 'click .edit': function (e, value, row, index) {
-                //     selectID = row.id;
-                //     rowEditOperation(row);
-                // },
-                // 'click .delete': function (e, value, row, index) {
-                //     selectID = row.id;
-                //     $('#deleteWarning_modal').modal(
-                //         'show');
-                // }
             });
     }
+
+    $('#interval_time_select').change(function () {
+        console.log("$('#interval_time_select').val() == " + $('#interval_time_select').val())
+
+        $('#courseSignCaseList').bootstrapTable('refresh', {
+            query: {
+                interval_time: $('#interval_time_select').val()
+            }
+        })
+    })
 </script>
 
 
@@ -145,10 +146,10 @@
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
                 <div class="toolbar">
-                    <select id="sign_flag_select" name="sign_flag_select" class="form-control">
-                        <option value="7 day">一周内</option>
+                    <select id="interval_time_select" name="interval_time_select" class="form-control">
+                        <option value="7 day" selected>一周内</option>
                         <option value="1 month">过去一个月</option>
-                        <option value="1 month">过去三个月</option>
+                        <option value="3 month">过去三个月</option>
                     </select>
                 </div>
                 <table id="courseSignCaseList" class="table table-striped"></table>
