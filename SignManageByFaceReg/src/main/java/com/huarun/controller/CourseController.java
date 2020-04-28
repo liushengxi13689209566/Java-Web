@@ -34,6 +34,8 @@ public class CourseController {
     private CourseStudentService courseStudentService;
     @Autowired
     private CourseTeacherService courseTeacherService;
+    @Autowired
+    private StudentService studentService;
 
     @RequestMapping(value = "/getMyCourse", method = RequestMethod.GET)
     public void getMyCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -125,6 +127,59 @@ public class CourseController {
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "成功");
 
+        System.out.println("result == " + result);
+        ResponseUtil.write(response, result);
+    }
+
+    @RequestMapping(value = "/delOneStudentInCourse", method = RequestMethod.GET)
+    public void delOneStudentInCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        System.out.println("进入delOneStudentInCourse");
+        String course_id_str = request.getParameter("course_id");
+        String student_id = request.getParameter("student_id");
+
+
+        System.out.println("course_id == " + course_id_str);
+        System.out.println("student_id == " + student_id);
+
+        courseStudentService.delOneStudentInCourse(Integer.parseInt(course_id_str), student_id);
+
+        JSONObject result = new JSONObject();
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", "成功");
+        System.out.println("result == " + result);
+        ResponseUtil.write(response, result);
+    }
+
+    @RequestMapping(value = "/addOneStudentInCourse", method = RequestMethod.GET)
+    public void addOneStudentInCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        System.out.println("v");
+
+        String student_id = request.getParameter("student_id");
+        String course_id_str = request.getParameter("course_id");
+        System.out.println("student_id == " + student_id);
+        System.out.println("course_id_str == " + course_id_str);
+
+        JSONObject result = new JSONObject();
+
+        StudentDO studentDO = studentService.getStudentInfoByStuID(student_id);
+        if (studentDO == null) {
+            result.put("status_code", StatusCode.NO_USERID);
+            result.put("msg", "抱歉，我们没有查到这个 userID ,请确认 userID 输入是否正确");
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        int ret = courseStudentService.addOneStudentInCourse(Integer.parseInt(course_id_str), student_id);
+        if (ret != 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "抱歉，添加该学生失败了，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", "成功");
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
     }

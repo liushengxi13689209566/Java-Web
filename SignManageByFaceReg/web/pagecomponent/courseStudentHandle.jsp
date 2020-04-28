@@ -91,7 +91,7 @@
                             return [
                                 '<a href="javascript:void(0)" ' +
                                 'class="btn btn-info btn-sm edit" ' +
-                                'name="pagecomponent/StudentInfoShow.jsp">查看课程学生</a>'
+                                'name="pagecomponent/CourseStudentInfoShow.jsp">查看课程学生</a>'
                                 // '<a href="javascript:void(0)" class="edit">查看课程学生</a>'
                             ].join('')
                         },

@@ -44,6 +44,15 @@ public class CourseStudentServiceImpl implements CourseStudentService {
         return courseStudentMapper.delOneStudentInCourse(course_id, student_id);
     }
 
+    @Override
+    public int addOneStudentInCourse(int course_id, String student_id) throws CourseStudentServiceException {
+        try {
+            return courseStudentMapper.addOneStudentInCourse(course_id, student_id);
+        } catch (PersistenceException e) {
+            throw new CourseStudentServiceException(e);
+        }
+    }
+
     //这里需要处理一下excel中输入 04161173 会没有0的情况
     private boolean customerCheck(StuIDpojo stuIDpojo1) {
         boolean ret = StringUtils.isNumeric(stuIDpojo1.getId());

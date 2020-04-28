@@ -40,7 +40,10 @@
     //立即函数
     $(function () {
         OneCourseAllStudentListInit();
+
+        addstudentAction();
         importAllStudentsInfo();
+
     })
 
     function getCourseID() {
@@ -58,6 +61,41 @@
         });
     }
 
+    // 添加学生信息
+    function addstudentAction() {
+        $('#add_one_student').click(function () {
+            $('#add_modal').modal("show");
+        });
+        $('#add_modal_submit').click(function () {
+            console.log("点击了提交按钮了")
+            var data = {
+                student_id: $('#student_id').val(),
+                course_id: <%=course_id%>
+            }
+            // ajax
+            $.ajax({
+                url: "course/addOneStudentInCourse",
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: data,
+                success: function (response) {
+                    $('#add_modal').modal("hide");
+                    if (response.status_code == 0) {
+                        alert("success! 学生添加成功");
+                    } else {
+                        alert(response.msg);
+                    }
+                    oneCourseAllStudentListTableRefresh();
+                    // reset
+                    $('#student_id').val("");
+                },
+                error: function (response) {
+                }
+            })
+        })
+    }
+
     // 删除一门课的一个学生
     function deleteOnCourseOneStudent(student_id, course_id) {
         var data = {
@@ -69,7 +107,7 @@
             type: "GET",
             // 因为 @RequestParam无法处理json,创建实体类又太夸张
             // 所以我们直接构造
-            url: "student/delOneStudentInCourse",
+            url: "course/delOneStudentInCourse",
             dataType: "json",
             contentType: "application/json",
             data: data,
@@ -452,6 +490,48 @@
                 <button class="btn btn-success hide disabled" type="button"
                         id="confirm" data-dismiss="modal">
                     <span>&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加学生模态框 -->
+<div id="add_modal" class="modal fade" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">添加学生</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 模态框的内容 -->
+                <div class="row">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-8 col-sm-8">
+                        <%--  所有数据的校验由前端之后来做--%>
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4"> <span>学号：</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" class="form-control" id="student_id"
+                                       name="student_id" placeholder="学号">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <span>取消</span>
+                </button>
+                <button class="btn btn-success" type="button" id="add_modal_submit">
+                    <span>提交</span>
                 </button>
             </div>
         </div>

@@ -18,6 +18,11 @@
         where course_id = #{course_id} and student_id = #{student_id}
     </delete>
 
+    <insert id="addOneStudentInCourse">
+         insert into SignManage.course_student(student_id,course_id)
+         values(#{student_id},#{course_id})
+    </insert>
+
     <insert id="insertBatch">
         insert into SignManage.course_student(student_id,course_id)
         values

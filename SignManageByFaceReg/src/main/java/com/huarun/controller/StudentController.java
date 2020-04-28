@@ -74,27 +74,6 @@ public class StudentController {
         ResponseUtil.write(response, result);
     }
 
-
-    @RequestMapping(value = "/delOneStudentInCourse", method = RequestMethod.GET)
-    public void delOneStudentInCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        System.out.println("进入delOneStudentInCourse");
-        String course_id_str = request.getParameter("course_id");
-        String student_id = request.getParameter("student_id");
-
-
-        System.out.println("course_id == " + course_id_str);
-        System.out.println("student_id == " + student_id);
-
-        courseStudentService.delOneStudentInCourse(Integer.parseInt(course_id_str), student_id);
-
-        JSONObject result = new JSONObject();
-        result.put("status_code", StatusCode.SUCCESS);
-        result.put("msg", "成功");
-        System.out.println("result == " + result);
-        ResponseUtil.write(response, result);
-    }
-
     @RequestMapping(value = "/getSystemAllStudents", method = RequestMethod.GET)
     public void getSystemAllStudents(HttpServletResponse response) throws Exception {
 

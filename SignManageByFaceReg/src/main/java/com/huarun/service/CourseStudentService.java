@@ -19,12 +19,15 @@ public interface CourseStudentService {
     //删除一门课中的一个学生
     int delOneStudentInCourse(@Param("course_id") int course_id, @Param("student_id") String student_id);
 
+    //添加一个学生到一门课中
+    int addOneStudentInCourse(@Param("course_id") int course_id, @Param("student_id") String student_id) throws CourseStudentServiceException;
+
     /**
      * 从文件中导入学生信息到一门课程中
      *
      * @param file 导入信息的文件
      * @return 返回一个Map，其中：key为total代表导入的总记录数，key为available代表有效导入的记录数
      */
-    Map<String, Object> importOneCourseStudents(MultipartFile file,int course_id) throws CourseStudentServiceException, IOException;
+    Map<String, Object> importOneCourseStudents(MultipartFile file, int course_id) throws CourseStudentServiceException, IOException;
 
 }
