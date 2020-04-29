@@ -3,9 +3,7 @@ package com.huarun.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.huarun.OtherStructure.CourseSignCaseRecord;
-import com.huarun.OtherStructure.OneDayClassSignCaseRecord;
-import com.huarun.OtherStructure.SignCaseRecord;
+import com.huarun.OtherStructure.*;
 import com.huarun.pojo.*;
 import com.huarun.service.*;
 import com.huarun.utils.ResponseUtil;
@@ -21,7 +19,9 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
@@ -113,54 +113,101 @@ public class SignCaseController {
 
 //        这里会写的有点复杂，需要完善～！！！
         //会得到相关的课程 ID
-        int count = 0;
         for (int i = 0; i < courseIDList.size(); i++) {
-            List<CourseStudent> studentIDList = courseStudentService.queryOneCourseAllStudent(courseIDList.get(i).getCourse_id());
+            int course_id = courseIDList.get(i).getCourse_id();
 
-            for (int j = 0; j < studentIDList.size(); j++) {
-                
+            //先根据时间间隔查课程表信息；
+            List<CourseTime> allTimeList = courseTimeService.getCourseTimeByCourseID(course_id);
+            List<CourseTime> timeList = courseTimeService.getCourseTimeByTime(course_id, interval_time);
+
+            //没有数据就继续
+            if (timeList.isEmpty()) {
+                continue;
+            }
+            int idx_start = allTimeList.size() - timeList.size();
+
+            //所有的学生是不变的
+            List<CourseStudent> studentIDList = courseStudentService.queryOneCourseAllStudent(course_id);
+            Map<String, String> signCaseMap = new HashMap<>();
+
+            for (CourseStudent studentID : studentIDList) {
+                signCaseMap.put(studentID.getStudent_id(),
+                        signCaseService.getSignCaseByUserIDAndCourseID(studentID.getStudent_id(), course_id).getSign_case_bitmap());
             }
 
-            List<CourseMajorClassDO> majorClassIDList =
-                    courseMajorClassService.getMajorClassInfoByCourseID(courseIDList.get(i).getCourse_id());
+            //统计每一天
+            for (int j = idx_start; j < idx_start + timeList.size(); j++) {
 
-            System.out.println("majorClassIDList == " + majorClassIDList);
+                Map<CourseSignCaseKK, CourseSignCaseVV> map = new HashMap<>();
 
-            //会得到 专业ID 班级ID
-            for (int j = 0; j < majorClassIDList.size(); j++) {
-                //使用基本数据类型的时候，如果字段是NULL，那么JDBC会返回0，但是这里会有一个问题。
-                //有可能0在你的业务逻辑代表着特定含义，这时候就可能出现一些意想不到的后果。
-                if (majorClassIDList.get(j).getClass_id() == 0) {
-                    List<MajorClassDO> classIDList = majorClassService.getClassListByMajorID(majorClassIDList.get(j).getMajor_id());
+                for (CourseStudent studentID : studentIDList) {
+                    StudentDO studentDO = studentService.getStudentInfoByStuID(studentID.getStudent_id());
 
-                    System.out.println("classIDList == " + classIDList);
+                    CourseSignCaseKK kk = new CourseSignCaseKK(studentDO.getMajor_id(), studentDO.getClass_id());
 
-                    for (MajorClassDO majorClassDO : classIDList) {
-                        rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
-                                majorClassIDList.get(j).getMajor_id(),
-                                majorClassDO.getClass_id(),
-                                interval_time));
+                    if (map.containsKey(kk)) {
+                        if (signCaseMap.get(studentDO.getId()).charAt(j) == '2')
+                            map.get(kk).late_count_increment();
+                        else if (signCaseMap.get(studentDO.getId()).charAt(j) == '1')
+                            map.get(kk).success_count_increment();
+                        else
+                            map.get(kk).truancy_count_increment();
+                    } else {
+                        map.put(kk, new CourseSignCaseVV(0, 0, 0));
                     }
-                } else {
-                    rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
-                            majorClassIDList.get(j).getMajor_id(),
-                            majorClassIDList.get(j).getClass_id(),
-                            interval_time));
                 }
+                for (Map.Entry<CourseSignCaseKK, CourseSignCaseVV> entry : map.entrySet()) {
+                    KK mapKey = entry.getKey();
+                    VV mapValue = entry.getValue();
+//            Record(KK,VV,getclass_name,getmajor_name);
+                    rows.add(new CourseSignCaseRecord());
+//            后来新建的两张表是不需要的！！
+                }
+
             }
-            System.out.println("temp rows ==" + rows);
 
-        }
 
-        JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
+//            List<CourseMajorClassDO> majorClassIDList =
+//                    courseMajorClassService.getMajorClassInfoByCourseID(courseIDList.get(i).getCourse_id());
+//
+//            System.out.println("majorClassIDList == " + majorClassIDList);
+//
+//            //会得到 专业ID 班级ID
+//            for (int j = 0; j < majorClassIDList.size(); j++) {
+//                //使用基本数据类型的时候，如果字段是NULL，那么JDBC会返回0，但是这里会有一个问题。
+//                //有可能0在你的业务逻辑代表着特定含义，这时候就可能出现一些意想不到的后果。
+//                if (majorClassIDList.get(j).getClass_id() == 0) {
+//                    List<MajorClassDO> classIDList = majorClassService.getClassListByMajorID(majorClassIDList.get(j).getMajor_id());
+//
+//                    System.out.println("classIDList == " + classIDList);
+//
+//                    for (MajorClassDO majorClassDO : classIDList) {
+//                        rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
+//                                majorClassIDList.get(j).getMajor_id(),
+//                                majorClassDO.getClass_id(),
+//                                interval_time));
+//                    }
+//                } else {
+//                    rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
+//                            majorClassIDList.get(j).getMajor_id(),
+//                            majorClassIDList.get(j).getClass_id(),
+//                            interval_time));
+//                }
+//            }
+//            System.out.println("temp rows ==" + rows);
+
+//        }
+
+            JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
 
 //        result.put("rows", array);
 //        result.put("status_code", StatusCode.SUCCESS);
 //        result.put("msg", "成功");
 //
-        System.out.println("array == " + array.toJSONString());
+            System.out.println("array == " + array.toJSONString());
 
-        ResponseUtil.write(response, array);
+            ResponseUtil.write(response, array);
+        }
     }
 
     @RequestMapping(value = "/getOneDayClassSignCase")

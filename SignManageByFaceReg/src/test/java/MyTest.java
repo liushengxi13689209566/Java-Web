@@ -33,8 +33,8 @@ public class MyTest {
         for (Map.Entry<KK, VV> entry : map.entrySet()) {
             KK mapKey = entry.getKey();
             VV mapValue = entry.getValue();
-            Record(KK,VV,getclass_name,getmajor_name);
-            后来新建的两张表是不需要的！！
+//            Record(KK,VV,getclass_name,getmajor_name);
+//            后来新建的两张表是不需要的！！
             System.out.println(mapKey + ":" + mapValue);
         }
 
