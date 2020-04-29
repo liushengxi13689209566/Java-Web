@@ -36,6 +36,8 @@ public class CourseController {
     private CourseTeacherService courseTeacherService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private SignCaseService signCaseService;
 
     @RequestMapping(value = "/getMyCourse", method = RequestMethod.GET)
     public void getMyCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -135,16 +137,34 @@ public class CourseController {
     public void delOneStudentInCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         System.out.println("进入delOneStudentInCourse");
-        String course_id_str = request.getParameter("course_id");
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
         String student_id = request.getParameter("student_id");
 
 
-        System.out.println("course_id == " + course_id_str);
+        System.out.println("course_id == " + course_id);
         System.out.println("student_id == " + student_id);
 
-        courseStudentService.delOneStudentInCourse(Integer.parseInt(course_id_str), student_id);
-
         JSONObject result = new JSONObject();
+
+        int ret = courseStudentService.delOneStudentInCourse(course_id, student_id);
+        System.out.println("ret  == " + ret);
+
+        if (ret != 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "抱歉，删除该学生失败了，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        ret = signCaseService.deleteSignCaseOneStudentOneCourse(student_id, course_id);
+        System.out.println(" deleteSignCaseOneStudentOneCourse ret  == " + ret);
+
+        if (ret != 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "抱歉，删除该学生失败了，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "成功");
         System.out.println("result == " + result);
@@ -157,9 +177,9 @@ public class CourseController {
         System.out.println("v");
 
         String student_id = request.getParameter("student_id");
-        String course_id_str = request.getParameter("course_id");
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
         System.out.println("student_id == " + student_id);
-        System.out.println("course_id_str == " + course_id_str);
+        System.out.println("course_id == " + course_id);
 
         JSONObject result = new JSONObject();
 
@@ -171,7 +191,19 @@ public class CourseController {
             return;
         }
 
-        int ret = courseStudentService.addOneStudentInCourse(Integer.parseInt(course_id_str), student_id);
+        int ret = courseStudentService.addOneStudentInCourse(course_id, student_id);
+        System.out.println("ret  == " + ret);
+
+        if (ret != 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "抱歉，添加该学生失败了，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        //sign_case
+        ret = signCaseService.initSignCaseOneStudentOneCourse(student_id, course_id);
+        System.out.println(" initSignCaseOneStudentOneCourse ret  == " + ret);
+
         if (ret != 1) {
             result.put("status_code", StatusCode.CALL_FAILED);
             result.put("msg", "抱歉，添加该学生失败了，请重试！！");

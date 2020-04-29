@@ -112,7 +112,6 @@
             contentType: "application/json",
             data: data,
             success: function (response) {
-                // $('#deleteWarning_modal').modal("hide");
                 console.log(response)
                 if (response.status_code == 0) {
                     // infoModal(type, msg);
@@ -121,13 +120,13 @@
                         field: 'id',
                         values: [student_id]
                     });
-                    // oneCourseAllStudentListTableRefresh();
+                } else {
+                    alert(response.msg);
                 }
             }, error: function (response) {
             }
         })
     }
-
 
     //上一步与下一步的设定
     var import_step = 1;

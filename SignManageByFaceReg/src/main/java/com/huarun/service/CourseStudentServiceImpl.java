@@ -1,6 +1,7 @@
 package com.huarun.service;
 
 import com.huarun.dao.CourseStudentMapper;
+import com.huarun.dao.SignCaseMapper;
 import com.huarun.dao.StudentMapper;
 import com.huarun.exception.CourseStudentServiceException;
 import com.huarun.pojo.CourseStudent;
@@ -25,6 +26,8 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     private CourseStudentMapper courseStudentMapper;
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private SignCaseMapper signCaseMapper;
 
     //构造需要的 Excel 数据结构
     private ExcelUtil excelUtil = new ExcelUtil();
@@ -40,8 +43,12 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
-    public int delOneStudentInCourse(int course_id, String student_id) {
-        return courseStudentMapper.delOneStudentInCourse(course_id, student_id);
+    public int delOneStudentInCourse(int course_id, String student_id) throws CourseStudentServiceException {
+        try {
+            return courseStudentMapper.delOneStudentInCourse(course_id, student_id);
+        } catch (PersistenceException e) {
+            throw new CourseStudentServiceException(e);
+        }
     }
 
     @Override
@@ -53,7 +60,7 @@ public class CourseStudentServiceImpl implements CourseStudentService {
         }
     }
 
-    //这里需要处理一下excel中输入 04161173 会没有0的情况
+    //这里需要处理一下 excel 中输入 04161173 会没有0的情况
     private boolean customerCheck(StuIDpojo stuIDpojo1) {
         boolean ret = StringUtils.isNumeric(stuIDpojo1.getId());
         System.out.println("ret == " + ret);
@@ -125,6 +132,10 @@ public class CourseStudentServiceImpl implements CourseStudentService {
                     params.put("availableList", availableList);
                     params.put("course_id", course_id);
                     courseStudentMapper.insertBatch(params);
+                    //记录考勤数据
+                    for (StuIDpojo tt : availableList) {
+                        signCaseMapper.initSignCaseOneStudentOneCourse(tt.getId(), course_id);
+                    }
                 }
             } catch (PersistenceException e) {
                 throw new CourseStudentServiceException(e);
