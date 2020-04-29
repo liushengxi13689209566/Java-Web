@@ -28,6 +28,9 @@
 <%
     String course_id = request.getParameter("course_id");
     System.out.println(course_id);
+
+    String course_name = request.getParameter("course_name");
+    System.out.println(course_name);
 %>
 <%--<script>--%>
 <%--    // 使用参数--%>
@@ -341,7 +344,7 @@
 </script>
 <div class="panel panel-default">
     <ol class="breadcrumb">
-        <li>课程学生管理</li>
+        <li><%=course_name%> 学生管理</li>
     </ol>
     <div class="panel-body">
         <%-- 一门课添加一个学生与批量导入功能--%>

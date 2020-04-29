@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huarun.utils.StatusCode;
@@ -13,16 +14,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyTest {
-//    @Test
+    //    @Test
 //    public Map<String, Object> compare(Timestamp course_start_timestamp, Timestamp sign_timestamp) {
 //        Map<String, Object> result = new HashMap<>();
 //
 //        //直接按照一个long值去判断即可
 //        return result;
 //    }
-
     @Test
     public void TestTest() {
+        Map<KK, VV> map = new HashMap<>();
+        map.put(new KK(1, 2, 3), new VV(0, 0, 0));
+        map.put(new KK(2, 2, 3), new VV(0, 0, 0));
+
+        map.put(new KK(1, 2, 3), new VV(11, 0, 0));
+        map.put(new KK(1, 2, 3), new VV(22222, 0, 0));
+
+        for (Map.Entry<KK, VV> entry : map.entrySet()) {
+            KK mapKey = entry.getKey();
+            VV mapValue = entry.getValue();
+            Record(KK,VV,getclass_name,getmajor_name);
+            后来新建的两张表是不需要的！！
+            System.out.println(mapKey + ":" + mapValue);
+        }
+
+
+        String jsonString = JSON.toJSONString(map);
+        System.out.println(jsonString);
+
 //        String str = "****";
 //        if (StringUtils.isNotBlank(str)) {
 //            StringBuilder sb = new StringBuilder("18698587234");
@@ -30,12 +49,12 @@ public class MyTest {
 //            sb.replace(3, 7, str);
 //            System.err.println("========" + sb.toString());
 //        }
-        String test = "liushengxi ";
-        System.out.println("test.charAt(2) == " + test.charAt(2));
-        StringBuilder sb = new StringBuilder(test);
-        sb.setCharAt(2, '6');
-        System.out.println("sb == " + sb);
-        System.out.println("test == " + test);
+//        String test = "liushengxi ";
+//        System.out.println("test.charAt(2) == " + test.charAt(2));
+//        StringBuilder sb = new StringBuilder(test);
+//        sb.setCharAt(2, '6');
+//        System.out.println("sb == " + sb);
+//        System.out.println("test == " + test);
 
 //        StringBuffer buffer = new StringBuffer(test);
 //        System.out.println(buffer);

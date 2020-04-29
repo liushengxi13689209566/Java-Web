@@ -42,6 +42,8 @@ public class SignCaseController {
     private CourseSignCaseRecordService courseSignCaseRecordService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private CourseStudentService courseStudentService;
 
     @RequestMapping(value = "/OneCourseSignCase/getOneStuSignCase")
     public void getOneStuSignCase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -113,6 +115,12 @@ public class SignCaseController {
         //会得到相关的课程 ID
         int count = 0;
         for (int i = 0; i < courseIDList.size(); i++) {
+            List<CourseStudent> studentIDList = courseStudentService.queryOneCourseAllStudent(courseIDList.get(i).getCourse_id());
+
+            for (int j = 0; j < studentIDList.size(); j++) {
+                
+            }
+
             List<CourseMajorClassDO> majorClassIDList =
                     courseMajorClassService.getMajorClassInfoByCourseID(courseIDList.get(i).getCourse_id());
 

@@ -111,7 +111,8 @@
                                 console.log(url)
                                 //重新绘制页面
                                 $('#panel').load(url, {
-                                    'course_id': row.course_id
+                                    'course_id': row.course_id,
+                                    'course_name': row.course_name
                                 });
 
                                 // $('#oneCourseAllStudentList').bootstrapTable('refresh', {
