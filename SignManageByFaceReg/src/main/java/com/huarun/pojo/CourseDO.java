@@ -3,7 +3,7 @@ package com.huarun.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CourseInfo implements Serializable {
+public class CourseDO implements Serializable {
     private int course_id;
     private String course_name;
     private int course_times;
@@ -11,7 +11,7 @@ public class CourseInfo implements Serializable {
     private Date course_start;
     private Date course_end;
 
-    public CourseInfo(int course_id, String course_name, int course_times, int course_credit, Date course_start, Date course_end) {
+    public CourseDO(int course_id, String course_name, int course_times, int course_credit, Date course_start, Date course_end) {
         this.course_id = course_id;
         this.course_name = course_name;
         this.course_times = course_times;
@@ -20,7 +20,7 @@ public class CourseInfo implements Serializable {
         this.course_end = course_end;
     }
 
-    public CourseInfo() {
+    public CourseDO() {
     }
 
     public int getCourse_id() {
@@ -73,7 +73,7 @@ public class CourseInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "CourseInfo{" +
+        return "CourseDO{" +
                 "course_id=" + course_id +
                 ", course_name='" + course_name + '\'' +
                 ", course_times=" + course_times +

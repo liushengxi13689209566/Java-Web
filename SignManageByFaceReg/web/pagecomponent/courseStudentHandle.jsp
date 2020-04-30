@@ -14,10 +14,6 @@
         .table > thead > tr > th {
             text-align: center;
         }
-
-        .menu_item {
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>

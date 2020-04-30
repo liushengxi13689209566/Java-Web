@@ -30,7 +30,7 @@
 //
 //        MajorDO majorDO = majorService.getMajorInfoByID(major_id);
 //        ClassDO classDO = classService.getClassInfoByClassID(class_id);
-//        CourseInfo courseInfo = courseService.queryCourseByID(course_id);
+//        CourseDO courseInfo = courseService.queryCourseByID(course_id);
 //
 //        List<StudentDO> studentList = studentService.getStudentInfoByMajorIDAndClassID(major_id, class_id);
 //        //这个班级还没有人

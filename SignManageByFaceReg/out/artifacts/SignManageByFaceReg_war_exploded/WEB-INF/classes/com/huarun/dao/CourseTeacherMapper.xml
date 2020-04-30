@@ -7,4 +7,10 @@
     <select id="getTeacherAllCourse" resultType="CourseTeacher">
         select * from SignManage.course_teacher where teacher_id = #{teacher_id}
     </select>
+
+    <insert id="addOneCourseToTeaID">
+            insert into SignManage.course_teacher(teacher_id,course_id)
+            values (#{teacher_id},#{course_id})
+    </insert>
+
 </mapper>

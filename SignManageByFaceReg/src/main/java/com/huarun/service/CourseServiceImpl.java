@@ -1,7 +1,8 @@
 package com.huarun.service;
 
 import com.huarun.dao.CourseMapper;
-import com.huarun.pojo.CourseInfo;
+import com.huarun.pojo.CourseDO;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,27 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public List<CourseInfo> queryAllCourse() {
+    public List<CourseDO> queryAllCourse() {
         return courseMapper.queryAllCourse();
     }
 
     @Override
-    public CourseInfo queryCourseByID(int id) {
+    public CourseDO queryCourseByID(int id) {
         return courseMapper.queryCourseByID(id);
     }
 
+    @Override
+    public int addOneCourse(CourseDO courseDo) {
+        int ret = 0;
+        try {
+            ret = courseMapper.addOneCourse(courseDo);
+        } catch (PersistenceException e) {
+            ret = -1;
+        } finally {
+        }
+        
+        System.out.println("ret == " + ret);
+
+        return ret;
+    }
 }

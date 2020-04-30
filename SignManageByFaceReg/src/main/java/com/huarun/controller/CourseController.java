@@ -3,24 +3,21 @@ package com.huarun.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.huarun.OtherStructure.StudentInfoShow;
-import com.huarun.exception.CourseStudentServiceException;
 import com.huarun.pojo.*;
 import com.huarun.service.*;
 import com.huarun.utils.ResponseUtil;
 import com.huarun.utils.StatusCode;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +27,8 @@ import java.util.Map;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private CourseTimeService courseTimeService;
     @Autowired
     private CourseStudentService courseStudentService;
     @Autowired
@@ -61,7 +60,7 @@ public class CourseController {
             System.out.println(courseStudent);
         }
 
-        List<CourseInfo> rows = new ArrayList<CourseInfo>();
+        List<CourseDO> rows = new ArrayList<CourseDO>();
 
         for (CourseStudent courseStudent : list) {
             System.out.println(courseService.queryCourseByID(courseStudent.getCourse_id()));
@@ -79,7 +78,7 @@ public class CourseController {
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
 
-//        for (CourseInfo ss :
+//        for (CourseDO ss :
 //                list) {
 //            System.out.println(ss);
 //        }
@@ -87,7 +86,7 @@ public class CourseController {
 
     @RequestMapping(value = "/getAllCourse", method = RequestMethod.GET)
     public void getAllCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<CourseInfo> rows = courseService.queryAllCourse();
+        List<CourseDO> rows = courseService.queryAllCourse();
 
         JSONObject result = new JSONObject();
         JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
@@ -114,7 +113,7 @@ public class CourseController {
             System.out.println(courseTeacher);
         }
 
-        List<CourseInfo> rows = new ArrayList<CourseInfo>();
+        List<CourseDO> rows = new ArrayList<CourseDO>();
 
         for (CourseTeacher courseTeacher : list) {
             System.out.println(courseService.queryCourseByID(courseTeacher.getCourse_id()));
@@ -131,6 +130,26 @@ public class CourseController {
 
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
+    }
+
+    @RequestMapping(value = "/getAllCourseTime", method = RequestMethod.GET)
+    public void getAllCourseTime(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
+
+        List<CourseTime> rows = courseTimeService.getCourseTimeByCourseID(course_id);
+
+        System.out.println("rowas == " + rows);
+
+//        JSONObject result = new JSONObject();
+        JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
+
+//        result.put("rows", array);
+//        result.put("status_code", StatusCode.SUCCESS);
+//        result.put("msg", "成功");
+//
+//        System.out.println("result == " + result);
+        ResponseUtil.write(response, array);
     }
 
     @RequestMapping(value = "/delOneStudentInCourse", method = RequestMethod.GET)
@@ -253,6 +272,101 @@ public class CourseController {
         result.put("msg", msg);
         result.put("available", available);
         result.put("total", total);
+
+        System.out.println("importOneCourseStudents result == " + result);
+
+        ResponseUtil.write(response, result);
+
+    }
+
+    @RequestMapping(value = "/addOneCourse", method = RequestMethod.POST)
+    public void addOneCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int status_code = 0;
+        String msg = "";
+
+        // 获取用户 ID
+        HttpSession session = request.getSession();
+        String userID = (String) session.getAttribute("userID");
+
+        //返回
+        JSONObject result = new JSONObject();
+
+        System.out.println("进入 addOneCourse");
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("course_name"));
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("course_times"));
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("course_credit"));
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("start_date"));
+        System.out.println("进入importOneCourseStudents-------------" + multipartRequest.getParameter("end_date"));
+
+        //查参数
+        String course_name = multipartRequest.getParameter("course_name");
+        String course_times = multipartRequest.getParameter("course_times");
+        String course_credit = multipartRequest.getParameter("course_credit");
+        String start_date = multipartRequest.getParameter("start_date");
+        String end_date = multipartRequest.getParameter("end_date");
+
+        if (course_name == null || course_times == null || course_credit == null || start_date == null || end_date == null) {
+            result.put("status_code", StatusCode.PARAM_ERROR);
+            result.put("msg", " 添加失败，缺少对应的课程信息，请检查！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        MultipartFile file = multipartRequest.getFile("course_time_table");
+        if (file == null) {
+            result.put("status_code", StatusCode.FILE_NULL);
+            result.put("msg", " 添加失败，上课时间表为空，请检查！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        System.out.println(file.getOriginalFilename());
+        // 1. 先添加 course 表
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+        CourseDO courseDO = new CourseDO(0, course_name, Integer.parseInt(course_times), Integer.parseInt(course_credit),
+                simpleDateFormat.parse(start_date), simpleDateFormat.parse(end_date));
+
+        System.out.println("之前的 courseDO 是 == " + courseDO);
+
+        int ret = courseService.addOneCourse(courseDO);
+        if (ret < 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", " 添加失败，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        //2.加入我要上的课
+        ret = courseTeacherService.addOneCourseToTeaID(userID, courseDO.getCourse_id());
+        if (ret < 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", " 添加失败，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        //3.加入时间表
+
+        //这里 Mybatis 会将插入数据的主键返回到 courseDO 对象的 course_id 中
+
+        System.out.println("courseDO == " + courseDO);
+
+        // 读取文件内容
+//        int total = 0;
+//        int available = 0;
+//        Map<String, Object> importInfo = courseStudentService.importOneCourseStudents(file, course_id);
+//        if (importInfo != null) {
+//            total = (int) importInfo.get("total");
+//            available = (int) importInfo.get("available");
+//            status_code = StatusCode.SUCCESS;
+//            msg = "成功！！！";
+//        }
+
+
+        result.put("status_code", 0);
+        result.put("msg", msg);
+//        result.put("available", available);
+//        result.put("total", total);
 
         System.out.println("importOneCourseStudents result == " + result);
 
