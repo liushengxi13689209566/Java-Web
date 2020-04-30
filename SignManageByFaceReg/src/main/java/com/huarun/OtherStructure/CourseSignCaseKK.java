@@ -37,6 +37,16 @@ public class CourseSignCaseKK {
                 '}';
     }
 
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        return super.equals(obj);
+//    }
+
     @Override
     public int hashCode() {
         int result = 17;

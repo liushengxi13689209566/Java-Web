@@ -24,11 +24,13 @@ public class MyTest {
     @Test
     public void TestTest() {
         Map<KK, VV> map = new HashMap<>();
-        map.put(new KK(1, 2, 3), new VV(0, 0, 0));
-        map.put(new KK(2, 2, 3), new VV(0, 0, 0));
 
-        map.put(new KK(1, 2, 3), new VV(11, 0, 0));
-        map.put(new KK(1, 2, 3), new VV(22222, 0, 0));
+        map.put(new KK(2, 3), new VV(0, 0, 0));
+
+        KK tt = new KK(2, 3);
+        if (map.containsKey(tt)) {
+            map.get(tt).setLate_count(111);
+        }
 
         for (Map.Entry<KK, VV> entry : map.entrySet()) {
             KK mapKey = entry.getKey();
@@ -38,9 +40,22 @@ public class MyTest {
             System.out.println(mapKey + ":" + mapValue);
         }
 
+//        map.put(new KK(2, 3), new VV(0, 0, 0));
+//
+//        map.put(new KK(2, 3), new VV(11, 0, 0));
+//        map.put(new KK(2, 3), new VV(22222, 0, 0));
+//
+//        for (Map.Entry<KK, VV> entry : map.entrySet()) {
+//            KK mapKey = entry.getKey();
+//            VV mapValue = entry.getValue();
+////            Record(KK,VV,getclass_name,getmajor_name);
+////            后来新建的两张表是不需要的！！
+//            System.out.println(mapKey + ":" + mapValue);
+//        }
 
-        String jsonString = JSON.toJSONString(map);
-        System.out.println(jsonString);
+
+//        String jsonString = JSON.toJSONString(map);
+//        System.out.println(jsonString);
 
 //        String str = "****";
 //        if (StringUtils.isNotBlank(str)) {

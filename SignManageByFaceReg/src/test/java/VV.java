@@ -12,6 +12,19 @@ public class VV {
     public VV() {
     }
 
+    //自己写的方法
+    public void late_count_increment() {
+        late_count++;
+    }
+
+    public void truancy_count_increment() {
+        truancy_count++;
+    }
+
+    public void success_count_increment() {
+        success_count++;
+    }
+
     public int getLate_count() {
         return late_count;
     }

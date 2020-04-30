@@ -35,15 +35,16 @@ public class SignCaseController {
     @Autowired
     private CourseTeacherService courseTeacherService;
     @Autowired
-    private CourseMajorClassService courseMajorClassService;
-    @Autowired
-    private MajorClassService majorClassService;
-    @Autowired
-    private CourseSignCaseRecordService courseSignCaseRecordService;
-    @Autowired
     private StudentService studentService;
     @Autowired
     private CourseStudentService courseStudentService;
+    @Autowired
+    private MajorService majorService;
+    @Autowired
+    private ClassService classService;
+    @Autowired
+    private CourseService courseService;
+
 
     @RequestMapping(value = "/OneCourseSignCase/getOneStuSignCase")
     public void getOneStuSignCase(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -113,23 +114,25 @@ public class SignCaseController {
 
 //        这里会写的有点复杂，需要完善～！！！
         //会得到相关的课程 ID
+        int count = 0;
+
         for (int i = 0; i < courseIDList.size(); i++) {
             int course_id = courseIDList.get(i).getCourse_id();
-
             //先根据时间间隔查课程表信息；
-            List<CourseTime> allTimeList = courseTimeService.getCourseTimeByCourseID(course_id);
+            int totalCount = courseTimeService.getTotalCountByCourseID(course_id);
             List<CourseTime> timeList = courseTimeService.getCourseTimeByTime(course_id, interval_time);
 
             //没有数据就继续
             if (timeList.isEmpty()) {
                 continue;
             }
-            int idx_start = allTimeList.size() - timeList.size();
+            int idx_start = totalCount - timeList.size();
 
             //所有的学生是不变的
             List<CourseStudent> studentIDList = courseStudentService.queryOneCourseAllStudent(course_id);
             Map<String, String> signCaseMap = new HashMap<>();
 
+            //所有学生的考勤结果也要先提前取出来。
             for (CourseStudent studentID : studentIDList) {
                 signCaseMap.put(studentID.getStudent_id(),
                         signCaseService.getSignCaseByUserIDAndCourseID(studentID.getStudent_id(), course_id).getSign_case_bitmap());
@@ -146,6 +149,10 @@ public class SignCaseController {
                     CourseSignCaseKK kk = new CourseSignCaseKK(studentDO.getMajor_id(), studentDO.getClass_id());
 
                     if (map.containsKey(kk)) {
+
+                        System.out.println("包含：" + kk);
+                        System.out.println("signCaseMap.(j) == " + signCaseMap.get(studentDO.getId()).charAt(j));
+
                         if (signCaseMap.get(studentDO.getId()).charAt(j) == '2')
                             map.get(kk).late_count_increment();
                         else if (signCaseMap.get(studentDO.getId()).charAt(j) == '1')
@@ -153,50 +160,28 @@ public class SignCaseController {
                         else
                             map.get(kk).truancy_count_increment();
                     } else {
-                        map.put(kk, new CourseSignCaseVV(0, 0, 0));
+                        System.out.println("不包含：" + kk);
+                        map.put(kk, new CourseSignCaseVV(0, 1, 0));
                     }
                 }
                 for (Map.Entry<CourseSignCaseKK, CourseSignCaseVV> entry : map.entrySet()) {
-                    KK mapKey = entry.getKey();
-                    VV mapValue = entry.getValue();
-//            Record(KK,VV,getclass_name,getmajor_name);
-                    rows.add(new CourseSignCaseRecord());
-//            后来新建的两张表是不需要的！！
-                }
 
+                    System.out.println(entry.getKey() + ":" + entry.getValue());
+
+                    rows.add(new CourseSignCaseRecord(count++,
+                            entry.getKey(),
+                            entry.getValue(),
+                            majorService.getMajorInfoByID(entry.getKey().getMajor_id()).getMajor_name(),
+                            classService.getClassInfoByClassID(entry.getKey().getClass_id()).getClass_name(),
+                            course_id,
+                            courseService.queryCourseByID(course_id).getCourse_name(),
+                            j,
+                            timeList.get(j - idx_start).getCourse_start_timestamp()
+                    ));
+                }
             }
 
-
-//            List<CourseMajorClassDO> majorClassIDList =
-//                    courseMajorClassService.getMajorClassInfoByCourseID(courseIDList.get(i).getCourse_id());
-//
-//            System.out.println("majorClassIDList == " + majorClassIDList);
-//
-//            //会得到 专业ID 班级ID
-//            for (int j = 0; j < majorClassIDList.size(); j++) {
-//                //使用基本数据类型的时候，如果字段是NULL，那么JDBC会返回0，但是这里会有一个问题。
-//                //有可能0在你的业务逻辑代表着特定含义，这时候就可能出现一些意想不到的后果。
-//                if (majorClassIDList.get(j).getClass_id() == 0) {
-//                    List<MajorClassDO> classIDList = majorClassService.getClassListByMajorID(majorClassIDList.get(j).getMajor_id());
-//
-//                    System.out.println("classIDList == " + classIDList);
-//
-//                    for (MajorClassDO majorClassDO : classIDList) {
-//                        rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
-//                                majorClassIDList.get(j).getMajor_id(),
-//                                majorClassDO.getClass_id(),
-//                                interval_time));
-//                    }
-//                } else {
-//                    rows.addAll(courseSignCaseRecordService.getCourseSignCaseRecord(count, courseIDList.get(i).getCourse_id(),
-//                            majorClassIDList.get(j).getMajor_id(),
-//                            majorClassIDList.get(j).getClass_id(),
-//                            interval_time));
-//                }
-//            }
-//            System.out.println("temp rows ==" + rows);
-
-//        }
+//            后来新建的两张表是不需要的！！
 
             JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
 

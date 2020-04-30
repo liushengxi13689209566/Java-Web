@@ -8,6 +8,13 @@
         select * from SignManage.sm_course_time where
         course_id =  #{course_id}
     </select>
+
+
+    <select id="getTotalCountByCourseID" resultType="int">
+         select count(*) from SignManage.sm_course_time where
+        course_id =  #{course_id}
+    </select>
+
     <!--    动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。-->
     <!--    mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。-->
     <!--    1、#相当于对数据 加上 双引号，$相当于直接显示数据。-->

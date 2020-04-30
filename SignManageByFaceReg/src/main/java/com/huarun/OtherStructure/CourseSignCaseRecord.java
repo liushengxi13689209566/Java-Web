@@ -39,6 +39,24 @@ public class CourseSignCaseRecord implements Serializable {
 
     public CourseSignCaseRecord() {
     }
+    //自定义方法
+
+    public CourseSignCaseRecord(int id, CourseSignCaseKK KK, CourseSignCaseVV VV,
+                                String major_name, String class_name, int course_id, String course_name,
+                                int bitmap_idx, Timestamp course_start_timestamp) {
+        this.id = id;
+        this.major_id = KK.getMajor_id();
+        this.major_name = major_name;
+        this.class_id = KK.getClass_id();
+        this.class_name = class_name;
+        this.course_id = course_id;
+        this.course_name = course_name;
+        this.bitmap_idx = bitmap_idx;
+        this.course_start_timestamp = course_start_timestamp;
+        this.late_count = VV.getLate_count();
+        this.truancy_count = VV.getTruancy_count();
+        this.success_count = VV.getSuccess_count();
+    }
 
     public int getId() {
         return id;

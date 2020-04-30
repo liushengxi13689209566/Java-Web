@@ -18,6 +18,11 @@ public class CourseTimeServiceImpl implements CourseTimeService {
     }
 
     @Override
+    public int getTotalCountByCourseID(int course_id) {
+        return courseTimeMapper.getTotalCountByCourseID(course_id);
+    }
+
+    @Override
     public List<CourseTime> getCourseTimeByTime(int course_id, String interval_time) {
         return courseTimeMapper.getCourseTimeByTime(course_id, interval_time);
     }
