@@ -125,7 +125,7 @@
                     alert(response.msg);
                 } else {
                     alert(response.msg);
-                    window.location.href = "${pageContext.request.contextPath}/book/allBook";
+                    <%--window.location.href = "${pageContext.request.contextPath}/book/allBook";--%>
                 }
             },
             fail: function () {

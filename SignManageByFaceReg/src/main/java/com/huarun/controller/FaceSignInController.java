@@ -37,7 +37,7 @@ public class FaceSignInController {
     private CourseTimeService courseTimeService;
     @Autowired
     private SignCaseService signCaseService;
-    
+
     @RequestMapping(value = "/FaceSignIn", method = RequestMethod.POST)
     public void FaceSignIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -118,17 +118,33 @@ public class FaceSignInController {
         System.out.println("order_number == " + (int) ret.get("order_number"));
         //5.生成相应的考勤记录
         String bitmap = signCaseService.getSignCaseByUserIDAndCourseID(userID, course_id).getSign_case_bitmap();
+
+        System.out.println("bitmap == " + bitmap);
+
         StringBuffer buffer = new StringBuffer(bitmap);
         if (status_code == StatusCode.SUCCESS) {
+            System.out.println("SUccesss");
             buffer.setCharAt((int) ret.get("order_number"), StatusCode.SIGN_SUCCESS);
         } else if (status_code == StatusCode.CLASS_LATE) {
+            System.out.println("CLASS_LATE");
             buffer.setCharAt((int) ret.get("order_number"), StatusCode.SIGN_LATE);
         }
-        signCaseService.setgetSignCaseByUserIDAndCourseID(userID, course_id, buffer.toString());
+        System.out.println("buffer.toString() == " + buffer.toString());
+        System.out.println("userID==" + userID);
+        System.out.println("course_id == " + course_id);
 
-        result.put("status_code", StatusCode.SUCCESS);
-        result.put("msg", "考勤成功啦");
+        int tt = signCaseService.updateSignCaseByUserIDAndCourseID(userID, course_id, buffer.toString());
+        if (tt < 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "考勤失败，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+
+        result.put("status_code", status_code);
+        result.put("msg", ret.get("msg"));
         ResponseUtil.write(response, result);
+
         System.out.println(result);
     }
 

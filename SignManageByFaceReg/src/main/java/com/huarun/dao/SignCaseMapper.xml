@@ -9,10 +9,15 @@
         course_id = #{course_id} and student_id = #{student_id}
     </select>
 
-    <insert id="setgetSignCaseByUserIDAndCourseID">
-        insert into SignManage.sm_sign_case(course_id,student_id,sign_case_bitmap)
-        values  (#{course_id},#{student_id},#{sign_case_bitmap});
-    </insert>
+    <!--    <insert id="setSignCaseByUserIDAndCourseID">-->
+    <!--        insert into SignManage.sm_sign_case(course_id,student_id,sign_case_bitmap)-->
+    <!--        values  (#{course_id},#{student_id},#{sign_case_bitmap});-->
+    <!--    </insert>-->
+
+    <update id="updateSignCaseByUserIDAndCourseID">
+        update SignManage.sm_sign_case set sign_case_bitmap = #{sign_case_bitmap}
+        where course_id = #{course_id} and  student_id = #{student_id}
+    </update>
 
     <insert id="initSignCaseOneStudentOneCourse">
         insert into SignManage.sm_sign_case(course_id,student_id)

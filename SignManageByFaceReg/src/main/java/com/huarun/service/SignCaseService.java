@@ -14,7 +14,7 @@ public interface SignCaseService {
                                             @Param("course_id") int course_id);
 
     //刷新考勤记录
-    int setgetSignCaseByUserIDAndCourseID(@Param("student_id") String student_id,
+    int updateSignCaseByUserIDAndCourseID(@Param("student_id") String student_id,
                                           @Param("course_id") int course_id,
                                           @Param("sign_case_bitmap") String sign_case_bitmap);
 

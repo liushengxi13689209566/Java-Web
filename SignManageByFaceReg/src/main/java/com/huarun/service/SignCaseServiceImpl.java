@@ -25,8 +25,16 @@ public class SignCaseServiceImpl implements SignCaseService {
     }
 
     @Override
-    public int setgetSignCaseByUserIDAndCourseID(String student_id, int course_id, String sign_case_bitmap) {
-        return signCaseMapper.setgetSignCaseByUserIDAndCourseID(student_id, course_id, sign_case_bitmap);
+    public int updateSignCaseByUserIDAndCourseID(String student_id, int course_id, String sign_case_bitmap) {
+        //update   成功是1，失败是0，错误是异常。一定要捕捉异常。不然项目就崩了。
+        int ret = 0;
+        try {
+            ret = signCaseMapper.updateSignCaseByUserIDAndCourseID(student_id, course_id, sign_case_bitmap);
+        } catch (PersistenceException e) {
+            ret = -1;
+        } finally {
+        }
+        return ret;
     }
 
     @Override
