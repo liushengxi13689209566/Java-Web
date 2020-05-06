@@ -55,39 +55,39 @@
                 console.log(err.name || err);
                 /* 处理error */
             });
-        $('#userID').on('input propertychange', function () {
-            getMyCourse();
-        })
+        // $('#userID').on('input propertychange', function () {
+        //     getMyCourse();
+        // })
         $('#sign_button').click(function () {
             sendData(pen, canvas)
         })
-
     }
 
-    function getMyCourse() {
-        //这里不需要登录，从后台获取实验课程即可。
-        // （这里主要服务的是实验课，所以我这里不用分专业进行选择框的设计，不需要登录是为了与后台进行一个区分）
-        console.log("  bbhvhhjbsvhbfv == " + $("#userID").val())
-        var data = {
-            "id": $("#userID").val()
-        }
-        $.ajax({
-            type: "GET",
-            url: 'course/getMyCourse',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: data,
-            success: function (response) {
-                console.log(response)
-                $.each(response.rows, function (index, elem) {
-                    $('#course_selector').append("<option value='" + elem.course_id + "'>" + elem.course_name + "</option>");
-                });
-            },
-            error: function (response) {
-                $('#course_selector').append("<tr><td>" + "加载失败" + "</td></tr>");
-            }
-        });
-    }
+    //
+    // function getMyCourse() {
+    //     //这里不需要登录，从后台获取实验课程即可。
+    //     // （这里主要服务的是实验课，所以我这里不用分专业进行选择框的设计，不需要登录是为了与后台进行一个区分）
+    //     console.log("  bbhvhhjbsvhbfv == " + $("#userID").val())
+    //     var data = {
+    //         "id": $("#userID").val()
+    //     }
+    //     $.ajax({
+    //         type: "GET",
+    //         url: 'course/getMyCourse',
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         data: data,
+    //         success: function (response) {
+    //             console.log(response)
+    //             $.each(response.rows, function (index, elem) {
+    //                 $('#course_selector').append("<option value='" + elem.course_id + "'>" + elem.course_name + "</option>");
+    //             });
+    //         },
+    //         error: function (response) {
+    //             $('#course_selector').append("<tr><td>" + "加载失败" + "</td></tr>");
+    //         }
+    //     });
+    // }
 
     /*
    *通过 canvas 画笔，将 vedio 截图（画一幅）
@@ -121,12 +121,12 @@
             success: function (response) {
                 console.log(response);
                 console.log("response.flag == bdfvbkfbvkfb ");
-                if (response.status_code != 0) {
-                    alert(response.msg);
-                } else {
-                    alert(response.msg);
-                    <%--window.location.href = "${pageContext.request.contextPath}/book/allBook";--%>
-                }
+                // if (response.status_code != 0) {
+                //     alert(response.msg);
+                // } else {
+                alert(response.msg);
+                <%--window.location.href = "${pageContext.request.contextPath}/book/allBook";--%>
+                // }
             },
             fail: function () {
                 alert(" 请重试！");
@@ -160,23 +160,23 @@
                                 </div>
                             </div class="col-md-7 col-sm-7">
                         </div>
-                        <div class="form-group" style="margin-left: 10px;">
-                            <label class="control-label col-md-5 col-sm-4">学号：</label>
-                            <div class="col-md-3 col-sm-3">
-                                <input type="text" id="userID" class="form-control"
-                                       placeholder="学号" name="userID"/>
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-left: 10px;">
-                            <label class="control-label col-md-5 col-sm-5">
-                                所考勤课程：
-                            </label>
-                            <div class="col-md-3 col-sm-3">
-                                <select id="course_selector" name="course_id" class="form-control">
-                                    <option value="">请选择对应课程:</option>
-                                </select>
-                            </div>
-                        </div>
+                        <%--                        <div class="form-group" style="margin-left: 10px;">--%>
+                        <%--                            <label class="control-label col-md-5 col-sm-4">学号：</label>--%>
+                        <%--                            <div class="col-md-3 col-sm-3">--%>
+                        <%--                                <input type="text" id="userID" class="form-control"--%>
+                        <%--                                       placeholder="学号" name="userID"/>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div class="form-group" style="margin-left: 10px;">--%>
+                        <%--                            <label class="control-label col-md-5 col-sm-5">--%>
+                        <%--                                所考勤课程：--%>
+                        <%--                            </label>--%>
+                        <%--                            <div class="col-md-3 col-sm-3">--%>
+                        <%--                                <select id="course_selector" name="course_id" class="form-control">--%>
+                        <%--                                    <option value="">请选择对应课程:</option>--%>
+                        <%--                                </select>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
                         <div>
                             <div class="col-md-4 col-sm-4"></div>
                             <div class="col-md-4 col-sm-4">

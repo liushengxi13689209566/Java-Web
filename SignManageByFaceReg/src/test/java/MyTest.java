@@ -1,6 +1,7 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.huarun.OtherStructure.FaceUserInfo;
 import com.huarun.utils.StatusCode;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -23,22 +24,37 @@ public class MyTest {
 //    }
     @Test
     public void TestTest() {
-        Map<KK, VV> map = new HashMap<>();
+        String user_info = "{\n" +
+                "    \"class_id\":1,\n" +
+                "    \"class_name\":\"1606\",\n" +
+                "    \"id\":\"04161180\",\n" +
+                "    \"major_desc\":\"ComputerScienceAndTechnology\",\n" +
+                "    \"major_id\":1,\n" +
+                "    \"major_name\":\"计算机科学与技术\",\n" +
+                "    \"name\":\"04165555\"\n" +
+                "}";
+        FaceUserInfo faceUserInfo = JSON.parseObject(user_info, FaceUserInfo.class);
+        System.out.println("facein == " + faceUserInfo);
 
-        map.put(new KK(2, 3), new VV(0, 0, 0));
+//        Group group = JSON.parseObject(jsonString, Group.class);
 
-        KK tt = new KK(2, 3);
-        if (map.containsKey(tt)) {
-            map.get(tt).setLate_count(111);
-        }
 
-        for (Map.Entry<KK, VV> entry : map.entrySet()) {
-            KK mapKey = entry.getKey();
-            VV mapValue = entry.getValue();
-//            Record(KK,VV,getclass_name,getmajor_name);
-//            后来新建的两张表是不需要的！！
-            System.out.println(mapKey + ":" + mapValue);
-        }
+//        Map<KK, VV> map = new HashMap<>();
+//
+//        map.put(new KK(2, 3), new VV(0, 0, 0));
+//
+//        KK tt = new KK(2, 3);
+//        if (map.containsKey(tt)) {
+//            map.get(tt).setLate_count(111);
+//        }
+//
+//        for (Map.Entry<KK, VV> entry : map.entrySet()) {
+//            KK mapKey = entry.getKey();
+//            VV mapValue = entry.getValue();
+////            Record(KK,VV,getclass_name,getmajor_name);
+////            后来新建的两张表是不需要的！！
+//            System.out.println(mapKey + ":" + mapValue);
+//        }
 
 //        map.put(new KK(2, 3), new VV(0, 0, 0));
 //
