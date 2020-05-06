@@ -29,4 +29,15 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
         }
         return ret;
     }
+
+    @Override
+    public int deleteOnCourseInTeaID(String teacher_id, int course_id) {
+        int ret = 0;
+        try {
+            ret = courseTeacherMapper.deleteOnCourseInTeaID(teacher_id, course_id);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
 }

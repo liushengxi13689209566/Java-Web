@@ -373,4 +373,27 @@ public class CourseController {
         ResponseUtil.write(response, result);
 
     }
+
+    @RequestMapping(value = "/deleteOnCourseInTea", method = RequestMethod.GET)
+    public void deleteOnCourse(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("进入 deleteOnCourse");
+        // 获取用户 ID
+        HttpSession session = request.getSession();
+        String userID = (String) session.getAttribute("userID");
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
+
+        //返回
+        JSONObject result = new JSONObject();
+        int ret = courseTeacherService.deleteOnCourseInTeaID(userID, course_id);
+        if (ret < 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", "sorry! 删除失败了！请重试！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", "删除成功啦！！");
+        ResponseUtil.write(response, result);
+        return;
+    }
 }

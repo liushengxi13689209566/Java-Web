@@ -177,23 +177,17 @@
                                         </li>
                                     </shiro:hasRole>
                                     <!--若为超级管理员-->
-                                        <%--                                <shiro:hasRole name="systemAdmin">--%>
-                                        <%--                                    <li class="list-group-item">--%>
-                                        <%--                                        <a href="javascript:void(0)" class="menu_item"--%>
-                                        <%--                                           name="pagecomponent/storageManagement.jsp">更新人脸照片</a>--%>
-                                        <%--                                    </li>--%>
-                                        <%-- <li class="list-group-item">--%>
-                                        <%-- <a href="javascript:void(0)" id=""--%>
-                                        <%--class="menu_item"--%>
-                                        <%-- name="pagecomponent/stockRecordManagement.html">出入库记录</a>--%>
-                                        <%--</li>--%>
-                                        <%--</shiro:hasRole>--%>
+                                    <shiro:hasRole name="admin">
+                                        <li class="list-group-item">
+                                            <a href="javascript:void(0)" class="menu_item"
+                                               name="pagecomponent/SystemCourseManage.jsp">课程管理</a>
+                                        </li>
+                                    </shiro:hasRole>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </shiro:hasAnyRoles>
-
                 <%--4。学生信息管理功能 专属于管理员--%>
                 <shiro:hasRole name="admin">
                     <div class="panel panel-default">

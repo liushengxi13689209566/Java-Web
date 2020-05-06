@@ -45,6 +45,7 @@
     }
 
     function CourseTimeTableListInit() {
+        var count = 1;
         $('#CourseTimeTableList').bootstrapTable(
             {
                 url: 'course/getAllCourseTime',
@@ -60,18 +61,20 @@
                 // pageList: [5, 10, 25, 50, 100],
                 //单选选项
                 // clickToSelect: true
+                //搜索功能
+                search: true,
+                //怎么不显示呐？
+                showSearchClearButton: true,
                 responseHandler: function (res) {
-                    $.each(res, function (row) {
-                        console.log(row)
-                        $.inArray(row)
-                    })
                     return res;
                 },
                 columns: [
                     {
                         field: 'id',
-                        title: '第几节课'
-                        //sortable: true
+                        title: '第几节课',
+                        formatter: function (value) {
+                            return count++;
+                        }
                     },
                     {
                         field: 'course_start_timestamp',
@@ -82,25 +85,6 @@
                         field: 'course_end_timestamp',
                         title: '课程结束时间',
                         formatter: timestampToTime
-                    },
-                    {
-                        field: 'operation',
-                        title: '操作',
-                        formatter: function (value, row, index) {
-                            return [
-                                '<button class="btn btn-danger btn-sm delete"><span>删除</span></button>'
-                            ].join('')
-                        },
-                        events: {
-                            'click .delete': function (e, value, row, index) {
-                                // selectID = row.id;
-                                if (confirm('确定删除 ? ') == false)
-                                    return false;
-
-                                console.log("确认删除了！！！")
-                                <%--deleteOnCourseOneStudent(row.id, <%=course_id%>)--%>
-                            }
-                        }
                     }],
             })
     }

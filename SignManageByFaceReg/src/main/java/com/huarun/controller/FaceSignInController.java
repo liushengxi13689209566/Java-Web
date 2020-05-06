@@ -119,7 +119,6 @@ public class FaceSignInController {
                 continue;
             }
             //如果不符合，继续，符合的话就成功了
-
             System.out.println("order_number == " + (int) ret.get("order_number"));
             //5.生成相应的考勤记录
             String bitmap = signCaseService.getSignCaseByUserIDAndCourseID(faceUserInfo.getId(),

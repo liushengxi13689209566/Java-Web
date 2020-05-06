@@ -13,4 +13,9 @@
             values (#{teacher_id},#{course_id})
     </insert>
 
+    <delete id="deleteOnCourseInTeaID">
+        delete from SignManage.course_teacher
+        where teacher_id = #{teacher_id} and course_id = #{course_id}
+    </delete>
+
 </mapper>
