@@ -19,4 +19,9 @@
                     #{courseDO.course_end})
     </insert>
 
+    <delete id="deleteOneCourse">
+        delete from SignManage.course
+        where course_id = #{course_id}
+    </delete>
+
 </mapper>

@@ -5,6 +5,7 @@ import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.ImmutableNode;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +14,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.sql.Date;
+
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -140,6 +143,8 @@ public class ExcelUtil {
                 methodList.add(cell.getColumnIndex(), getSetterMethodName(field));
             }
 
+            System.out.println("fieldTypeList == " + fieldTypeList);
+
             // 逐行读取表格内容，创建对象赋值并导入
             while (rowIterator.hasNext()) {
                 row = rowIterator.next();
@@ -154,6 +159,8 @@ public class ExcelUtil {
 
                     Class<?> fieldType = fieldTypeList.get(columnIndex);
                     String methodName = methodList.get(columnIndex);
+
+                    System.out.println("Class<?> fieldType == " + fieldType);
 
                     // 获取单元格的值，并设置对象中对应的属性
                     Object value = getCellValue(fieldType, cell);
@@ -284,22 +291,30 @@ public class ExcelUtil {
             return null;
 
         int cellType = cell.getCellType();
+
+        System.out.println("进入了getCellValue");
+        System.out.println("-----" + fieldType);
+
         Object value = null;
         if (cellType == Cell.CELL_TYPE_STRING) {
             if (fieldType.equals(String.class)) {
                 value = cell.getStringCellValue();
             }
         } else if (cellType == Cell.CELL_TYPE_NUMERIC) {
-            if (fieldType.equals(String.class)) {
-                value = new DecimalFormat("0").format(cell.getNumericCellValue());
-            } else if (fieldType.equals(Date.class)) {// && HSSFDateUtil.isCellDateFormatted(cell)
-                value = new Date(cell.getDateCellValue().getTime());
+            //对于日期类型,统一返回有格式 String 日期类型
+            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                //方法一
+                value = sdf.format(cell.getDateCellValue());
+                System.out.println("日期等于 value == " + value);
             } else if (fieldType.equals(Long.class)) {
                 Double v = cell.getNumericCellValue();
                 value = v.longValue();
-            } else if (fieldType.equals(Integer.class)) {
+            } else if (fieldType.equals(Integer.class) || fieldType.equals(int.class)) {
                 Double v = cell.getNumericCellValue();
                 value = v.intValue();
+            } else if (fieldType.equals(String.class)) {
+                value = new DecimalFormat("0").format(cell.getNumericCellValue());
             } else {
                 value = cell.getNumericCellValue();
             }
@@ -365,6 +380,9 @@ public class ExcelUtil {
         // 获得 setter 方法实例
         Class<?> targetObjectType = targetObject.getClass();
         Class<?> fieldType = field.getClass();
+
+        System.out.println("fieldType  == " + fieldType);
+
         Method setterMethod = targetObjectType.getMethod(methodName, fieldType);
 
         // 调用方法

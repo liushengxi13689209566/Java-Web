@@ -17,7 +17,7 @@
 
     <select id="getTotalCourseCountBeforeToday" resultType="int">
          select count(*) from SignManage.sm_course_time where
-        course_id =  #{course_id} and course_start_timestamp &lt;= now()
+        course_id =  #{course_id} and course_start_timestamp &lt;= DATE_SUB(now(),INTERVAL -30 minute)
     </select>
 
     <!--    sign_timestamp  单位是秒-->
@@ -31,11 +31,25 @@
     <!--    动态 sql 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。-->
     <!--    mybatis 为我们提供了两种支持动态 sql 的语法：#{} 以及 ${} 。-->
     <!--    1、#相当于对数据 加上 双引号，$相当于直接显示数据。-->
+
     <select id="getCourseTimeByTime" resultType="CourseTime">
         select * from SignManage.sm_course_time where
         course_id = #{course_id} and
         course_start_timestamp &gt;= DATE_SUB(now(), INTERVAL ${interval_time}) and
         course_start_timestamp &lt;= now()
     </select>
+
+    <delete id="deleteOneCourse">
+        delete from SignManage.sm_course_time
+        where course_id = #{course_id}
+    </delete>
+
+    <insert id="insertBatch">
+        insert into SignManage.sm_course_time(course_id,course_start_timestamp,course_end_timestamp)
+        values
+        <foreach collection="params.availableList" item="CourseTimeStamp" separator=",">
+            (#{params.course_id},#{CourseTimeStamp.course_start_timestamp},#{CourseTimeStamp.course_end_timestamp})
+        </foreach>
+    </insert>
 
 </mapper>

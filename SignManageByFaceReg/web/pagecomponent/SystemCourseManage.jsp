@@ -46,28 +46,28 @@
 
     //立即函数
     $(function () {
-        courseListInit();
+        allCourseListInit();
         datePickerInit();
 
         addCourseAction();
     })
 
-    function deleteOnCourse(course_id) {
+    function deleteOneCourse(course_id) {
         var data = {
             "course_id": course_id
         }
         $.ajax({
             type: "GET",
-            url: "course/deleteOnCourse",
+            url: "course/deleteOneCourse",
             dataType: "json",
             contentType: "application/json",
             data: data,
             success: function (response) {
                 console.log(response)
-                alert("删除成功！")
                 if (response.status_code == 0) {
+                    alert("删除成功！")
                     //减少后端请求，前端页面刷新即可
-                    $('#courseList').bootstrapTable('remove', {
+                    $('#allCourseList').bootstrapTable('remove', {
                         field: 'course_id',
                         values: [course_id]
                     });
@@ -79,14 +79,13 @@
         })
     }
 
-    // courseList表格
-    function courseListInit() {
+    // allCourseList表格
+    function allCourseListInit() {
         console.log("初始化了！！！！")
-        $('#courseList').bootstrapTable(
+        $('#allCourseList').bootstrapTable(
             {
-                url: 'course/getMyTeaCourse',
+                url: 'course/getAllCourse',
                 method: 'GET',
-                // queryParams: queryParamsFun,
                 sidePagination: "server",
                 dataType: 'json',
                 // 分页选项
@@ -159,7 +158,7 @@
                                     return false;
 
                                 console.log("确认删除了！！！")
-                                deleteOnCourse(row.course_id)
+                                deleteOneCourse(row.course_id)
                             }
                         }
                     },
@@ -193,7 +192,7 @@
 
     // 表格刷新
     function tableRefresh() {
-        $('#courseList').bootstrapTable('refresh', {
+        $('#allCourseList').bootstrapTable('refresh', {
             query: {}
         });
     }
@@ -339,7 +338,7 @@
 
         <div class="row" style="margin-top: 15px">
             <div class="col-md-12">
-                <table id="courseList" class="table table-striped"></table>
+                <table id="allCourseList" class="table table-striped"></table>
                 </table>
             </div>
         </div>

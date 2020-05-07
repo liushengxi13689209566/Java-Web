@@ -9,10 +9,7 @@ import org.junit.Test;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MyTest {
     //    @Test
@@ -24,17 +21,33 @@ public class MyTest {
 //    }
     @Test
     public void TestTest() {
-        String user_info = "{\n" +
-                "    \"class_id\":1,\n" +
-                "    \"class_name\":\"1606\",\n" +
-                "    \"id\":\"04161180\",\n" +
-                "    \"major_desc\":\"ComputerScienceAndTechnology\",\n" +
-                "    \"major_id\":1,\n" +
-                "    \"major_name\":\"计算机科学与技术\",\n" +
-                "    \"name\":\"04165555\"\n" +
-                "}";
-        FaceUserInfo faceUserInfo = JSON.parseObject(user_info, FaceUserInfo.class);
-        System.out.println("facein == " + faceUserInfo);
+
+        KK k1 = new KK("2020/5/8 8:00", "2020/5/8 10:00");
+        KK k2 = new KK("2020/5/8 8:00", "2020/5/8 9:00");
+
+        List<KK> list = new ArrayList<>();
+        list.add(k1);
+        list.add(k2);
+
+        HashSet set = new HashSet(list);
+        list.clear();
+        list.addAll(set);
+        System.out.println("list == " + list);
+//
+//        if (t1 == t2) {
+//            System.out.println("vfvfvf");
+//        }
+//        String user_info = "{\n" +
+//                "    \"class_id\":1,\n" +
+//                "    \"class_name\":\"1606\",\n" +
+//                "    \"id\":\"04161180\",\n" +
+//                "    \"major_desc\":\"ComputerScienceAndTechnology\",\n" +
+//                "    \"major_id\":1,\n" +
+//                "    \"major_name\":\"计算机科学与技术\",\n" +
+//                "    \"name\":\"04165555\"\n" +
+//                "}";
+//        FaceUserInfo faceUserInfo = JSON.parseObject(user_info, FaceUserInfo.class);
+//        System.out.println("facein == " + faceUserInfo);
 
 //        Group group = JSON.parseObject(jsonString, Group.class);
 

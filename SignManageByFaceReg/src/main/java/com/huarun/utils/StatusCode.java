@@ -27,6 +27,9 @@ public class StatusCode {
     public static final int NO_COURSE_TIME = 14;
     public static final int PASSWORD_INCORRECT = 15;
     public static final int PARAM_ERROR = 16;
+    public static final int NO_COURSE = 17;
+    public static final int TRANSACTIONS_EXE_ERROR = 18;
+    public static final int INSERT_BATCH_ERROR = 19;
 
     //    我们用 0 1 2 表示 未考勤，考勤成功，迟到，后续还可以加入更多(课时不可能超过 100 节)
     public static final char SIGN_SUCCESS = '1';

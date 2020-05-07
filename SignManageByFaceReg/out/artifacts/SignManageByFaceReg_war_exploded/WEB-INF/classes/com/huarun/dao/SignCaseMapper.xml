@@ -29,4 +29,9 @@
         course_id = #{course_id} and student_id = #{student_id}
     </delete>
 
+    <delete id="deleteOneCourse">
+        delete from SignManage.sm_sign_case where
+        course_id = #{course_id}
+    </delete>
+
 </mapper>

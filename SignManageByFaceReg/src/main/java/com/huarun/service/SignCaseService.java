@@ -25,4 +25,7 @@ public interface SignCaseService {
     //删除一个学生一门课的考勤记录
     int deleteSignCaseOneStudentOneCourse(@Param("student_id") String student_id,
                                           @Param("course_id") int course_id) throws SignCaseServiceException;
+
+    //彻底删除一门课
+    int deleteOneCourse(@Param("course_id") int course_id);
 }

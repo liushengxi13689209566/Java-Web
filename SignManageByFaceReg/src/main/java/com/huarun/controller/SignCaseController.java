@@ -72,11 +72,9 @@ public class SignCaseController {
         List<SignCaseRecord> rows = new ArrayList<SignCaseRecord>();
         System.out.println("size == " + timeList.size());
         for (int i = 0; i < timeList.size(); i++) {
-            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            //方法一
-            String tsStr = sdf.format(timeList.get(i).getCourse_start_timestamp());
 
-            System.out.println("tsStr == " + tsStr);
+
+//            System.out.println("tsStr == " + tsStr);
 
             rows.add(new SignCaseRecord(i + 1,
                     timeList.get(i).getCourse_start_timestamp(),

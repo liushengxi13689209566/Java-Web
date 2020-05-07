@@ -47,9 +47,16 @@
     //立即函数
     $(function () {
         courseListInit();
+
+        addOneCourse();
     })
 
-    function addstudentAction() {
+    // 表格刷新
+    function courseListTableRefresh() {
+        $('#courseList').bootstrapTable('refresh');
+    }
+
+    function addOneCourse() {
         $('#add_one_course').click(function () {
             $('#add_modal').modal("show");
         });
@@ -68,11 +75,11 @@
                 success: function (response) {
                     $('#add_modal').modal("hide");
                     if (response.status_code == 0) {
-                        alert("success! 学生添加成功");
+                        alert("success! 课程添加成功");
                     } else {
                         alert(response.msg);
                     }
-                    oneCourseAllStudentListTableRefresh();
+                    courseListTableRefresh();
                     // reset
                     $('#student_id').val("");
                 },
@@ -88,7 +95,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "course/deleteOnCourseInTea",
+            url: "course/deleteOneCourseInTea",
             dataType: "json",
             contentType: "application/json",
             data: data,
@@ -109,7 +116,7 @@
         })
     }
 
-    // courseList表格
+    // courseList 表格
     function courseListInit() {
         console.log("初始化了！！！！")
         $('#courseList').bootstrapTable(

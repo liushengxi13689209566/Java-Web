@@ -13,4 +13,7 @@ public interface CourseTeacherMapper {
 
     //删除一门课
     int deleteOnCourseInTeaID(@Param("teacher_id") String teacher_id, @Param("course_id") int course_id);
+    
+    //删除一门课
+    int deleteOneCourse(@Param("course_id") int course_id);
 }

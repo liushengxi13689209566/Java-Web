@@ -47,30 +47,45 @@
     //立即函数
     $(function () {
         courseListInit();
+
+        addOneCourse();
     })
 
-    function addOnCourse() {
+    // 表格刷新
+    function courseListTableRefresh() {
+        $('#courseList').bootstrapTable('refresh');
+    }
 
-        $.ajax({
-            type: "GET",
-            url: "course/deleteOnCourse",
-            dataType: "json",
-            contentType: "application/json",
-            data: data,
-            success: function (response) {
-                console.log(response)
-                alert("删除成功！")
-                if (response.status_code == 0) {
-                    //减少后端请求，前端页面刷新即可
-                    $('#courseList').bootstrapTable('remove', {
-                        field: 'course_id',
-                        values: [course_id]
-                    });
-                } else {
-                    alert(response.msg);
-                }
-            }, error: function (response) {
+    function addOneCourse() {
+        $('#add_one_course').click(function () {
+            $('#add_modal').modal("show");
+        });
+        $('#add_modal_submit').click(function () {
+            console.log("点击了提交按钮了")
+            var data = {
+                course_id: $('#course_id').val()
             }
+            // ajax
+            $.ajax({
+                url: "course/addOneCourseToTea",
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: data,
+                success: function (response) {
+                    $('#add_modal').modal("hide");
+                    if (response.status_code == 0) {
+                        alert("success! 课程添加成功");
+                    } else {
+                        alert(response.msg);
+                    }
+                    courseListTableRefresh();
+                    // reset
+                    $('#student_id').val("");
+                },
+                error: function (response) {
+                }
+            })
         })
     }
 
@@ -80,7 +95,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "course/deleteOnCourse",
+            url: "course/deleteOneCourseInTea",
             dataType: "json",
             contentType: "application/json",
             data: data,
@@ -101,7 +116,7 @@
         })
     }
 
-    // courseList表格
+    // courseList 表格
     function courseListInit() {
         console.log("初始化了！！！！")
         $('#courseList').bootstrapTable(
@@ -248,7 +263,7 @@
         </div>
     </div>
 </div>
-
+<%--添加课程模态框--%>
 <div id="add_modal" class="modal fade" table-index="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true"
      data-backdrop="static">

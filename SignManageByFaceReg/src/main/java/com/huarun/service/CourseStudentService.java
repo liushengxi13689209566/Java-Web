@@ -18,6 +18,9 @@ public interface CourseStudentService {
 
     //删除一门课中的一个学生
     int delOneStudentInCourse(@Param("course_id") int course_id, @Param("student_id") String student_id) throws CourseStudentServiceException;
+    
+    //删除一门课
+    int deleteOneCourse(@Param("course_id") int course_id);
 
     //添加一个学生到一门课中
     int addOneStudentInCourse(@Param("course_id") int course_id, @Param("student_id") String student_id) throws CourseStudentServiceException;

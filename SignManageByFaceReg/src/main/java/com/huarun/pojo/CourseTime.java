@@ -4,14 +4,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class CourseTime implements Serializable {
-    private int id;
+    private Integer id;
     private int course_id;
     private Timestamp course_start_timestamp;
     private Timestamp course_end_timestamp;
 
-    public CourseTime(int id, int course_id, Timestamp course_start_timestamp, Timestamp course_end_timestamp) {
+    public CourseTime(Integer id, int course_id, Timestamp course_start_timestamp, Timestamp course_end_timestamp) {
         this.id = id;
         this.course_id = course_id;
+        this.course_start_timestamp = course_start_timestamp;
+        this.course_end_timestamp = course_end_timestamp;
+    }
+
+    //为了批量导入课程表的功能
+    public CourseTime(Timestamp course_start_timestamp, Timestamp course_end_timestamp) {
         this.course_start_timestamp = course_start_timestamp;
         this.course_end_timestamp = course_end_timestamp;
     }
@@ -23,7 +29,7 @@ public class CourseTime implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

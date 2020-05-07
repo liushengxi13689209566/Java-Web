@@ -28,6 +28,8 @@ public interface CourseTimeService {
     //获得考勤的时间表，only 一条数据
     CourseTime getSignCourseTime(int course_id, long sign_timestamp);
 
+    int deleteOneCourse(int course_id);
+
 
     Map<String, Object> importOneCourseTime(MultipartFile file, int course_id);
 }

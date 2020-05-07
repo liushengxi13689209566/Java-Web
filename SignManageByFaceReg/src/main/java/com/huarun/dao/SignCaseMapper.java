@@ -23,4 +23,7 @@ public interface SignCaseMapper {
     int deleteSignCaseOneStudentOneCourse(@Param("student_id") String student_id,
                                           @Param("course_id") int course_id);
 
+    //彻底删除一门课
+    int deleteOneCourse(@Param("course_id") int course_id);
+
 }

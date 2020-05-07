@@ -36,6 +36,8 @@ public class FaceSignInController {
     @Autowired
     private ClassService classService;
     @Autowired
+    private CourseService courseService;
+    @Autowired
     private CourseTimeService courseTimeService;
     @Autowired
     private SignCaseService signCaseService;
@@ -149,17 +151,18 @@ public class FaceSignInController {
             int total_time = courseTimeService.getTotalCourseCountBeforeToday(courseStudentData.getCourse_id());
             int late_time = 0; //迟到
             int truancy_time = 0; //旷课次数
-            int success_time = 1; //出勤次数
-            for (int i = 0; i < total_time; i++) {
-                if (bitmap.charAt(i) == '0')
+            int success_time = 0; //出勤次数
+            for (int i = 0; i <= total_time; i++) {
+                if (buffer.toString().charAt(i) == '0')
                     truancy_time++;
-                else if (bitmap.charAt(i) == '1')
+                else if (buffer.toString().charAt(i) == '1')
                     success_time++;
                 else
                     late_time++;
             }
             result.put("status_code", status_code);
-            result.put("msg", ret.get("msg") + "\r\n\r\n 截止目前，你的考勤结果统计如下：\r\n" + "共 " + total_time + " 次课\r\n" +
+            result.put("msg", "考勤课程：" + courseService.queryCourseByID(courseStudentData.getCourse_id()).getCourse_name() +
+                    ret.get("msg") + "\r\n\r\n 截止目前，你的考勤结果统计如下：\r\n" + "共 " + total_time + " 次课\r\n" +
                     "迟到：" + late_time + " 次课\r\n" +
                     "缺勤：" + truancy_time + " 次课\r\n" +
                     "成功：" + success_time + " 次课\r\n"

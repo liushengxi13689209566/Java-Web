@@ -1,8 +1,8 @@
 public class KK {
-    private int major_id;
-    private int class_id;
+    private String major_id;
+    private String class_id;
 
-    public KK(int major_id, int class_id) {
+    public KK(String major_id, String class_id) {
         this.major_id = major_id;
         this.class_id = class_id;
     }
@@ -10,28 +10,25 @@ public class KK {
     public KK() {
     }
 
-    public int getMajor_id() {
+    public String getMajor_id() {
         return major_id;
     }
 
-    public void setMajor_id(int major_id) {
+    public void setMajor_id(String major_id) {
         this.major_id = major_id;
     }
 
-    public int getClass_id() {
+    public String getClass_id() {
         return class_id;
     }
 
-    public void setClass_id(int class_id) {
+    public void setClass_id(String class_id) {
         this.class_id = class_id;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + major_id;
-        result = 31 * result + class_id;
-        return result;
+        return major_id.hashCode();
     }
 
     @Override
@@ -43,7 +40,7 @@ public class KK {
             return false;
         }
         KK pn = (KK) obj;
-        return pn.major_id == major_id && pn.class_id == class_id;
+        return pn.major_id == major_id || pn.class_id == class_id;
     }
 
     @Override

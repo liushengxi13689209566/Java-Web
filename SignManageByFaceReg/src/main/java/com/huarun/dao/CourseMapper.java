@@ -19,4 +19,7 @@ public interface CourseMapper {
     //添加一门课程信息，返回对应的: course_id
     int addOneCourse(@Param("courseDO") CourseDO courseDo);
 
+    //彻底删除一门课程
+    int deleteOneCourse(@Param("course_id") int course_id);
+
 }

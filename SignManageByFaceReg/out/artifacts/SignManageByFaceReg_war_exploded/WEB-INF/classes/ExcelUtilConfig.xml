@@ -8,4 +8,35 @@
             <value>学号</value>
         </property>
     </entity>
+
+    <entity class="com.huarun.OtherStructure.CourseTimeStamp">
+        <property>
+            <field>id</field>
+            <value>第几节课(按课时)</value>
+        </property>
+        <property>
+            <field>course_start_timestamp</field>
+            <value>上课时间(yyyy-MM-dd HH:mm:ss)</value>
+        </property>
+        <property>
+            <field>course_end_timestamp</field>
+            <value>下课时间(yyyy-MM-dd HH:mm:ss)</value>
+        </property>
+    </entity>
+
+    <!--    <entity class="com.huarun.pojo.CourseTime">-->
+    <!--        <property>-->
+    <!--            <field>id</field>-->
+    <!--            <value>第几节课(按课时)</value>-->
+    <!--        </property>-->
+    <!--        <property>-->
+    <!--            <field>course_start_timestamp</field>-->
+    <!--            <value>上课时间(yyyy-MM-dd HH:mm:ss)</value>-->
+    <!--        </property>-->
+    <!--        <property>-->
+    <!--            <field>course_end_timestamp</field>-->
+    <!--            <value>下课时间(yyyy-MM-dd HH:mm:ss)</value>-->
+    <!--        </property>-->
+    <!--    </entity>-->
+
 </configuration>
