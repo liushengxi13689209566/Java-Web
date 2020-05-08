@@ -102,7 +102,6 @@
                                 <%-- <li class="list-group-item">--%>
                                 <%-- <a href="javascript:void(0)" id=""--%>
                                 <%--class="menu_item"--%>
-                                <%-- name="pagecomponent/stockRecordManagement.html">出入库记录</a>--%>
                                 </li>
                                 <%--                                </shiro:hasRole>--%>
                             </ul>
