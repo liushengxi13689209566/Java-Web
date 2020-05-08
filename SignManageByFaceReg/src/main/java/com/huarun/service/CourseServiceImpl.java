@@ -48,4 +48,15 @@ public class CourseServiceImpl implements CourseService {
         }
         return ret;
     }
+
+    @Override
+    public int updateOneCourse(CourseDO courseDO) {
+        int ret = 0;
+        try {
+            ret = courseMapper.updateOneCourse(courseDO);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
 }

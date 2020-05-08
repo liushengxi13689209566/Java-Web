@@ -19,4 +19,7 @@ public interface CourseService {
 
     //彻底删除一门课程
     int deleteOneCourse(@Param("course_id") int course_id);
+
+    //修改一门课程
+    int updateOneCourse(@Param("courseDO") CourseDO courseDO);
 }

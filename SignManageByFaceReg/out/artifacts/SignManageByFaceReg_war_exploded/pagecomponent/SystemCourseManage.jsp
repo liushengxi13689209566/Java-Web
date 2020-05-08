@@ -48,6 +48,7 @@
     $(function () {
         allCourseListInit();
         datePickerInit();
+        bootstrapValidatorInit();
 
         addCourseAction();
     })
@@ -151,6 +152,7 @@
                         events: {
                             // 操作列中编辑按钮的动作
                             'click .edit': function (e, value, row, index) {
+
                                 rowEditOperation(row);
                             },
                             'click .delete': function (e, value, row, index) {
@@ -220,12 +222,25 @@
         });
     }
 
+    // 操作结果提示模态框
+    function infoModal(type, msg) {
+        $('#info_success').removeClass("hide");
+        $('#info_error').removeClass("hide");
+        if (type == 0) {
+            $('#info_error').addClass("hide");
+        } else {
+            $('#info_success').addClass("hide");
+        }
+        $('#info_content').text(msg);
+        $('#info_modal').modal("show");
+    }
+
     //上一步与下一步的设定
     var import_step = 1;
     var import_start = 1;
     var import_end = 3;
 
-    //整体导入学生信息
+    //整体导入课程信息
     function addCourseAction() {
         $('#add_one_student').click(function () {
             $('#import_modal').modal("show");
@@ -287,8 +302,8 @@
                 success: function (data, status) {
                     var total = 0;
                     var available = 0;
-                    var msg1 = "学生信息导入成功";
-                    var msg2 = "学生信息导入失败";
+                    var msg1 = "课程信息导入成功";
+                    var msg2 = "课程信息导入失败";
                     var info;
 
                     $('#import_progress_bar').addClass("hide");
@@ -314,6 +329,107 @@
             // modal dissmiss
             // importModalReset();
             tableRefresh();
+        })
+    }
+
+    // 行编辑操作
+    function rowEditOperation(row) {
+        $('#edit_modal').modal("show");
+        // load info
+        $('#course_form_edit').bootstrapValidator("resetForm", true);
+        $('#course_name_edit').val(row.course_name);
+        $('#course_times_edit').val(row.course_times);
+        $('#course_credit_edit').val(row.course_credit);
+        $('#start_date_edit').val(timestampToTime(row.course_start));
+        $('#end_date_edit').val(timestampToTime(row.course_end));
+
+        $('#edit_modal_submit').click(function () {
+                console.log("点击了确认提交按钮！！")
+
+                $('#course_form_edit').data('bootstrapValidator')
+                    .validate();
+
+                console.log(" 判断是否已验证通过 " + $('#course_form_edit').data('bootstrapValidator').isValid())
+
+                if (!$('#course_form_edit').data('bootstrapValidator')
+                    .isValid()) {
+                    return;
+                }
+
+                var data = {
+                    course_id: row.course_id,
+                    course_name: $('#course_name_edit').val(),
+                    course_times: $('#course_times_edit').val(),
+                    course_credit: $('#course_credit_edit').val(),
+                    course_start: $('#start_date_edit').val(),
+                    course_end: $('#end_date_edit').val()
+                }
+                // ajax
+                $.ajax({
+                    type: "POST",
+                    url: 'course/updateOneCourse',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        $('#edit_modal').modal("hide");
+                        infoModal(response.status_code, response.msg);
+                        tableRefresh()
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+        )
+    }
+
+    // 课程信息数据校验
+    function bootstrapValidatorInit() {
+        $("#course_form,#course_form_edit").bootstrapValidator({
+            message: 'This is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            excluded: [':disabled'],
+            fields: {
+                course_name: {
+                    validators: {
+                        notEmpty: {
+                            message: '课程名称不能为空'
+                        }
+                    }
+                },
+                course_times: {
+                    validators: {
+                        notEmpty: {
+                            message: '课时不能为空'
+                        },
+                        digits: {
+                            message: '课时必须是正整数'
+                        },
+                        lessThan: {
+                            value: 100,
+                            message: '课时最大输入为 100'
+                        }
+                    }
+                },
+                course_credit: {
+                    validators: {
+                        notEmpty: {
+                            message: '课程学分不能为空'
+                        },
+                        digits: {
+                            message: '课程学分必须是正整数'
+                        },
+                        lessThan: {
+                            value: 20,
+                            message: '课程学分最大输入为 20'
+                        }
+                    }
+                }
+            }
         })
     }
 
@@ -346,6 +462,50 @@
 </div>
 
 
+<!-- 提示消息模态框 -->
+<div class="modal fade" id="info_modal" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4"></div>
+                    <div class="col-md-4 col-sm-4">
+                        <div id="info_success" class=" hide" style="text-align: center;">
+                            <img src="media/icons/success-icon.png" alt=""
+                                 style="width: 100px; height: 100px;">
+                        </div>
+                        <div id="info_error" style="text-align: center;">
+                            <img src="media/icons/error-icon.png" alt=""
+                                 style="width: 100px; height: 100px;">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4"></div>
+                </div>
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4" style="text-align: center;">
+                        <h4 id="info_content"></h4>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <span>&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- 导入信息模态框 -->
 <div class="modal fade" id="import_modal" table-index="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true"
@@ -356,7 +516,7 @@
                 <button class="close" type="button" data-dismiss="modal"
                         aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="myModalLabel">添加课程信息</h4>
+                <h4 class="modal-title">添加课程信息</h4>
             </div>
             <div class="modal-body">
                 <div id="step1">
@@ -394,7 +554,6 @@
                     <div class="row">
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-8 col-sm-8">
-                            <%--                            <div>--%>
                             <div>
                                 <h4>请点击下面选择文件按钮，上传填写好的课程上课时间表</h4>
                             </div>
@@ -511,96 +670,89 @@
 </div>
 
 
-<%--<!-- 添加课程信息模态框 -->--%>
-<%--<div id="add_modal" class="modal fade" table-index="-1" role="dialog"--%>
-<%--     aria-labelledby="myModalLabel" aria-hidden="true"--%>
-<%--     data-backdrop="static">--%>
-<%--    <div class="modal-dialog">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-header">--%>
-<%--                <button class="close" type="button" data-dismiss="modal"--%>
-<%--                        aria-hidden="true">&times;--%>
-<%--                </button>--%>
-<%--                <h4 class="modal-title">添加课程信息</h4>--%>
-<%--            </div>--%>
-<%--            <div class="modal-body">--%>
-<%--                <!-- 模态框的内容 -->--%>
-<%--                <div class="row">--%>
-<%--                    <div class="col-md-1 col-sm-1"></div>--%>
-<%--                    <div class="col-md-8 col-sm-8">--%>
-<%--                        &lt;%&ndash;  所有数据的校验由前端之后来做&ndash;%&gt;--%>
-<%--                        <form enctype="multipart/form-data" id="course_form"--%>
-<%--                              class="form-horizontal" style="margin-top: 25px">--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>课程名称：</span>--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    <input type="text" class="form-control" id="course_name"--%>
-<%--                                           name="course_name" placeholder="课程名称">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>课时：</span>--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    <input type="text" class="form-control" id="course_times"--%>
-<%--                                           name="course_times" placeholder="课时">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>学分：</span>--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    <input type="text" class="form-control" id="course_credit"--%>
-<%--                                           name="course_credit" placeholder="学分">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>起始时间：</span>--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    <select id="major_id" name="major_id" class="form-control">--%>
-<%--                                        <option value="">请选择对应专业:</option>--%>
-<%--                                    </select>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>结束时间：</span>--%>
-<%--                                    &lt;%&ndash;                                    //从数据库中获取&ndash;%&gt;--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    <select id="class_id" name="class_id" class="form-control">--%>
-<%--                                        <option value="">请选择对应班级:</option>--%>
-<%--                                    </select>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="control-label col-md-4 col-sm-4"> <span>课程时刻表：</span>--%>
-<%--                                </label>--%>
-<%--                                <div class="col-md-8 col-sm-8">--%>
-<%--                                    &lt;%&ndash;    <span class="btn btn-info btn-file"> <span> <span--%>
-<%--                                                class="glyphicon glyphicon-upload"></span> <span>上传照片</span>--%>
-<%--                                        </span>&ndash;%&gt;--%>
-<%--                                    <input type="file" class="form-control" id="course_time_table"--%>
-<%--                                           name="course_time_table" placeholder="课程时刻表">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </form>--%>
-<%--                    </div>--%>
-<%--                    <div class="col-md-1 col-sm-1"></div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div class="modal-footer">--%>
-<%--                <button class="btn btn-default" type="button" data-dismiss="modal">--%>
-<%--                    <span>取消</span>--%>
-<%--                </button>--%>
-<%--                <button class="btn btn-success" type="button" id="add_modal_submit">--%>
-<%--                    <span>提交</span>--%>
-<%--                </button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
+<!-- 编辑课程信息模态框 -->
+<div id="edit_modal" class="modal fade" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">更改课程信息</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 模态框的内容 -->
+                <div class="row">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-8 col-sm-8">
+
+                        <form id="course_form_edit">
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>课程名称：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="course_name_edit"
+                                           name="course_name_edit" placeholder="课程名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>课时：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="course_times_edit"
+                                           name="course_times_edit" placeholder="课时">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>学分：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input type="text" class="form-control" id="course_credit_edit"
+                                           name="course_credit_edit" placeholder="学分">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>起始时间：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input class="form_date form-control" id="start_date_edit"
+                                           name="start_date_edit" placeholder="起始时间">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"> <span>结束时间：</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                    <input class="form_date form-control" id="end_date_edit"
+                                           name="end_date_edit" placeholder="结束时间">
+                                </div>
+                            </div>
+                            <%--                            <div class="form-group">--%>
+                            <%--                                <label class="control-label col-md-4 col-sm-4"> <span>课程时刻表：</span>--%>
+                            <%--                                </label>--%>
+                            <%--                                <div class="col-md-8 col-sm-8">--%>
+                            <%--                                    <input type="file" class="form-control" id="course_time_table_edit"--%>
+                            <%--                                           name="course_time_table_edit" placeholder="课程时刻表">--%>
+                            <%--                                </div>--%>
+                            <%--                            </div>--%>
+                        </form>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">
+                    <span>取消</span>
+                </button>
+                <button class="btn btn-success" type="button" id="edit_modal_submit">
+                    <span>确认更改</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

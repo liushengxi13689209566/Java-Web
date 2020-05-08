@@ -10,6 +10,7 @@ import com.huarun.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -209,5 +210,30 @@ public class CourseController {
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "删除该课程成功！！");
         ResponseUtil.write(response, result);
+    }
+
+
+    //更新一门课程（不包含对应的课程表时间表）
+    @Transactional
+    @RequestMapping(value = "/updateOneCourse", method = RequestMethod.POST)
+    public void updateOneCourse(@RequestBody CourseDO courseDO, HttpServletResponse response) throws Exception {
+        //返回
+        JSONObject result = new JSONObject();
+
+        System.out.println("进入 updateOneCourse");
+
+        System.out.println(" courseDO 是 == " + courseDO);
+
+        int ret = courseService.updateOneCourse(courseDO);
+        if (ret < 1) {
+            result.put("status_code", StatusCode.CALL_FAILED);
+            result.put("msg", " 更改失败，请重试！！");
+            ResponseUtil.write(response, result);
+            return;
+        }
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", " 更改课程信息成功！");
+        ResponseUtil.write(response, result);
+        return;
     }
 }

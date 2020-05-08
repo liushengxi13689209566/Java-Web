@@ -24,4 +24,12 @@
         where course_id = #{course_id}
     </delete>
 
+    <update id="updateOneCourse">
+        update SignManage.course
+        set course_name=#{courseDO.course_name},course_times=#{courseDO.course_times},
+            course_credit=#{courseDO.course_credit},course_start=#{courseDO.course_start},
+            course_end=#{courseDO.course_end}
+            where course_id = #{courseDO.course_id}
+    </update>
+
 </mapper>
