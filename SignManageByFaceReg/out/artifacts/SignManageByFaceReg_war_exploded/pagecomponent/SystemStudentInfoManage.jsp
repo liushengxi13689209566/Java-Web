@@ -119,11 +119,38 @@
                                     return false;
 
                                 console.log("确认删除了！！！")
-                                <%--deleteOnCourseOneStudent(row.id, <%=course_id%>)--%>
+                                deleteOneStudent(row.id)
                             }
                         }
                     }],
             })
+    }
+
+    function deleteOneStudent(id) {
+        var data = {
+            "id": id
+        }
+        $.ajax({
+            type: "GET",
+            url: "student/deleteOneStudent",
+            dataType: "json",
+            contentType: "application/json",
+            data: data,
+            success: function (response) {
+                console.log(response)
+                if (response.status_code == 0) {
+                    alert("删除成功！")
+                    //减少后端请求，前端页面刷新即可
+                    $('#studentsList').bootstrapTable('remove', {
+                        field: 'id',
+                        values: [id]
+                    });
+                } else {
+                    alert(response.msg);
+                }
+            }, error: function (response) {
+            }
+        })
     }
 
     //获取所有专业

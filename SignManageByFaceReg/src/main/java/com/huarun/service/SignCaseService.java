@@ -28,4 +28,7 @@ public interface SignCaseService {
 
     //彻底删除一门课
     int deleteOneCourse(@Param("course_id") int course_id);
+
+    //删除一个学生
+    int deleteOneStudent(@Param("userID") String userID);
 }

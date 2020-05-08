@@ -63,6 +63,17 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
+    public int deleteOneStudent(String userID) {
+        int ret = 0;
+        try {
+            ret = courseStudentMapper.deleteOneStudent(userID);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
+
+    @Override
     public int addOneStudentInCourse(int course_id, String student_id) throws CourseStudentServiceException {
         try {
             return courseStudentMapper.addOneStudentInCourse(course_id, student_id);

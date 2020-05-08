@@ -26,4 +26,8 @@ public interface StudentService {
 
     //更新学生信息
     int updateOneStudent(@Param("studentDO") StudentDO studentDO);
+
+
+    //删除一名学生
+    int deleteOneStudent(@Param("userID") String userID);
 }

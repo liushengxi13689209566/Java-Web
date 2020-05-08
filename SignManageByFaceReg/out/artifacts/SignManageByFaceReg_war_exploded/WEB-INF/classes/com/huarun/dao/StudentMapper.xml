@@ -58,4 +58,9 @@
         major_id = #{major_id} and class_id = #{class_id}
     </select>
 
+    <delete id="deleteOneStudent">
+        delete from SignManage.student
+        where id = #{userID}
+    </delete>
+
 </mapper>

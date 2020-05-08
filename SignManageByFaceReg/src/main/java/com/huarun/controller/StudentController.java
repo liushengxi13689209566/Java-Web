@@ -11,10 +11,7 @@ import com.huarun.pojo.ClassDO;
 import com.huarun.pojo.CourseStudent;
 import com.huarun.pojo.MajorDO;
 import com.huarun.pojo.StudentDO;
-import com.huarun.service.ClassService;
-import com.huarun.service.CourseStudentService;
-import com.huarun.service.MajorService;
-import com.huarun.service.StudentService;
+import com.huarun.service.*;
 import com.huarun.utils.FacePictureType;
 import com.huarun.utils.Picture;
 import com.huarun.utils.ResponseUtil;
@@ -22,8 +19,10 @@ import com.huarun.utils.StatusCode;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -44,6 +43,8 @@ public class StudentController {
     private ClassService classService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private SignCaseService signCaseService;
 
     //学生信息的展示是：StudentInfoShow 结构
     @RequestMapping(value = "/getOneCourseAllStudent", method = RequestMethod.GET)
@@ -169,7 +170,7 @@ public class StudentController {
                 studentDO,
                 majorService.getMajorInfoByID(major_id),
                 classService.getClassInfoByClassID(class_id));
-        
+
         System.out.println("faceUserInfo ==" + faceUserInfo);
 
 
@@ -281,6 +282,41 @@ public class StudentController {
         }
         result.put("status_code", StatusCode.SUCCESS);
         result.put("msg", "更新学生信息成功!!");
+        System.out.println("result == " + result);
+        ResponseUtil.write(response, result);
+    }
+
+    @Transactional
+    @RequestMapping(value = "/deleteOneStudent", method = RequestMethod.GET)
+    public void deleteOneStudent(@RequestParam String id, HttpServletResponse response) throws Exception {
+
+        JSONObject result = new JSONObject();
+
+        //course_student,sm_sign_case,student
+        System.out.println("进入    deleteOneStudent ");
+
+        System.out.println("id === " + id);
+
+        if (id.isEmpty()) {
+            result.put("status_code", StatusCode.PARAM_ERROR);
+            result.put("msg", "模块出错，删除学生失败，请重试！");
+            System.out.println("result == " + result);
+            ResponseUtil.write(response, result);
+            return;
+        }
+        try {
+            courseStudentService.deleteOneStudent(id);
+            signCaseService.deleteOneStudent(id);
+            studentService.deleteOneStudent(id);
+        } catch (Exception e) {
+            result.put("status_code", StatusCode.TRANSACTIONS_EXE_ERROR);
+            result.put("msg", "删除学生失败！请重试！");
+            System.out.println("result == " + result);
+            ResponseUtil.write(response, result);
+            return;
+        }
+        result.put("status_code", StatusCode.SUCCESS);
+        result.put("msg", "删除学生成功!!");
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
     }

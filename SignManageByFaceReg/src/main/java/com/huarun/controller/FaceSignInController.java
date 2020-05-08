@@ -30,12 +30,6 @@ import java.util.Map;
 @Controller
 public class FaceSignInController {
     @Autowired
-    private StudentService studentService;
-    @Autowired
-    private MajorService majorService;
-    @Autowired
-    private ClassService classService;
-    @Autowired
     private CourseService courseService;
     @Autowired
     private CourseTimeService courseTimeService;
@@ -59,15 +53,7 @@ public class FaceSignInController {
 
         //调用失败：请重试！
         JSONObject result = new JSONObject();
-        //1.先查 id 是否存在
-//        StudentDO studentDO = studentService.getStudentInfoByStuID(userID);
-//        if (studentDO == null) {
-//            result.put("status_code", StatusCode.NO_USERID);
-//            result.put("msg", "抱歉，我们没有查到这个 userID ,请确认 userID 输入是否正确");
-//            ResponseUtil.write(response, result);
-//            return;
-//        }
-        //2.检测是否有人脸存在-》请正对摄像头
+        //1.检测是否有人脸存在-》请正对摄像头
         Picture image = new Picture(request.getParameter("face_image"), "BASE64");
         //生活照，进行活体检测
         Map<String, Object> ret = FaceRegObject.faceDetect(image, true, FacePictureType.LIVE);
@@ -82,7 +68,7 @@ public class FaceSignInController {
             return;
         }
 
-        //3.人脸匹配认证（如果我输入一个其他人的ID的话，需要进行一个匹配检测）
+        //3.人脸搜索
         ret = FaceRegObject.faceSearch(image, true);
 
         System.out.println("搜死status_code == " + ret.get("status_code"));
@@ -148,11 +134,12 @@ public class FaceSignInController {
             }
 
             //给出考勤记录的提示信息
-            int total_time = courseTimeService.getTotalCourseCountBeforeToday(courseStudentData.getCourse_id());
+            int total_time = (int) ret.get("order_number") + 1;
             int late_time = 0; //迟到
             int truancy_time = 0; //旷课次数
             int success_time = 0; //出勤次数
-            for (int i = 0; i <= total_time; i++) {
+
+            for (int i = 0; i < total_time; i++) {
                 if (buffer.toString().charAt(i) == '0')
                     truancy_time++;
                 else if (buffer.toString().charAt(i) == '1')
@@ -182,7 +169,7 @@ public class FaceSignInController {
     private Map<String, Object> dateCompare(List<CourseTime> courseTimeList, long sign_time) {
         Map<String, Object> result = new HashMap<>();
         sign_time = sign_time / 1000;
-        int count = 0;
+        int count = -1;
         for (CourseTime courseTime : courseTimeList) {
             count++;
             long start_time = courseTime.getCourse_start_timestamp().getTime() / 1000;

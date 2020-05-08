@@ -70,4 +70,15 @@ public class StudentServiceImpl implements StudentService {
         }
         return ret;
     }
+
+    @Override
+    public int deleteOneStudent(String userID) {
+        int ret = 0;
+        try {
+            ret = studentMapper.deleteOneStudent(userID);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
 }

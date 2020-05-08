@@ -179,14 +179,8 @@ public class SignCaseController {
                 }
             }
 
-//            后来新建的两张表是不需要的！！
-
             JSONArray array = JSONArray.parseArray(JSON.toJSONString(rows));
-
-//        result.put("rows", array);
-//        result.put("status_code", StatusCode.SUCCESS);
-//        result.put("msg", "成功");
-//
+            
             System.out.println("array == " + array.toJSONString());
 
             ResponseUtil.write(response, array);

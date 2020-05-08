@@ -65,4 +65,15 @@ public class SignCaseServiceImpl implements SignCaseService {
         }
         return ret;
     }
+
+    @Override
+    public int deleteOneStudent(String userID) {
+        int ret = 0;
+        try {
+            ret = signCaseMapper.deleteOneStudent(userID);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
 }
