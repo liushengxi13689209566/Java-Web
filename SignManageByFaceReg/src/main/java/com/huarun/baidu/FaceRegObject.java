@@ -64,6 +64,9 @@ public class FaceRegObject {
                 options.put("liveness_control", "NORMAL");
             }
             JSONObject res = AiFaceObject.getClient().detect(image.getImage(), image.getImageType(), options);
+
+            System.out.println("人脸检测返回数据：" + res.toString());
+
             //检测并返回
             com.alibaba.fastjson.JSONObject ret = com.alibaba.fastjson.JSONObject.parseObject(res.toString());
             if (ret.getIntValue("error_code") != 0) {

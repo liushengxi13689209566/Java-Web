@@ -97,6 +97,8 @@
     function sendData(pen, canvas) {
         console.log("点击了考勤按钮！！！")
 
+        $('#sign_modal').modal("show");
+
         pen.drawImage(video, 0, 0, 400, 300);
         var url = canvas.toDataURL();
         var result = url.split(",")[1];
@@ -120,6 +122,8 @@
             processData: false,
             success: function (response) {
                 console.log(response);
+                $('#sign_modal').modal("hide");
+
                 console.log("response.flag == bdfvbkfbvkfb ");
                 // if (response.status_code != 0) {
                 //     alert(response.msg);
@@ -160,23 +164,6 @@
                                 </div>
                             </div class="col-md-7 col-sm-7">
                         </div>
-                        <%--                        <div class="form-group" style="margin-left: 10px;">--%>
-                        <%--                            <label class="control-label col-md-5 col-sm-4">学号：</label>--%>
-                        <%--                            <div class="col-md-3 col-sm-3">--%>
-                        <%--                                <input type="text" id="userID" class="form-control"--%>
-                        <%--                                       placeholder="学号" name="userID"/>--%>
-                        <%--                            </div>--%>
-                        <%--                        </div>--%>
-                        <%--                        <div class="form-group" style="margin-left: 10px;">--%>
-                        <%--                            <label class="control-label col-md-5 col-sm-5">--%>
-                        <%--                                所考勤课程：--%>
-                        <%--                            </label>--%>
-                        <%--                            <div class="col-md-3 col-sm-3">--%>
-                        <%--                                <select id="course_selector" name="course_id" class="form-control">--%>
-                        <%--                                    <option value="">请选择对应课程:</option>--%>
-                        <%--                                </select>--%>
-                        <%--                            </div>--%>
-                        <%--                        </div>--%>
                         <div>
                             <div class="col-md-4 col-sm-4"></div>
                             <div class="col-md-4 col-sm-4">
@@ -198,10 +185,38 @@
     </div>
 </div>
 
-<%--<button id="SignIn"> 考勤</button>--%>
-<%--<a href="login.jsp"> 我要登录 </a><br/>--%>
-<%--<a href="/WEB-INF/jsp/login.jsp"> 测试 </a><br/>--%>
-<%--<a href="${pageContext.request.contextPath}/book/allBook">点击进入列表页</a><br/>--%>
+
+<%--识别过程摸态框--%>
+<div id="sign_modal" class="modal fade" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">人脸识别中...</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 模态框的内容 -->
+                <div class="row">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-8 col-sm-8">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success"
+                                 role="progreessbar" aria-valuenow="60" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: 100%;">
+                                <span class="sr-only">请稍后...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
