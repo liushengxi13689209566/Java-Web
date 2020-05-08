@@ -29,4 +29,8 @@ public interface StudentMapper {
     //得到 某专业某个班级学生 的 所有信息
     List<StudentDO> getStudentInfoByMajorIDAndClassID(@Param("major_id") int major_id,
                                                       @Param("class_id") int class_id);
+
+
+    //更新学生信息
+    int updateOneStudent(@Param("studentDO") StudentDO studentDO);
 }

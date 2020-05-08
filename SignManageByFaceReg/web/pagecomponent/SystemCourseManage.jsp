@@ -244,6 +244,7 @@
     function addCourseAction() {
         $('#add_one_student').click(function () {
             $('#import_modal').modal("show");
+            $('#course_form').bootstrapValidator("resetForm", true);
         });
 
         $('#previous').click(function () {
@@ -694,7 +695,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-8">
                                     <input type="text" class="form-control" id="course_name_edit"
-                                           name="course_name_edit" placeholder="课程名称">
+                                           name="course_name" placeholder="课程名称">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -702,7 +703,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-8">
                                     <input type="text" class="form-control" id="course_times_edit"
-                                           name="course_times_edit" placeholder="课时">
+                                           name="course_times" placeholder="课时">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -710,7 +711,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-8">
                                     <input type="text" class="form-control" id="course_credit_edit"
-                                           name="course_credit_edit" placeholder="学分">
+                                           name="course_credit" placeholder="学分">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -718,7 +719,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-8">
                                     <input class="form_date form-control" id="start_date_edit"
-                                           name="start_date_edit" placeholder="起始时间">
+                                           name="start_date" placeholder="起始时间">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -726,7 +727,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-8">
                                     <input class="form_date form-control" id="end_date_edit"
-                                           name="end_date_edit" placeholder="结束时间">
+                                           name="end_date" placeholder="结束时间">
                                 </div>
                             </div>
                             <%--                            <div class="form-group">--%>

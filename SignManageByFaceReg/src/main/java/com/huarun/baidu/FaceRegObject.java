@@ -211,10 +211,49 @@ public class FaceRegObject {
             //搜索成功
             System.out.println("user_list.getJSONObject(0).getString(\"user_info\") == "
                     + user_list.getJSONObject(0).getString("user_info"));
-            
+
             result.put("user_info", user_list.getJSONObject(0).getString("user_info"));
             result.put("status_code", StatusCode.SUCCESS);
             result.put("msg", "搜索匹配人脸成功！！！");
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    //人脸信息更新
+    public static Map<String, Object> faceUpdate(Picture image, FaceUserInfo faceUserInfo) {
+        try {
+            Map<String, Object> result = new HashMap<>();
+            HashMap<String, String> options = new HashMap<String, String>();
+
+            options.put("user_info", com.alibaba.fastjson.JSON.toJSONString(faceUserInfo));
+            options.put("quality_control", "NORMAL");
+            options.put("action_type", "REPLACE");
+
+//            client.updateUser(image, imageType, groupId, userId, options);
+            JSONObject res = AiFaceObject.getClient().updateUser(
+                    image.getImage(),
+                    image.getImageType(),
+                    //构造group ID (用户组id（由数字、字母、下划线组成），长度限制128B)
+                    //major_id+ "_" + Major_desc
+//                    faceUserInfo.getMajor_id() + "_" + faceUserInfo.getMajor_desc(),
+                    "xiyou",
+                    faceUserInfo.getId(),
+                    options);
+
+            //判断更新结果
+            com.alibaba.fastjson.JSONObject ret = com.alibaba.fastjson.JSONObject.parseObject(res.toString());
+            if (ret.getIntValue("error_code") != 0) {
+                result.put("status_code", StatusCode.CALL_FAILED);
+                result.put("msg", "人脸更新模块出错，请重试 ！！！");
+                return result;
+            }
+            //通过所有检测，成功
+            result.put("status_code", StatusCode.SUCCESS);
+            result.put("msg", "人脸更新成功！！！");
             return result;
         } catch (Exception e) {
             e.printStackTrace();

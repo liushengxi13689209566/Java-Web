@@ -25,6 +25,7 @@
         majorSelectInit();
         //获取所有班级
         classSelectorInit();
+        bootstrapValidatorInit();
 
         addstudentAction();
     })
@@ -230,7 +231,7 @@
         $('#edit_modal').modal("show");
         // load info
         $('#student_form_edit').bootstrapValidator("resetForm", true);
-        $('#student_id_edit').val(row.id);
+        // $('#student_id_edit').val(row.id);
         $('#student_name_edit').val(row.name);
         $('#student_sex_edit').val(row.sex);
         $('#student_id_card_edit').val(row.identity_card);
@@ -241,7 +242,107 @@
         $('#student_major_edit').val(row.major_name);
         $('#student_class_edit').val(row.class_name);
         $('#student_picture_edit').val();
+
+        $('#edit_modal_submit').click(function () {
+            console.log("点击了确认提交按钮！！")
+
+            $('#student_form_edit').data('bootstrapValidator')
+                .validate();
+
+            console.log(" 判断是否已验证通过 " + $('#student_form_edit').data('bootstrapValidator').isValid())
+
+            if (!$('#student_form_edit').data('bootstrapValidator')
+                .isValid()) {
+                return;
+            }
+
+            var formData = new FormData(document.getElementById("student_form_edit"));
+            formData.append("id", row.id) //加入学生的 id
+            console.log(formData)
+
+            // ajax
+            $.ajax({
+                url: "student/updateOneStudent",
+                type: "post",
+                data: formData,
+                async: true,
+                cache: false,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $('#edit_modal').modal("hide");
+                    alert(response.msg)
+                    studentsListTableRefresh();
+                    // reset
+                    $('#student_name_edit').val("");
+                    $('#student_sex_edit').val("");
+                    $('#student_id_card_edit').val("");
+                    $('#student_major_edit').val("");
+                    $('#student_class_edit').val("");
+                    $('#student_picture_edit').val("");
+                    $('#student_form_edit').bootstrapValidator("resetForm", true);
+                },
+                error: function (response) {
+                }
+            })
+        })
     }
+
+    // 课程信息数据校验
+    function bootstrapValidatorInit() {
+        $("#student_form,#student_form_edit").bootstrapValidator({
+            message: 'This is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            excluded: [':disabled'],
+            fields: {
+                student_name: {
+                    validators: {
+                        notEmpty: {
+                            message: '姓名不能为空'
+                        }
+                    }
+                },
+                student_sex: {
+                    validators: {
+                        notEmpty: {
+                            message: '性别不能为空'
+                        },
+                    }
+                },
+                major_id: {
+                    validators: {
+                        notEmpty: {
+                            message: '专业不能为空'
+                        },
+                    }
+                },
+                class_id: {
+                    validators: {
+                        notEmpty: {
+                            message: '班级不能为空'
+                        },
+                    }
+                },
+                student_id_card: {
+                    validators: {
+                        notEmpty: {
+                            message: '身份证号不能为空'
+                        },
+                        digits: {
+                            message: '身份证号只能是数字'
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
 </script>
 
 
@@ -390,14 +491,6 @@
                     <div class="col-md-8 col-sm-8">
                         <form enctype="multipart/form-data"
                               class="form-horizontal" role="form" id="student_form_edit" style="margin-top: 25px">
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4"> <span>学号：</span>
-                                </label>
-                                <div class="col-md-8 col-sm-8">
-                                    <input type="text" class="form-control" id="student_id_edit"
-                                           name="student_id" placeholder="学号">
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4"> <span>姓名：</span>
                                 </label>

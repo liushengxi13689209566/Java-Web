@@ -23,4 +23,7 @@ public interface StudentService {
 
     //添加一个学生，密码默认为：身份证号后六位
     void addOneStudent(@Param("studentDO") StudentDO studentDO) throws StudentServiceException;
+
+    //更新学生信息
+    int updateOneStudent(@Param("studentDO") StudentDO studentDO);
 }

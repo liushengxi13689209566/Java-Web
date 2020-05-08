@@ -59,4 +59,15 @@ public class StudentServiceImpl implements StudentService {
             throw new StudentServiceException(e);
         }
     }
+
+    @Override
+    public int updateOneStudent(StudentDO studentDO) {
+        int ret = 0;
+        try {
+            ret = studentMapper.updateOneStudent(studentDO);
+        } catch (PersistenceException e) {
+            ret = -1;
+        }
+        return ret;
+    }
 }
