@@ -137,6 +137,18 @@ public class ExcelUtil {
                 cell = cellIterator.next();
                 field = mappingInfo.valuesMap.get(cell.getStringCellValue());
 
+//
+//                System.out.println("test");
+//                System.out.println("System.out.println();  field == " + field);
+//                if(classType.getDeclaredField(field) == null)
+//                {
+//                    System.out.println("vfvbdfvbhfbvhbfvf");
+//                }
+//                System.out.println(classType.getDeclaredField(field));
+//
+
+
+
                 Class<?> fieldType = classType.getDeclaredField(field).getType();
 
                 fieldTypeList.add(cell.getColumnIndex(), fieldType);

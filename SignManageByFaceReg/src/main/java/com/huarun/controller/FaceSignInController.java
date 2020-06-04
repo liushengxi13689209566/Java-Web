@@ -87,6 +87,9 @@ public class FaceSignInController {
         //获取用户数据
         FaceUserInfo faceUserInfo = JSON.parseObject((String) ret.get("user_info"), FaceUserInfo.class);
         System.out.println("faceInfo == ********" + faceUserInfo);
+        String msg = "学号：" + faceUserInfo.getId() +
+                "    专业：" + faceUserInfo.getMajor_name() +
+                "    班级：" + faceUserInfo.getClass_name() + " \r\n";
 
         List<CourseStudent> courseStudentList = courseStudentService.queryMyCourseIDByUserID(faceUserInfo.getId());
         //遍历课程 ID
@@ -132,7 +135,6 @@ public class FaceSignInController {
                 ResponseUtil.write(response, result);
                 return;
             }
-
             //给出考勤记录的提示信息
             int total_time = (int) ret.get("order_number") + 1;
             int late_time = 0; //迟到
@@ -148,8 +150,8 @@ public class FaceSignInController {
                     late_time++;
             }
             result.put("status_code", status_code);
-            result.put("msg", "考勤课程：" + courseService.queryCourseByID(courseStudentData.getCourse_id()).getCourse_name() +
-                    ret.get("msg") + "\r\n\r\n 截止目前，你的考勤结果统计如下：\r\n" + "共 " + total_time + " 次课\r\n" +
+            result.put("msg", msg + "考勤课程：" + courseService.queryCourseByID(courseStudentData.getCourse_id()).getCourse_name() +
+                    "\r\n考勤结果：" + ret.get("msg") + "\r\n截止目前，你的考勤结果统计如下：\r\n" + "共 " + total_time + " 次课\r\n" +
                     "迟到：" + late_time + " 次课\r\n" +
                     "缺勤：" + truancy_time + " 次课\r\n" +
                     "成功：" + success_time + " 次课\r\n"
@@ -159,7 +161,7 @@ public class FaceSignInController {
             return;
         }
         result.put("status_code", StatusCode.NO_COURSE_TIME);
-        result.put("msg", "考勤失败，请确认你的课程日期与考勤时间！，只在前半小时与后十分钟内签到有效哦！");
+        result.put("msg", msg + "考勤失败，请确认你的课程日期与考勤时间！，只在前半小时与后十分钟内签到有效哦！");
         ResponseUtil.write(response, result);
         System.out.println(result);
         return;

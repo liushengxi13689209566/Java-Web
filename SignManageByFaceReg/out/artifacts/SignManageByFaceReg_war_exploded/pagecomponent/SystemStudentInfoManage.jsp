@@ -28,6 +28,7 @@
         bootstrapValidatorInit();
 
         addstudentAction();
+        importAllStudentsInfo();
     })
 
     // studentsList表格
@@ -250,6 +251,107 @@
                 error: function (response) {
                 }
             })
+        })
+    }
+
+    //上一步与下一步的设定
+    var import_step = 1;
+    var import_start = 1;
+    var import_end = 3;
+
+    //整体导入学生信息
+    function importAllStudentsInfo() {
+        $('#import_students').click(function () {
+            $('#import_modal').modal("show");
+        });
+
+        $('#previous').click(function () {
+            if (import_step > import_start) {
+                var preID = "step" + (import_step - 1)
+                var nowID = "step" + import_step;
+
+                $('#' + nowID).addClass("hide");
+                $('#' + preID).removeClass("hide");
+                import_step--;
+            }
+        })
+
+        $('#next').click(function () {
+            if (import_step < import_end) {
+                var nowID = "step" + import_step;
+                var nextID = "step" + (import_step + 1);
+
+                $('#' + nowID).addClass("hide");
+                $('#' + nextID).removeClass("hide");
+                import_step++;
+            }
+        })
+
+        $('#file').on("change", function () {
+            $('#previous').addClass("hide");
+            $('#next').addClass("hide");
+            $('#submit').removeClass("hide");
+        })
+
+        $('#submit').click(function () {
+            var nowID = "step" + import_end;
+            $('#' + nowID).addClass("hide");
+            $('#uploading').removeClass("hide");
+
+            // next
+            $('#confirm').removeClass("hide");
+            $('#submit').addClass("hide");
+
+            // var fileObj = document.getElementById("import_file_upload"); // js 获取文件对象
+            // console.log(fileObj)
+
+            //构建 FormData 对象
+            var formData = new FormData(document.getElementById("import_file_upload"));
+
+            // formData.append("file", fileObj);
+            <%--formData.append("course_id", <%=course_id%>)--%>
+
+            console.log(formData)
+
+            $.ajax({
+                url: "student/importAllStudentsInfo",
+                type: "post",
+                data: formData,
+                async: true,
+                cache: false,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data, status) {
+                    var total = 0;
+                    var available = 0;
+                    var msg1 = "学生信息导入成功";
+                    var msg2 = "学生信息导入失败";
+                    var info;
+
+                    $('#import_progress_bar').addClass("hide");
+                    if (data.status_code == 0) {
+                        total = data.total;
+                        available = data.available;
+                        info = msg1;
+                        $('#import_success').removeClass('hide');
+                    } else {
+                        info = msg2
+                        $('#import_error').removeClass('hide');
+                    }
+                    info = info + ",总条数：" + total + ",有效条数:" + available;
+                    $('#import_result').removeClass('hide');
+                    $('#import_info').text(info);
+                    $('#confirm').removeClass('disabled');
+                }, error: function (data, status) {
+                }
+            })
+        })
+
+        $('#confirm').click(function () {
+            // modal dissmiss
+            importModalReset();
+            oneCourseAllStudentListTableRefresh()
         })
     }
 
@@ -498,6 +600,134 @@
     </div>
 </div>
 
+<!-- 导入信息模态框 -->
+<div class="modal fade" id="import_modal" table-index="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">导入学生信息</h4>
+            </div>
+            <div class="modal-body">
+                <div id="step1">
+                    <div class="row" style="margin-top: 15px">
+                        <div class="col-md-1 col-sm-1"></div>
+                        <div class="col-md-10 col-sm-10">
+                            <div>
+                                <h4>点击下面的下载按钮，下载学生信息电子表格</h4>
+                            </div>
+                            <div style="margin-top: 30px; margin-buttom: 15px">
+                                <a class="btn btn-info"
+                                   href="download/studentsInfoList.xlsx"
+                                   target="_blank"> <span class="glyphicon glyphicon-download"></span>
+                                    <span>下载</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step2" class="hide">
+                    <div class="row" style="margin-top: 15px">
+                        <div class="col-md-1 col-sm-1"></div>
+                        <div class="col-md-10 col-sm-10">
+                            <div>
+                                <h4>请按照学生信息电子表格中指定的格式填写需要添加的一个或多个学生信息</h4>
+                            </div>
+                            <div class="alert alert-info"
+                                 style="margin-top: 10px; margin-buttom: 30px">
+                                <p>注意：表格中各个列均不能为空，若存在未填写的项，则该条信息将不能成功导入</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step3" class="hide">
+                    <div class="row" style="margin-top: 15px">
+                        <div class="col-md-1 col-sm-1"></div>
+                        <div class="col-md-8 col-sm-10">
+                            <div>
+                                <div>
+                                    <h4>请点击下面上传文件按钮，上传填写好的学生信息电子表格</h4>
+                                </div>
+                                <div style="margin-top: 30px; margin-buttom: 15px">
+									<span class="btn btn-info btn-file"> <span> <span
+                                            class="glyphicon glyphicon-upload"></span> <span>上传文件</span>
+									</span>
+									<form id="import_file_upload" enctype="multipart/form-data">
+                                        <input type="file" id="file" name="file">
+                                    </form>
+									</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hide" id="uploading">
+                    <div class="row" style="margin-top: 15px" id="import_progress_bar">
+                        <div class="col-md-1 col-sm-1"></div>
+                        <div class="col-md-10 col-sm-10"
+                             style="margin-top: 30px; margin-bottom: 30px">
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progreessbar" aria-valuenow="60" aria-valuemin="0"
+                                     aria-valuemax="100" style="width: 100%;">
+                                    <span class="sr-only">请稍后...</span>
+                                </div>
+                            </div>
+                            <!--
+                            <div style="text-align: center">
+                                <h4 id="import_info"></h4>
+                            </div>
+                             -->
+                        </div>
+                        <div class="col-md-1 col-sm-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4"></div>
+                        <div class="col-md-4 col-sm-4">
+                            <div id="import_result" class="hide">
+                                <div id="import_success" class="hide" style="text-align: center;">
+                                    <img src="media/icons/success-icon.png" alt=""
+                                         style="width: 100px; height: 100px;">
+                                </div>
+                                <div id="import_error" class="hide" style="text-align: center;">
+                                    <img src="media/icons/error-icon.png" alt=""
+                                         style="width: 100px; height: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4"></div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6" style="text-align: center;">
+                            <h4 id="import_info"></h4>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ben-default" type="button" id="previous">
+                    <span>上一步</span>
+                </button>
+                <button class="btn btn-success" type="button" id="next">
+                    <span>下一步</span>
+                </button>
+                <button class="btn btn-success hide" type="button" id="submit">
+                    <span>&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;</span>
+                </button>
+                <button class="btn btn-success hide disabled" type="button"
+                        id="confirm" data-dismiss="modal">
+                    <span>&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 编辑学生信息模态框 -->
 <div id="edit_modal" class="modal fade" table-index="-1" role="dialog"

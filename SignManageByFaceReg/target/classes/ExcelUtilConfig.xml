@@ -24,19 +24,30 @@
         </property>
     </entity>
 
-    <!--    <entity class="com.huarun.pojo.CourseTime">-->
-    <!--        <property>-->
-    <!--            <field>id</field>-->
-    <!--            <value>第几节课(按课时)</value>-->
-    <!--        </property>-->
-    <!--        <property>-->
-    <!--            <field>course_start_timestamp</field>-->
-    <!--            <value>上课时间(yyyy-MM-dd HH:mm:ss)</value>-->
-    <!--        </property>-->
-    <!--        <property>-->
-    <!--            <field>course_end_timestamp</field>-->
-    <!--            <value>下课时间(yyyy-MM-dd HH:mm:ss)</value>-->
-    <!--        </property>-->
-    <!--    </entity>-->
-
+    <entity class="com.huarun.OtherStructure.UserAllFaceInfo">
+        <property>
+            <field>name</field>
+            <value>姓名</value>
+        </property>
+        <property>
+            <field>sex</field>
+            <value>性别("男","女")</value>
+        </property>
+        <property>
+            <field>major_id</field>
+            <value>专业ID</value>
+        </property>
+        <property>
+            <field>class_id</field>
+            <value>班级ID</value>
+        </property>
+        <property>
+            <field>identity_card</field>
+            <value>身份证号</value>
+        </property>
+        <property>
+            <field>addr_img</field>
+            <value>人脸图像地址</value>
+        </property>
+    </entity>
 </configuration>

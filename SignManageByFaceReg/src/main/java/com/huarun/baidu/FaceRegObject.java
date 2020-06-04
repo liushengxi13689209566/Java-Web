@@ -69,6 +69,11 @@ public class FaceRegObject {
 
             //检测并返回
             com.alibaba.fastjson.JSONObject ret = com.alibaba.fastjson.JSONObject.parseObject(res.toString());
+            if (ret.getIntValue("error_code") == 222202) {
+                result.put("status_code", StatusCode.NO_FACE);
+                result.put("msg", "抱歉，图像中没有检测到人脸，请正对屏幕考勤！！！");
+                return result;
+            }
             if (ret.getIntValue("error_code") != 0) {
                 result.put("status_code", StatusCode.CALL_FAILED);
                 result.put("msg", "人脸识别模块出错，请重试 ！！！");

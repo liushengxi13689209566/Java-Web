@@ -9,6 +9,7 @@ public class StatusCode {
     public static final int FACE_COUNT_NOT_ONE = 1;
     public static final int NO_SEARCH_RESULT = 2;
 
+
     //登录验证,退出
     public static final int UNKNOWN_ACCOUNT = 3;
     public static final int INCORRECT_CREDENTIALS = 4;
@@ -30,6 +31,7 @@ public class StatusCode {
     public static final int NO_COURSE = 17;
     public static final int TRANSACTIONS_EXE_ERROR = 18;
     public static final int INSERT_BATCH_ERROR = 19;
+    public static final int NO_FACE = 20;
 
     //    我们用 0 1 2 表示 未考勤，考勤成功，迟到，后续还可以加入更多(课时不可能超过 100 节)
     public static final char SIGN_SUCCESS = '1';

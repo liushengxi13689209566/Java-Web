@@ -39,7 +39,7 @@
         /*画笔*/
         /*
         *用户是否允许使用摄像头
-        *允许：将流赋值给video.src 属性让其显示
+        *允许：将流赋值给 video.src 属性让其显示
         * onloadedmetadata  video 加载完成开始播放
         */
         var constraints = {video: true};

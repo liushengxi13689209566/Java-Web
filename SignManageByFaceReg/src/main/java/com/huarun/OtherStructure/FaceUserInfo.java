@@ -11,7 +11,6 @@ public class FaceUserInfo {
     private String name;
     private int major_id;
     private String major_name;
-    private String major_desc;
     private int class_id;
     private String class_name;
 
@@ -20,7 +19,6 @@ public class FaceUserInfo {
         this.name = studentDO.getName();
         this.major_id = studentDO.getMajor_id();
         this.major_name = majorDO.getMajor_name();
-        this.major_desc = majorDO.getMajor_desc();
         this.class_id = studentDO.getClass_id();
         this.class_name = classDO.getClass_name();
     }
@@ -30,7 +28,6 @@ public class FaceUserInfo {
         this.name = name;
         this.major_id = major_id;
         this.major_name = major_name;
-        this.major_desc = major_desc;
         this.class_id = class_id;
         this.class_name = class_name;
     }
@@ -70,14 +67,6 @@ public class FaceUserInfo {
         this.major_name = major_name;
     }
 
-    public String getMajor_desc() {
-        return major_desc;
-    }
-
-    public void setMajor_desc(String major_desc) {
-        this.major_desc = major_desc;
-    }
-
     public int getClass_id() {
         return class_id;
     }
@@ -101,7 +90,6 @@ public class FaceUserInfo {
                 ", name='" + name + '\'' +
                 ", major_id=" + major_id +
                 ", major_name='" + major_name + '\'' +
-                ", major_desc='" + major_desc + '\'' +
                 ", class_id=" + class_id +
                 ", class_name='" + class_name + '\'' +
                 '}';

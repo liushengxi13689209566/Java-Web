@@ -320,4 +320,45 @@ public class StudentController {
         System.out.println("result == " + result);
         ResponseUtil.write(response, result);
     }
+
+
+    @RequestMapping(value = "/importAllStudentsInfo", method = RequestMethod.POST)
+    public void importAllStudentsInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        int status_code = 0;
+        String msg = "";
+
+        System.out.println("进入 importAllStudentsInfo");
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("file");
+        System.out.println(file.getOriginalFilename());
+
+        // 读取文件内容
+        int total = 0;
+        int available = 0;
+        if (file == null) {
+            status_code = StatusCode.FILE_NULL;
+            msg = "文件为空，失败！！";
+        }
+        Map<String, Object> importInfo = studentService.importAllStudentsInfo(file);
+        if (importInfo != null) {
+            total = (int) importInfo.get("total");
+            available = (int) importInfo.get("available");
+            status_code = StatusCode.SUCCESS;
+            msg = "成功！！！";
+        }
+
+        //返回
+        JSONObject result = new JSONObject();
+
+        result.put("status_code", status_code);
+        result.put("msg", msg);
+        result.put("available", available);
+        result.put("total", total);
+
+        System.out.println("importOneCourseStudents result == " + result);
+
+        ResponseUtil.write(response, result);
+    }
 }
