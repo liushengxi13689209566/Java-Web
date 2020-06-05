@@ -2,6 +2,7 @@ package com.huarun.service;
 
 import com.baidu.aip.util.Base64Util;
 import com.huarun.OtherStructure.FaceUserInfo;
+import com.huarun.OtherStructure.StudentInfoShow;
 import com.huarun.OtherStructure.UserAllFaceInfo;
 import com.huarun.baidu.FaceRegObject;
 import com.huarun.dao.StudentMapper;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -200,5 +202,18 @@ public class StudentServiceImpl implements StudentService {
         result.put("total", total);
         result.put("available", available);
         return result;
+    }
+
+    @Override
+    public File exportStudents(List<StudentInfoShow> studentInfoShowList) {
+        System.out.println("进入了   public File exportStudents");
+        System.out.println("nfjvjdfvjfdjvdf");
+
+        File file = excelUtil.excelWriter(StudentInfoShow.class, studentInfoShowList);
+
+        System.out.println("cbbdbvbdv 退出excelWriter 函数");
+
+        System.out.println("file.toString == " + file.toString());
+        return file;
     }
 }

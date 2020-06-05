@@ -50,4 +50,32 @@
             <value>人脸图像地址</value>
         </property>
     </entity>
+
+    <entity class="com.huarun.OtherStructure.StudentInfoShow">
+        <property>
+            <field>id</field>
+            <value>学号</value>
+        </property>
+        <property>
+            <field>name</field>
+            <value>姓名</value>
+        </property>
+        <property>
+            <field>sex</field>
+            <value>性别</value>
+        </property>
+        <property>
+            <field>major_name</field>
+            <value>专业</value>
+        </property>
+        <property>
+            <field>class_name</field>
+            <value>班级ID</value>
+        </property>
+        <property>
+            <field>identity_card</field>
+            <value>身份证号</value>
+        </property>
+    </entity>
+
 </configuration>

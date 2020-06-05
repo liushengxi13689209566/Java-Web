@@ -1,11 +1,13 @@
 package com.huarun.service;
 
+import com.huarun.OtherStructure.StudentInfoShow;
 import com.huarun.exception.CourseStudentServiceException;
 import com.huarun.exception.StudentServiceException;
 import com.huarun.pojo.StudentDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -43,4 +45,12 @@ public interface StudentService {
      * @return 返回一个Map，其中：key为total代表导入的总记录数，key为available代表有效导入的记录数
      */
     Map<String, Object> importAllStudentsInfo(MultipartFile file) throws IOException;
+
+    /**
+     * 导出客户信息到文件中
+     *
+     * @param studentDOList 包含若干条 StudentDO 信息的 List
+     * @return Excel 文件
+     */
+    File exportStudents(List<StudentInfoShow> studentDOList);
 }

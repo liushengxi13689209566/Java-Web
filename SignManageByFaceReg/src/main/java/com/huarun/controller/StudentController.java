@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -172,8 +173,6 @@ public class StudentController {
                 classService.getClassInfoByClassID(class_id));
 
         System.out.println("faceUserInfo ==" + faceUserInfo);
-
-
         ret = FaceRegObject.faceAdd(image, faceUserInfo);
         System.out.println("status_code == " + ret.get("status_code"));
         System.out.println("msg == " + ret.get("msg"));
@@ -296,7 +295,6 @@ public class StudentController {
         System.out.println("进入    deleteOneStudent ");
 
         System.out.println("id === " + id);
-
         if (id.isEmpty()) {
             result.put("status_code", StatusCode.PARAM_ERROR);
             result.put("msg", "模块出错，删除学生失败，请重试！");
@@ -305,6 +303,7 @@ public class StudentController {
             return;
         }
         try {
+            //云上删除学生信息
             courseStudentService.deleteOneStudent(id);
             signCaseService.deleteOneStudent(id);
             studentService.deleteOneStudent(id);
@@ -360,5 +359,44 @@ public class StudentController {
         System.out.println("importOneCourseStudents result == " + result);
 
         ResponseUtil.write(response, result);
+    }
+
+
+    @RequestMapping(value = "/exportStudents", method = RequestMethod.GET)
+    public void exportStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        System.out.println("进入了exportStudents ");
+
+        String fileName = "studentsInfo.xlsx";
+
+        List<StudentDO> studentDOList = studentService.getAllStudentsInfo();
+
+        //构造返回的的结构数据
+        List<StudentInfoShow> rows = new ArrayList<StudentInfoShow>();
+        for (StudentDO studentDO : studentDOList) {
+            MajorDO majorDO = majorService.getMajorInfoByID(studentDO.getMajor_id());
+            ClassDO classDO = classService.getClassInfoByClassID(studentDO.getClass_id());
+            rows.add(new StudentInfoShow(studentDO, classDO, majorDO));
+        }
+
+        // 获取生成的文件
+        File file = studentService.exportStudents(rows);
+
+        // 写出文件
+        if (file != null) {
+            // 设置响应头
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+            FileInputStream inputStream = new FileInputStream(file);
+            OutputStream outputStream = response.getOutputStream();
+            byte[] buffer = new byte[8192];
+
+            int len;
+            while ((len = inputStream.read(buffer, 0, buffer.length)) > 0) {
+                outputStream.write(buffer, 0, len);
+                outputStream.flush();
+            }
+            inputStream.close();
+            outputStream.close();
+        }
     }
 }

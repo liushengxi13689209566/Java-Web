@@ -148,7 +148,6 @@ public class ExcelUtil {
 //
 
 
-
                 Class<?> fieldType = classType.getDeclaredField(field).getType();
 
                 fieldTypeList.add(cell.getColumnIndex(), fieldType);
@@ -226,6 +225,10 @@ public class ExcelUtil {
 
         File excel = null;
         try {
+
+            System.out.println("test");
+            System.out.println(className);
+
             // 创建临时文件
             excel = File.createTempFile("excel", ".xslx");
 
