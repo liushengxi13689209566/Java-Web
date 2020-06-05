@@ -105,17 +105,6 @@ public class CourseStudentServiceImpl implements CourseStudentService {
         int available = 0;
         System.out.println("进入importOneCourseStudents    SERVICE！！");
 
-//        Reader reader = null;
-//        reader = new InputStreamReader(file.getInputStream(), "utf-8");
-//        BufferedReader br = new BufferedReader(reader);
-//        String line;
-//        while ((line = br.readLine()) != null) {
-//            // 一次读入一行数据
-//            System.out.println(line);
-//        }
-//        reader.close();
-
-
         // 从 Excel 文件中读取
         List<Object> studentsID = excelUtil.excelReader(StuIDpojo.class, file);
 

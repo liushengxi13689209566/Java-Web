@@ -135,7 +135,6 @@ public class StudentServiceImpl implements StudentService {
             total = userAllFaceInfoList.size();
 
             // 验证每一条记录
-
             UserAllFaceInfo userInfo;
             List<UserAllFaceInfo> availableList = new ArrayList<>();
             for (Object object : userAllFaceInfoList) {
@@ -157,14 +156,6 @@ public class StudentServiceImpl implements StudentService {
 
                 Picture image = new Picture(Base64Util.encode(FileUtil.readFileByBytes(availableUserInfo.getAddr_img())),
                         "BASE64");
-//                //证件照，不进行活体检测
-//                Map<String, Object> ret = FaceRegObject.faceDetect(image, false, FacePictureType.CERT);
-//
-//                System.out.println("status_code == " + ret.get("status_code"));
-//                System.out.println("msg == " + ret.get("msg"));
-//
-//                if ((int) ret.get("status_code") != StatusCode.SUCCESS)
-//                    continue;
                 //人脸注册
                 //为学生先生成 id
                 tmp = tmp + 1;
@@ -207,13 +198,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public File exportStudents(List<StudentInfoShow> studentInfoShowList) {
         System.out.println("进入了   public File exportStudents");
-        System.out.println("nfjvjdfvjfdjvdf");
-
-        File file = excelUtil.excelWriter(StudentInfoShow.class, studentInfoShowList);
-
-        System.out.println("cbbdbvbdv 退出excelWriter 函数");
-
-        System.out.println("file.toString == " + file.toString());
-        return file;
+        return excelUtil.excelWriter(StudentInfoShow.class, studentInfoShowList);
     }
 }
