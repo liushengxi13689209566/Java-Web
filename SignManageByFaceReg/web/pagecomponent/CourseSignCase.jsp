@@ -44,6 +44,15 @@
                 // pageList: [5, 10, 25, 50, 100],
                 //单选选项
                 // clickToSelect: true
+                //排序选项
+                sortClass: "table-active",
+                sortable: true,
+                sortName: 'course_start_timestamp',
+                sortOrder: 'asc',
+                //搜索功能
+                search: true,
+                //怎么不显示呐？
+                showSearchClearButton: true,
                 responseHandler: function (res) {
                     console.log("res == " + res)
                     $.each(res, function (i, row) {
@@ -55,8 +64,8 @@
                 columns: [
                     {
                         field: 'id',
-                        title: '编号'
-                        //sortable: true
+                        title: '编号',
+                        sortable: true
                     },
                     {
                         field: 'major_name',
@@ -73,7 +82,8 @@
                     {
                         field: 'course_start_timestamp',
                         title: '考勤时间',
-                        formatter: timestampToTime
+                        formatter: timestampToTime,
+                        sortable: true
                     },
                     {
                         field: 'late_count',
@@ -103,10 +113,6 @@
                         events: {
                             'click .look': function (e, value, row, index) {
                                 console.log("进入 查看详情！！！")
-                                // $('#courseList').bootstrapTable('destroy')
-                                // selectID = row.course_id;
-                                // console.log("row.id == " + row.course_id)
-
                                 var url = $(this).attr("name");
                                 console.log(url)
                                 //重新绘制页面
@@ -158,6 +164,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

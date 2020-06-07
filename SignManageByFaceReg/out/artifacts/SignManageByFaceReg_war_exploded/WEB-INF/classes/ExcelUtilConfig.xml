@@ -70,7 +70,7 @@
         </property>
         <property>
             <field>class_name</field>
-            <value>班级ID</value>
+            <value>班级</value>
         </property>
         <property>
             <field>identity_card</field>
