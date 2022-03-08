@@ -214,7 +214,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
-            <version>3.15-beta2</version>
+            <version>5.2.1</version>
         </dependency>
 
         <!--tomcat插件,用以调试 SSM 程序 -->
